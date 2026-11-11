@@ -212,10 +212,6 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                 );
               })}
             </div>
-
-            <p className="mt-4 text-xs text-slate-500">
-              {siteConfig.contact.note}
-            </p>
           </Reveal>
 
           {/* Right Column: Institutional Inquiry & Demo Form */}

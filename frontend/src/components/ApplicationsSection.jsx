@@ -46,19 +46,20 @@ export function ApplicationsSection({ onRequestDemo }) {
       className="section-padding border-y border-slate-200/80 bg-campo-surface"
     >
       <div className="container-campo">
-        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-          <SectionHeading
-            index="03"
-            label="Applications & Solutions"
-            title="Twelve Purpose-Built Applications. One Connected Ecosystem."
-            description="Every department operates with specialized tools tailored to its workflows—while sharing one unified directory, identity layer, and institutional data model."
-          />
+        <SectionHeading
+          index="03"
+          label="Applications & Solutions"
+          title="Twelve Purpose-Built Applications. One Connected Ecosystem."
+          description="Twelve specialized modules sharing one unified institutional directory."
+          align="center"
+        />
 
-          {/* Clean Category Filter Tabs */}
+        {/* Centered Category Filter Tabs */}
+        <div className="mt-7 flex justify-center">
           <div
             role="tablist"
             aria-label="Filter Campo applications by domain"
-            className="flex flex-wrap gap-1.5 rounded-xl border border-slate-200 bg-white p-1.5 shadow-sm lg:shrink-0"
+            className="inline-flex flex-wrap justify-center gap-1.5 rounded-xl border border-slate-200 bg-white p-1.5 shadow-sm"
           >
             {applicationCategories.map((category) => {
               const isSelected = activeCategory === category;
@@ -95,26 +96,26 @@ export function ApplicationsSection({ onRequestDemo }) {
         </div>
 
         {/* Clean 4-Column Architectural Module Grid */}
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {filteredApps.map((app, index) => {
             const Icon = app.icon;
             return (
               <motion.article
                 key={app.id}
                 layout
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
+                viewport={{ once: true, amount: 0.12 }}
                 transition={{
-                  duration: 0.36,
-                  delay: (index % 8) * 0.03,
+                  duration: 0.35,
+                  delay: (index % 8) * 0.025,
                   ease: revealEase,
                 }}
-                className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-elevated"
+                className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-elevated sm:p-5"
               >
                 <div>
-                  <div className="flex items-start justify-between gap-2.5">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy transition-colors duration-200 group-hover:border-campo-teal/50 group-hover:bg-teal-50/60 group-hover:text-campo-teal-dark">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy transition-colors duration-200 group-hover:border-campo-teal/50 group-hover:bg-teal-50/60 group-hover:text-campo-teal-dark">
                       <Icon className="h-[18px] w-[18px]" />
                     </div>
                     <span className="text-right text-[10px] font-semibold uppercase tracking-wider text-slate-400">
@@ -122,17 +123,17 @@ export function ApplicationsSection({ onRequestDemo }) {
                     </span>
                   </div>
 
-                  <h3 className="mt-4 font-display text-base font-bold text-campo-navy">
+                  <h3 className="mt-3.5 font-display text-base font-bold text-campo-navy">
                     {app.name}
                   </h3>
 
-                  <p className="mt-1.5 text-xs leading-relaxed text-slate-600 sm:text-sm">
+                  <p className="mt-1.5 text-xs leading-relaxed text-slate-600">
                     {app.description}
                   </p>
                 </div>
 
                 {/* Minimal Action Footer */}
-                <div className="mt-4 flex justify-end border-t border-slate-100 pt-3">
+                <div className="mt-3.5 flex justify-end border-t border-slate-100 pt-2.5">
                   <button
                     type="button"
                     onClick={() => setSelectedApp(app)}
