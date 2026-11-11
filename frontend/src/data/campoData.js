@@ -362,33 +362,6 @@ export const aiCapabilities = [
   },
 ];
 
-export const aiRoleDemos = [
-  {
-    id: 'director',
-    role: 'Director / Chairman',
-    scopeBadge: 'Executive Scope',
-    question: 'Summarize admissions conversion, fee collections, and pending hiring.',
-    answer:
-      'Admissions intake is synced to student records, term fee collections and concessions are reconciled, and shortlisted faculty candidates are queued for HRMS onboarding.',
-  },
-  {
-    id: 'registrar',
-    role: 'Registrar',
-    scopeBadge: 'Academic Scope',
-    question: 'Which enrolled students are cleared for upcoming exams?',
-    answer:
-      'Active student profiles are matched against course registrations, flagging candidates awaiting final attendance or fee clearance.',
-  },
-  {
-    id: 'finance',
-    role: 'Finance Officer',
-    scopeBadge: 'Finance Scope',
-    question: 'Show term fee collections, concessions, and hostel/transport dues.',
-    answer:
-      'Fee Management reconciles tuition transactions, approved concessions, and linked hostel or transport dues in one ledger.',
-  },
-];
-
 export const howItWorksSteps = [
   {
     step: '01',

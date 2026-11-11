@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import campusArchitecture from '../assets/campus-architecture.jpg';
 import { whyCampoFeatures } from '../data/campoData';
 import {
   AnimatedCounter,
@@ -24,7 +23,7 @@ export function WhyCampo() {
     <section id="about" className="section-padding bg-white">
       <div className="container-campo">
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-          {/* Left: Editorial Narrative + Counters */}
+          {/* Left: Editorial Narrative */}
           <div className="lg:col-span-6">
             <SectionHeading
               index="06"
@@ -32,47 +31,25 @@ export function WhyCampo() {
               title="More Than Software. A Better Way to Run Your Institution."
               description="Built for Directors, Chairmen, Registrars, and institutional administrators who want unified governance without compromising departmental autonomy."
             />
-
-            <Reveal delay={0.08} className="mt-8">
-              <div className="grid grid-cols-2 gap-4 rounded-2xl border border-slate-200 bg-campo-surface p-6">
-                {platformStats.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="border-l-2 border-campo-teal-dark/70 pl-3.5"
-                  >
-                    <span className="font-display text-2xl font-extrabold text-campo-navy sm:text-3xl">
-                      <AnimatedCounter
-                        target={stat.value}
-                        suffix={stat.suffix}
-                      />
-                    </span>
-                    <p className="mt-1 text-xs font-medium text-slate-600">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
           </div>
 
-          {/* Right: Editorial Campus Architecture Photograph */}
-          <Reveal delay={0.12} className="lg:col-span-6">
-            <figure className="overflow-hidden rounded-2xl border border-slate-200 bg-campo-surface shadow-card">
-              <img
-                src={campusArchitecture}
-                alt="Modern higher-education campus courtyard representing connected institutional governance"
-                loading="lazy"
-                className="aspect-[4/3] w-full object-cover"
-              />
-              <figcaption className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 bg-white px-5 py-3.5 text-xs text-slate-600">
-                <span className="font-semibold text-campo-navy">
-                  Designed for Institutional Leadership &amp; Operations
-                </span>
-                <span className="text-slate-400">
-                  Academics · Finance · Campus Services
-                </span>
-              </figcaption>
-            </figure>
+          {/* Right: 2x2 Platform Counters */}
+          <Reveal delay={0.08} className="lg:col-span-6">
+            <div className="grid grid-cols-2 gap-4 rounded-2xl border border-slate-200 bg-campo-surface p-6 sm:p-7">
+              {platformStats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="border-l-2 border-campo-teal-dark/70 pl-3.5"
+                >
+                  <span className="font-display text-2xl font-extrabold text-campo-navy sm:text-3xl">
+                    <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                  </span>
+                  <p className="mt-1 text-xs font-medium text-slate-600">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
           </Reveal>
         </div>
 
@@ -131,7 +108,7 @@ export function WhyCampo() {
                   className="rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition-all duration-200 hover:border-slate-300 hover:shadow-elevated"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy">
-                    <Icon className="h-4.5 w-4.5 text-campo-teal-dark" />
+                    <Icon className="h-[18px] w-[18px] text-campo-teal-dark" />
                   </div>
                   <h3 className="mt-4 font-display text-base font-bold text-campo-navy">
                     {item.title}

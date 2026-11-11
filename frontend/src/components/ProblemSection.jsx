@@ -32,7 +32,7 @@ export function ProblemSection() {
                 className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-card transition-colors duration-200 hover:border-slate-300"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy">
-                  <Icon className="h-4.5 w-4.5" />
+                  <Icon className="h-[18px] w-[18px]" />
                 </div>
                 <div>
                   <h3 className="font-display text-base font-bold text-campo-navy">

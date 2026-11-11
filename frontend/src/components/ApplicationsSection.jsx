@@ -94,8 +94,8 @@ export function ApplicationsSection({ onRequestDemo }) {
           </div>
         </div>
 
-        {/* Clean Architectural Module Grid */}
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Clean 4-Column Architectural Module Grid */}
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {filteredApps.map((app, index) => {
             const Icon = app.icon;
             return (
@@ -106,33 +106,33 @@ export function ApplicationsSection({ onRequestDemo }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{
-                  duration: 0.38,
-                  delay: (index % 6) * 0.04,
+                  duration: 0.36,
+                  delay: (index % 8) * 0.03,
                   ease: revealEase,
                 }}
-                className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-elevated"
+                className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-elevated"
               >
                 <div>
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy transition-colors duration-200 group-hover:border-campo-teal/50 group-hover:bg-teal-50/60 group-hover:text-campo-teal-dark">
-                      <Icon className="h-5 w-5" />
+                  <div className="flex items-start justify-between gap-2.5">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy transition-colors duration-200 group-hover:border-campo-teal/50 group-hover:bg-teal-50/60 group-hover:text-campo-teal-dark">
+                      <Icon className="h-[18px] w-[18px]" />
                     </div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                    <span className="text-right text-[10px] font-semibold uppercase tracking-wider text-slate-400">
                       {app.category}
                     </span>
                   </div>
 
-                  <h3 className="mt-5 font-display text-lg font-bold text-campo-navy">
+                  <h3 className="mt-4 font-display text-base font-bold text-campo-navy">
                     {app.name}
                   </h3>
 
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                  <p className="mt-1.5 text-xs leading-relaxed text-slate-600 sm:text-sm">
                     {app.description}
                   </p>
                 </div>
 
                 {/* Minimal Action Footer */}
-                <div className="mt-5 flex justify-end border-t border-slate-100 pt-3.5">
+                <div className="mt-4 flex justify-end border-t border-slate-100 pt-3">
                   <button
                     type="button"
                     onClick={() => setSelectedApp(app)}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import heroCampusBg from '../assets/hero-campus-bg.jpg';
 import { Reveal } from './MotionPrimitives';
 
 export function CTASection({ onRequestDemo, onContactUs }) {
@@ -9,22 +8,12 @@ export function CTASection({ onRequestDemo, onContactUs }) {
       <div className="container-campo">
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-campo-surface p-8 shadow-card sm:p-12 lg:p-14">
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-              <img
-                src={heroCampusBg}
-                alt=""
-                loading="lazy"
-                className="h-full w-full object-cover object-center opacity-35"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-campo-surface/80 backdrop-blur-[1px]" />
-            </div>
-
             <span
               aria-hidden="true"
-              className="absolute inset-y-0 left-0 z-10 w-1.5 bg-campo-teal"
+              className="absolute inset-y-0 left-0 w-1.5 bg-campo-teal"
             />
 
-            <div className="relative z-10 flex flex-col justify-between gap-8 lg:flex-row lg:items-center">
+            <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-center">
               <div className="max-w-2xl">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark">
                   Connected Institutional Leadership

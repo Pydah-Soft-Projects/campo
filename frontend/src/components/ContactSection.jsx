@@ -12,7 +12,6 @@ import {
   Check,
 } from 'lucide-react';
 import { siteConfig } from '../config/siteConfig';
-import campusArchitecture from '../assets/campus-architecture.jpg';
 import { submitContactInquiry } from '../services/contactService';
 import { Reveal } from './MotionPrimitives';
 
@@ -168,18 +167,9 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
   return (
     <section
       id="contact"
-      className="section-padding relative overflow-hidden border-t border-slate-200/80 bg-campo-surface"
+      className="section-padding border-t border-slate-200/80 bg-campo-surface"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <img
-          src={campusArchitecture}
-          alt=""
-          loading="lazy"
-          className="h-full w-full object-cover object-center opacity-15"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-campo-surface/95 via-campo-surface/88 to-campo-surface" />
-      </div>
-      <div className="container-campo relative z-10">
+      <div className="container-campo">
         <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left Column: Heading + Configurable Contact Placeholders */}
           <Reveal className="lg:col-span-5">
@@ -208,7 +198,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                     className="flex items-start gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-card"
                   >
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-campo-surface text-campo-navy">
-                      <Icon className="h-4.5 w-4.5 text-campo-teal-dark" />
+                      <Icon className="h-[18px] w-[18px] text-campo-teal-dark" />
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">

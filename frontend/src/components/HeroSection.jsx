@@ -113,19 +113,19 @@ export function HeroSection({ onRequestDemo }) {
             className="mt-10 grid grid-cols-1 gap-4 border-t border-slate-200/80 pt-6 sm:grid-cols-3"
           >
             <div className="flex items-center gap-2.5">
-              <Layers className="h-4.5 w-4.5 shrink-0 text-campo-teal-dark" />
+              <Layers className="h-[18px] w-[18px] shrink-0 text-campo-teal-dark" />
               <span className="text-xs font-medium leading-snug text-slate-600">
                 12 Connected Applications
               </span>
             </div>
             <div className="flex items-center gap-2.5">
-              <Lock className="h-4.5 w-4.5 shrink-0 text-campo-teal-dark" />
+              <Lock className="h-[18px] w-[18px] shrink-0 text-campo-teal-dark" />
               <span className="text-xs font-medium leading-snug text-slate-600">
                 Role-Based Access Control
               </span>
             </div>
             <div className="flex items-center gap-2.5">
-              <Sparkles className="h-4.5 w-4.5 shrink-0 text-campo-teal-dark" />
+              <Sparkles className="h-[18px] w-[18px] shrink-0 text-campo-teal-dark" />
               <span className="text-xs font-medium leading-snug text-slate-600">
                 Permission-Scoped AI Q&amp;A
               </span>
