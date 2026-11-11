@@ -1,0 +1,150 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import campusArchitecture from '../assets/campus-architecture.jpg';
+import { whyCampoFeatures } from '../data/campoData';
+import {
+  AnimatedCounter,
+  Reveal,
+  SectionHeading,
+  revealEase,
+} from './MotionPrimitives';
+
+const platformStats = [
+  { value: 12, suffix: '', label: 'Connected Institutional Apps' },
+  { value: 1, suffix: '', label: 'Unified Ecosystem Core' },
+  { value: 100, suffix: '%', label: 'Role-Scoped Information Access' },
+  { value: 360, suffix: '°', label: 'Cross-Department Visibility' },
+];
+
+export function WhyCampo() {
+  const [featuredItem, ...otherItems] = whyCampoFeatures;
+  const FeaturedIcon = featuredItem.icon;
+
+  return (
+    <section id="about" className="section-padding bg-white">
+      <div className="container-campo">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* Left: Editorial Narrative + Counters */}
+          <div className="lg:col-span-6">
+            <SectionHeading
+              index="06"
+              label="Why Campo"
+              title="More Than Software. A Better Way to Run Your Institution."
+              description="Built for Directors, Chairmen, Registrars, and institutional administrators who want unified governance without compromising departmental autonomy."
+            />
+
+            <Reveal delay={0.08} className="mt-8">
+              <div className="grid grid-cols-2 gap-4 rounded-2xl border border-slate-200 bg-campo-surface p-6">
+                {platformStats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="border-l-2 border-campo-teal-dark/70 pl-3.5"
+                  >
+                    <span className="font-display text-2xl font-extrabold text-campo-navy sm:text-3xl">
+                      <AnimatedCounter
+                        target={stat.value}
+                        suffix={stat.suffix}
+                      />
+                    </span>
+                    <p className="mt-1 text-xs font-medium text-slate-600">
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Right: Editorial Campus Architecture Photograph */}
+          <Reveal delay={0.12} className="lg:col-span-6">
+            <figure className="overflow-hidden rounded-2xl border border-slate-200 bg-campo-surface shadow-card">
+              <img
+                src={campusArchitecture}
+                alt="Modern higher-education campus courtyard representing connected institutional governance"
+                loading="lazy"
+                className="aspect-[4/3] w-full object-cover"
+              />
+              <figcaption className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 bg-white px-5 py-3.5 text-xs text-slate-600">
+                <span className="font-semibold text-campo-navy">
+                  Designed for Institutional Leadership &amp; Operations
+                </span>
+                <span className="text-slate-400">
+                  Academics · Finance · Campus Services
+                </span>
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
+
+        {/* Differentiators Grid */}
+        <div className="mt-14 grid gap-5 lg:grid-cols-12">
+          {/* Featured Ecosystem Card (Light Editorial with Navy Left Rule) */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.45, ease: revealEase }}
+            className="flex flex-col justify-between rounded-2xl border border-slate-200 border-t-4 border-t-campo-navy bg-campo-surface p-7 shadow-card lg:col-span-5"
+          >
+            <div>
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-campo-navy">
+                <FeaturedIcon className="h-5 w-5 text-campo-teal-dark" />
+              </div>
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal-dark">
+                Core Differentiation
+              </p>
+              <h3 className="mt-2 font-display text-2xl font-bold text-campo-navy">
+                {featuredItem.title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+                {featuredItem.description}
+              </p>
+            </div>
+
+            <div className="mt-8 rounded-xl border border-slate-200 bg-white p-4">
+              <p className="text-xs font-semibold text-campo-navy">
+                Built for Real Institutional Scale
+              </p>
+              <p className="mt-1 text-xs leading-relaxed text-slate-600">
+                Every workflow—from applicant enquiry to student records, fee
+                reconciliation, and campus workforce—operates on one coherent
+                foundation.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* 6 Architectural Differentiator Cells */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
+            {otherItems.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: idx * 0.04,
+                    ease: revealEase,
+                  }}
+                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition-all duration-200 hover:border-slate-300 hover:shadow-elevated"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy">
+                    <Icon className="h-4.5 w-4.5 text-campo-teal-dark" />
+                  </div>
+                  <h3 className="mt-4 font-display text-base font-bold text-campo-navy">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                    {item.description}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
