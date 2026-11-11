@@ -15,24 +15,42 @@ export function HeroSection({ onRequestDemo }) {
   return (
     <section
       id="home"
-      className="relative flex min-h-[620px] items-center overflow-hidden bg-gradient-to-br from-white via-[#F6FCFC] to-[#E6F7F8] pb-16 pt-28 sm:pb-20 sm:pt-32 lg:min-h-[700px] lg:pb-24 lg:pt-32"
+      className="relative flex min-h-[620px] items-center overflow-hidden bg-gradient-to-br from-white via-[#F7FCFD] to-[#E8F8FA] pb-16 pt-28 sm:pb-20 sm:pt-32 lg:min-h-[calc(100vh-16px)] lg:max-h-[920px] lg:py-24"
     >
-      {/* Desktop Full-Bleed Hero Background Artwork (Matches Reference Layout) */}
+      {/* Desktop Hero Background Artwork (Matches Reference Layout across large monitors) */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 hidden lg:block"
       >
-        <img
-          src={heroShowcaseBg}
-          alt=""
-          className="h-full w-full object-cover object-right"
-        />
-        {/* Gentle left readability scrim preserving full right-side dashboard vibrancy */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent lg:w-[54%]" />
+        <div
+          className="mx-auto flex h-full w-full max-w-[1520px] items-center justify-end px-4 xl:px-8"
+          style={{
+            WebkitMaskImage:
+              'linear-gradient(to right, transparent 0%, black 24%, black 94%, transparent 100%)',
+            maskImage:
+              'linear-gradient(to right, transparent 0%, black 24%, black 94%, transparent 100%)',
+          }}
+        >
+          <img
+            src={heroShowcaseBg}
+            alt=""
+            className="h-full max-h-[820px] w-full object-contain object-right"
+            style={{
+              WebkitMaskImage:
+                'linear-gradient(to bottom, transparent 0%, black 7%, black 90%, transparent 100%)',
+              maskImage:
+                'linear-gradient(to bottom, transparent 0%, black 7%, black 90%, transparent 100%)',
+            }}
+          />
+        </div>
+        {/* Gentle left readability scrim preserving right-side dashboard vibrancy */}
+        <div className="absolute inset-y-0 left-0 w-[52%] bg-gradient-to-r from-white via-white/85 to-transparent" />
+        {/* Smooth bottom fade into white so hero transitions cleanly into Section 01 */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white via-white/75 to-transparent" />
       </div>
 
       <div className="container-campo relative z-10">
-        <div className="max-w-xl lg:max-w-[470px] xl:max-w-[540px]">
+        <div className="max-w-xl lg:max-w-[450px] xl:max-w-[540px] 2xl:max-w-[570px]">
           {/* Eyebrow */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
