@@ -1,0 +1,166 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy to AWS Lightsail
+    runs-on: ubuntu-latest
+
+    steps:
+      #################################################
+      # Checkout code
+      #################################################
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      #################################################
+      # Setup Node.js for frontend build
+      #################################################
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      #################################################
+      # Build frontend on GitHub Actions
+      #################################################
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: |
+          npm ci
+
+      - name: Build frontend
+        working-directory: frontend
+        env:
+          VITE_CONTACT_API_URL: ${{ vars.VITE_CONTACT_API_URL }}
+        run: |
+          npm run build
+
+      #################################################
+      # Configure SSH
+      #################################################
+      - name: Configure SSH
+        run: |
+          set -e
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.SERVER_IP }}" >> ~/.ssh/known_hosts
+
+      #################################################
+      # Upload frontend dist to server
+      #################################################
+      - name: Upload frontend build
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            frontend/dist/ \
+            "ec2-user@${{ secrets.SERVER_IP }}:/tmp/frontend-dist/"
+
+      #################################################
+      # Deploy to server
+      #################################################
+      - name: Deploy to server
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          PROJECT_DIR: ${{ vars.PROJECT_DIR || '/home/ec2-user/campo' }}
+          FRONTEND_WEB_ROOT: ${{ vars.FRONTEND_WEB_ROOT || '/var/www/campo' }}
+        run: |
+          set -e
+          ssh -i ~/.ssh/deploy_key \
+            -o StrictHostKeyChecking=yes \
+            -o BatchMode=yes \
+            "ec2-user@${SERVER_IP}" \
+            "bash -s -- '${PROJECT_DIR}' '${FRONTEND_WEB_ROOT}'" << 'ENDSSH'
+
+          set -e
+
+          PROJECT_DIR="$1"
+          FRONTEND_WEB_ROOT="$2"
+
+          echo "=========================================="
+          echo "Starting Campo deployment"
+          echo "=========================================="
+
+          if [ -d "${PROJECT_DIR}/.git" ]; then
+            cd "${PROJECT_DIR}"
+            echo "==> Pulling latest code from main..."
+            git fetch origin main
+            git checkout main
+            git checkout -- backend/logs/ 2>/dev/null || true
+            git pull origin main
+          else
+            echo "==> Skipping git pull (${PROJECT_DIR} not initialized as git repo)"
+          fi
+
+          #################################################
+          # FRONTEND DEPLOYMENT
+          #################################################
+          echo "==> Deploying frontend..."
+          sudo mkdir -p "${FRONTEND_WEB_ROOT}"
+
+          sudo rsync -av --delete \
+            /tmp/frontend-dist/ \
+            "${FRONTEND_WEB_ROOT}/"
+
+          #################################################
+          # BACKEND & PM2 (FUTURE-READY, SKIPPED IF ABSENT)
+          #################################################
+          if [ -f "${PROJECT_DIR}/backend/package.json" ]; then
+            echo "==> Checking backend dependencies..."
+            cd "${PROJECT_DIR}/backend"
+
+            LOCK_HASH_FILE="${PROJECT_DIR}/backend/.npm-ci-lockhash"
+            CURRENT_HASH="$(sha256sum package-lock.json package.json 2>/dev/null | sha256sum | awk '{print $1}')"
+            PREV_HASH="$(cat "${LOCK_HASH_FILE}" 2>/dev/null || true)"
+
+            if [ ! -d node_modules ] || [ "${CURRENT_HASH}" != "${PREV_HASH}" ]; then
+              echo "==> Installing backend dependencies (lockfile changed or node_modules missing)..."
+              if [ -f package-lock.json ]; then
+                npm ci --omit=dev
+              else
+                npm install --omit=dev
+              fi
+              echo "${CURRENT_HASH}" > "${LOCK_HASH_FILE}"
+            else
+              echo "==> Backend dependencies unchanged, skipping npm ci"
+            fi
+
+            if [ -f "${PROJECT_DIR}/backend/ecosystem.config.js" ]; then
+              echo "==> Reloading PM2 process via ecosystem file..."
+              mkdir -p logs
+              pm2 startOrReload ecosystem.config.js --update-env
+              echo "==> Saving PM2 process list..."
+              pm2 save
+            fi
+          else
+            echo "==> No backend/package.json detected yet, skipping backend & PM2 steps."
+          fi
+
+          #################################################
+          # Cleanup
+          #################################################
+          rm -rf /tmp/frontend-dist
+
+          echo "=========================================="
+          echo "Deployment completed successfully"
+          echo "=========================================="
+
+          ENDSSH
+
+      #################################################
+      # Cleanup SSH key
+      #################################################
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
