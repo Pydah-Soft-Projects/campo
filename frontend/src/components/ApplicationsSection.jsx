@@ -8,7 +8,7 @@ import {
   X,
 } from 'lucide-react';
 import { applications, applicationCategories } from '../data/campoData';
-import { SectionBackground, SectionHeading, revealEase } from './MotionPrimitives';
+import { BrandCornerWave, SectionBackground, SectionHeading, revealEase } from './MotionPrimitives';
 
 export function ApplicationsSection({ onRequestDemo }) {
   const [activeCategory, setActiveCategory] = useState('All Modules');
@@ -56,11 +56,11 @@ export function ApplicationsSection({ onRequestDemo }) {
         />
 
         {/* Centered Category Filter Tabs */}
-        <div className="mt-7 flex justify-center">
+        <div className="mt-6 flex justify-center sm:mt-7">
           <div
             role="tablist"
             aria-label="Filter Campo applications by domain"
-            className="inline-flex flex-wrap justify-center gap-1.5 rounded-xl border border-slate-200 bg-white p-1.5 shadow-sm"
+            className="inline-flex max-w-full flex-wrap justify-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm sm:gap-1.5 sm:p-1.5"
           >
             {applicationCategories.map((category) => {
               const isSelected = activeCategory === category;
@@ -76,7 +76,7 @@ export function ApplicationsSection({ onRequestDemo }) {
                   aria-selected={isSelected}
                   type="button"
                   onClick={() => setActiveCategory(category)}
-                  className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all duration-200 ${
+                  className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition-all duration-200 sm:px-3 sm:text-xs ${
                     isSelected
                       ? 'bg-campo-navy text-white'
                       : 'text-slate-600 hover:bg-campo-surface hover:text-campo-navy'
@@ -104,19 +104,19 @@ export function ApplicationsSection({ onRequestDemo }) {
               <motion.article
                 key={app.id}
                 layout
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 22, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.12 }}
                 transition={{
-                  duration: 0.35,
-                  delay: (index % 8) * 0.025,
+                  duration: 0.42,
+                  delay: (index % 4) * 0.05,
                   ease: revealEase,
                 }}
-                className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-elevated sm:p-5"
+                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-campo-teal/50 hover:shadow-elevated sm:p-5"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy transition-colors duration-200 group-hover:border-campo-teal/50 group-hover:bg-teal-50/60 group-hover:text-campo-teal-dark">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-campo-navy text-campo-teal shadow-sm transition-transform duration-300 group-hover:scale-105">
                       <Icon className="h-[18px] w-[18px]" />
                     </div>
                     <span className="text-right text-[10px] font-semibold uppercase tracking-wider text-slate-400">
@@ -169,22 +169,23 @@ export function ApplicationsSection({ onRequestDemo }) {
               exit={{ opacity: 0, scale: 0.97, y: 12 }}
               transition={{ duration: 0.2, ease: revealEase }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-workspace"
+              className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-workspace"
             >
-              <div className="flex items-start justify-between gap-4 border-b border-slate-200 bg-campo-surface px-6 py-5 sm:px-8">
-                <div className="flex items-center gap-3.5">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-campo-navy">
+              <div className="relative flex items-start justify-between gap-4 overflow-hidden bg-campo-navy px-5 py-4 text-white sm:px-8 sm:py-5">
+                <BrandCornerWave className="h-20 w-44 opacity-60" />
+                <div className="relative z-10 flex items-center gap-3.5">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-campo-teal">
                     {React.createElement(selectedApp.icon, {
                       className: 'h-5 w-5',
                     })}
                   </div>
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-campo-teal-dark">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-campo-teal">
                       {selectedApp.category}
                     </span>
                     <h3
                       id="app-modal-title"
-                      className="font-display text-xl font-bold text-campo-navy"
+                      className="font-display text-xl font-bold text-white"
                     >
                       {selectedApp.name}
                     </h3>
@@ -195,13 +196,13 @@ export function ApplicationsSection({ onRequestDemo }) {
                   type="button"
                   onClick={() => setSelectedApp(null)}
                   aria-label="Close application details"
-                  className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-white hover:text-campo-navy"
+                  className="relative z-10 rounded-lg p-1.5 text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <div className="p-6 sm:p-8">
+              <div className="p-5 sm:p-8">
                 <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
                   {selectedApp.description}
                 </p>

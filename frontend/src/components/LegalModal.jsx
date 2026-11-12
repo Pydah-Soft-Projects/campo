@@ -50,7 +50,7 @@ export function LegalModal({ openType, onClose }) {
             exit={{ opacity: 0, scale: 0.96, y: 12 }}
             transition={{ duration: 0.2 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-elevated sm:p-8"
+            className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-slate-200 bg-white p-5 shadow-elevated sm:p-8"
           >
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-2.5">

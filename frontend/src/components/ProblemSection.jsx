@@ -16,23 +16,23 @@ export function ProblemSection() {
           align="center"
         />
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-3.5 sm:mt-12 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {problemItems.map((item, idx) => {
             const Icon = item.icon;
             return (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
+                initial={{ opacity: 0, y: 22, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
-                  duration: 0.38,
-                  delay: idx * 0.04,
+                  duration: 0.45,
+                  delay: idx * 0.06,
                   ease: revealEase,
                 }}
-                className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-card transition-colors duration-200 hover:border-slate-300"
+                className="group flex items-start gap-4 rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-campo-teal/50 hover:shadow-elevated"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-campo-navy text-campo-teal shadow-sm transition-transform duration-300 group-hover:scale-105">
                   <Icon className="h-[18px] w-[18px]" />
                 </div>
                 <div>

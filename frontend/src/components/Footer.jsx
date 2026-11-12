@@ -33,8 +33,8 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
     <footer className="relative overflow-hidden border-t border-campo-secondary bg-gradient-to-br from-campo-navy via-campo-navy to-campo-deep text-white">
       <BrandCornerWave className="h-32 w-72 opacity-80 sm:h-40 sm:w-[420px]" />
 
-      <div className="container-campo relative z-10 py-14 sm:py-16">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+      <div className="container-campo relative z-10 py-11 sm:py-16">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-4">
             <a

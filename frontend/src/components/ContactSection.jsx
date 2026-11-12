@@ -13,7 +13,8 @@ import {
 } from 'lucide-react';
 import { siteConfig } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
-import { Reveal, SectionBackground } from './MotionPrimitives';
+import { CampoLogo } from './CampoLogo';
+import { BrandCornerWave, Reveal, SectionBackground } from './MotionPrimitives';
 
 const initialFormState = {
   fullName: '',
@@ -180,11 +181,11 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
               <span>Get in Touch</span>
             </div>
 
-            <h2 className="font-display text-3xl font-bold tracking-tight text-campo-navy sm:text-4xl lg:leading-[1.15]">
+            <h2 className="font-display text-[1.65rem] font-bold leading-[1.2] tracking-tight text-campo-navy sm:text-4xl lg:leading-[1.15]">
               Let&apos;s Build a More Connected Institution.
             </h2>
 
-            <p className="mt-4 text-base leading-relaxed text-slate-600">
+            <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:mt-4 sm:text-base">
               Whether you are evaluating Campo for a single campus or a multi-institution
               group, share your institutional context and our team will prepare a
               tailored platform walkthrough.
@@ -196,10 +197,10 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                 return (
                   <div
                     key={item.label}
-                    className="flex items-start gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-card"
+                    className="group flex items-start gap-4 rounded-xl border border-slate-200 bg-white/95 p-4 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-campo-teal/50 hover:shadow-elevated"
                   >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-campo-surface text-campo-navy">
-                      <Icon className="h-[18px] w-[18px] text-campo-teal-dark" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-campo-navy text-campo-teal shadow-sm transition-transform duration-200 group-hover:scale-105">
+                      <Icon className="h-[18px] w-[18px]" />
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
@@ -217,28 +218,32 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
 
           {/* Right Column: Institutional Inquiry & Demo Form */}
           <Reveal delay={0.08} className="lg:col-span-7">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-workspace sm:p-8 lg:p-10">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-5">
-                <div>
-                  <h3 className="font-display text-xl font-bold text-campo-navy">
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-workspace">
+              <div className="relative flex flex-col justify-between gap-4 overflow-hidden bg-campo-navy px-5 py-4 text-white sm:flex-row sm:items-center sm:px-8 sm:py-5">
+                <BrandCornerWave className="h-24 w-56 opacity-70" />
+                <div className="relative z-10">
+                  <div className="mb-1.5 flex items-center gap-2.5">
+                    <CampoLogo variant="light" size="sm" />
+                  </div>
+                  <h3 className="font-display text-lg font-bold text-white sm:text-xl">
                     Institutional Inquiry Form
                   </h3>
-                  <p className="mt-1 text-xs text-campo-muted">
+                  <p className="mt-0.5 text-xs text-slate-300">
                     All fields are validated before submission.
                   </p>
                 </div>
 
                 {/* Inquiry Type Switcher */}
-                <div className="inline-flex rounded-xl bg-campo-light p-1">
+                <div className="relative z-10 inline-flex w-full rounded-xl border border-white/15 bg-white/10 p-1 backdrop-blur-sm sm:w-auto">
                   {['Demo Request', 'General Inquiry'].map((intent) => (
                     <button
                       key={intent}
                       type="button"
                       onClick={() => setSelectedIntent(intent)}
-                      className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+                      className={`flex-1 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all sm:flex-initial ${
                         selectedIntent === intent
-                          ? 'bg-campo-navy text-white shadow-sm'
-                          : 'text-campo-muted hover:text-campo-navy'
+                          ? 'bg-campo-teal text-campo-deep shadow-sm'
+                          : 'text-slate-200 hover:text-white'
                       }`}
                     >
                       {intent}
@@ -247,7 +252,8 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-5">
+              <div className="p-5 sm:p-8 lg:p-10">
+                <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
                     <label
@@ -478,6 +484,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                   </button>
                 </div>
               </form>
+              </div>
             </div>
           </Reveal>
         </div>

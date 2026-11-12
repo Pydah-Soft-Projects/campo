@@ -12,6 +12,7 @@ import { CTASection } from './components/CTASection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { LegalModal } from './components/LegalModal';
+import { ScrollProgressBar } from './components/MotionPrimitives';
 
 export default function App() {
   const [inquiryIntent, setInquiryIntent] = useState('Demo Request');
@@ -28,6 +29,7 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen overflow-x-clip bg-white text-campo-ink">
+        <ScrollProgressBar />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-campo-teal focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-campo-deep"

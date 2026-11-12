@@ -2,7 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { howItWorksSteps } from '../data/campoData';
-import { SectionBackground, SectionHeading, revealEase } from './MotionPrimitives';
+import {
+  BrandCornerWave,
+  SectionBackground,
+  SectionHeading,
+  revealEase,
+} from './MotionPrimitives';
 
 export function HowItWorks() {
   return (
@@ -17,7 +22,7 @@ export function HowItWorks() {
           align="center"
         />
 
-        <div className="relative mt-14">
+        <div className="relative mt-9 sm:mt-12 lg:mt-14">
           {/* Desktop horizontal progress rail */}
           <div
             aria-hidden="true"
@@ -26,49 +31,51 @@ export function HowItWorks() {
             <motion.div
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.85, ease: revealEase }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.9, ease: revealEase }}
               className="h-full w-full origin-left bg-campo-teal-dark"
             />
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
+          <div className="grid gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
             {howItWorksSteps.map((step, index) => (
               <motion.div
                 key={step.step}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
+                initial={{ opacity: 0, y: 26, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.14 }}
                 transition={{
-                  duration: 0.45,
+                  duration: 0.5,
                   delay: index * 0.1,
                   ease: revealEase,
                 }}
-                className="relative flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-7 shadow-card"
+                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-campo-secondary bg-gradient-to-br from-campo-navy via-campo-navy to-campo-deep p-5 text-white shadow-workspace transition-all duration-300 hover:-translate-y-1 hover:border-campo-teal/60 sm:p-7"
               >
-                <div>
-                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface font-display text-sm font-extrabold text-campo-navy">
+                <BrandCornerWave className="h-20 w-44 opacity-85 transition-opacity duration-300 group-hover:opacity-100 sm:h-24 sm:w-52" />
+
+                <div className="relative z-10">
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-campo-teal font-display text-sm font-extrabold text-campo-deep shadow-sm transition-transform duration-300 group-hover:scale-105 sm:h-12 sm:w-12">
                     {step.step}
                   </div>
 
-                  <p className="mt-6 text-xs font-semibold uppercase tracking-wider text-campo-teal-dark">
+                  <p className="mt-5 text-[11px] font-semibold uppercase tracking-wider text-campo-teal sm:mt-6 sm:text-xs">
                     {step.subtitle}
                   </p>
-                  <h3 className="mt-1 font-display text-2xl font-bold text-campo-navy">
+                  <h3 className="mt-1 font-display text-xl font-bold text-white sm:text-2xl">
                     {step.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                  <p className="mt-2.5 text-sm leading-relaxed text-slate-300 sm:mt-3">
                     {step.description}
                   </p>
                 </div>
 
-                <ul className="mt-6 space-y-2 border-t border-slate-100 pt-5">
+                <ul className="relative z-10 mt-5 space-y-2 border-t border-white/15 pt-4 sm:mt-6 sm:pt-5">
                   {step.highlights.map((highlight) => (
                     <li
                       key={highlight}
-                      className="flex items-center gap-2.5 text-xs font-medium text-campo-ink"
+                      className="flex items-center gap-2.5 text-xs font-medium text-slate-200"
                     >
-                      <Check className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
+                      <Check className="h-3.5 w-3.5 shrink-0 text-campo-teal" />
                       <span>{highlight}</span>
                     </li>
                   ))}

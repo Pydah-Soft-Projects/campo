@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from 'framer-motion';
 import sectionBg from '../assets/section-bg.jpg';
 
 export const revealEase = [0.22, 1, 0.36, 1];
@@ -12,7 +19,27 @@ const backgroundOrientations = {
 };
 
 /**
- * Shared light cyan orbital background layer for content sections with edge fades
+ * Top viewport scroll progress indicator linking page scroll position to a crisp brand gradient.
+ */
+export function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 180,
+    damping: 28,
+    restDelta: 0.001,
+  });
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      style={{ scaleX }}
+      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-gradient-to-r from-campo-navy via-campo-teal to-[#38BDF8]"
+    />
+  );
+}
+
+/**
+ * Shared light cyan orbital background layer with scroll-linked parallax and edge fades
  * to maintain seamless transitions and crisp text/card contrast.
  */
 export function SectionBackground({
@@ -20,20 +47,34 @@ export function SectionBackground({
   opacityClass = 'opacity-85',
   washClass = 'bg-white/25',
 }) {
+  const containerRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start'],
+  });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
+
   return (
     <div
+      ref={containerRef}
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
-      <img
-        src={sectionBg}
-        alt=""
-        loading="lazy"
-        decoding="async"
-        className={`h-full w-full object-cover object-center ${opacityClass} ${
-          backgroundOrientations[variant] || backgroundOrientations.default
-        }`}
-      />
+      <motion.div
+        style={prefersReducedMotion ? undefined : { y: parallaxY }}
+        className="absolute -inset-y-10 inset-x-0 will-change-transform"
+      >
+        <img
+          src={sectionBg}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className={`h-full w-full object-cover object-center ${opacityClass} ${
+            backgroundOrientations[variant] || backgroundOrientations.default
+          }`}
+        />
+      </motion.div>
       <div className={`absolute inset-0 ${washClass}`} />
       <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white/75 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/75 to-transparent" />
@@ -71,15 +112,15 @@ export function Reveal({
   children,
   className = '',
   delay = 0,
-  y = 16,
+  y = 24,
   once = true,
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, amount: 0.16 }}
-      transition={{ duration: 0.5, delay, ease: revealEase }}
+      initial={{ opacity: 0, y, scale: 0.985 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once, amount: 0.14 }}
+      transition={{ duration: 0.55, delay, ease: revealEase }}
       className={className}
     >
       {children}
@@ -98,6 +139,7 @@ export function SectionHeading({
 
   return (
     <Reveal
+      y={22}
       className={`max-w-3xl ${isCenter ? 'mx-auto text-center' : 'text-left'}`}
     >
       {(index || label) && (
@@ -111,11 +153,11 @@ export function SectionHeading({
           {label && <span>{label}</span>}
         </div>
       )}
-      <h2 className="font-display text-3xl font-bold tracking-tight text-campo-navy sm:text-4xl lg:text-[2.6rem] lg:leading-[1.14]">
+      <h2 className="font-display text-[1.65rem] font-bold leading-[1.2] tracking-tight text-campo-navy sm:text-4xl lg:text-[2.6rem] lg:leading-[1.14]">
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-base leading-relaxed text-campo-muted sm:text-lg">
+        <p className="mt-3 text-sm leading-relaxed text-campo-muted sm:mt-4 sm:text-lg">
           {description}
         </p>
       )}

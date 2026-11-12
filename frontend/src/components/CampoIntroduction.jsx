@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, CheckCircle2, Layers } from 'lucide-react';
 import { ecosystemHighlights, ecosystemPillars } from '../data/campoData';
 import {
+  BrandCornerWave,
   Reveal,
   SectionBackground,
   SectionHeading,
@@ -31,9 +32,9 @@ export function CampoIntroduction() {
         />
 
         {/* Light-Mode Interactive Architecture Studio */}
-        <Reveal className="mt-12">
-          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-campo-surface p-5 shadow-card sm:p-8 lg:p-10">
-            <div className="grid items-stretch gap-6 lg:grid-cols-12 lg:gap-8">
+        <Reveal className="mt-8 sm:mt-12">
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-campo-surface p-4 shadow-card sm:rounded-3xl sm:p-8 lg:p-10">
+            <div className="grid items-stretch gap-5 sm:gap-6 lg:grid-cols-12 lg:gap-8">
               {/* Left: 4 Institutional Pillars Selector */}
               <div className="flex flex-col justify-between lg:col-span-5">
                 <div>
@@ -112,17 +113,17 @@ export function CampoIntroduction() {
                     className="flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card"
                   >
                     <div>
-                      <div className="flex flex-wrap items-center justify-between gap-2 bg-campo-navy px-6 py-4 text-white sm:px-8">
-                        <span className="text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
+                      <div className="flex flex-wrap items-center justify-between gap-2 bg-campo-navy px-5 py-3.5 text-white sm:px-8 sm:py-4">
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-campo-teal sm:text-xs">
                           Connected Pillar View
                         </span>
-                        <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold text-teal-100">
+                        <span className="rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-semibold text-teal-100 sm:px-3 sm:text-[11px]">
                           Permission-Governed
                         </span>
                       </div>
 
-                      <div className="p-6 sm:p-8">
-                        <h3 className="font-display text-2xl font-bold text-campo-navy">
+                      <div className="p-5 sm:p-8">
+                        <h3 className="font-display text-xl font-bold text-campo-navy sm:text-2xl">
                           {selectedPillar.label}
                         </h3>
                         <p className="mt-2.5 text-sm leading-relaxed text-slate-600 sm:text-base">
@@ -175,25 +176,29 @@ export function CampoIntroduction() {
           </div>
         </Reveal>
 
-        {/* Swiss 1px-Ruled 6-Highlight Architectural Grid */}
-        <Reveal delay={0.08} className="mt-12">
+        {/* Interactive 6-Highlight Architectural Grid (Dark Navy Hover Cards) */}
+        <Reveal delay={0.08} className="mt-8 sm:mt-12">
           <div className="grid gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
             {ecosystemHighlights.map((item) => {
               const Icon = item.icon;
               return (
                 <div
                   key={item.title}
-                  className="group bg-white p-6 transition-colors duration-200 hover:bg-campo-light/70 sm:p-8"
+                  tabIndex={0}
+                  className="group relative overflow-hidden bg-white p-5 transition-colors duration-300 hover:bg-campo-navy focus:bg-campo-navy focus:outline-none sm:p-7 lg:p-8"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy transition-colors group-hover:border-campo-teal/50 group-hover:text-campo-teal-dark">
-                    <Icon className="h-5 w-5" />
+                  <BrandCornerWave className="h-20 w-44 opacity-0 transition-opacity duration-300 group-hover:opacity-85 group-focus:opacity-85" />
+                  <div className="relative z-10">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-campo-surface text-campo-navy transition-colors duration-300 group-hover:border-campo-teal group-hover:bg-campo-teal group-hover:text-campo-deep group-focus:border-campo-teal group-focus:bg-campo-teal group-focus:text-campo-deep">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-4 font-display text-base font-bold text-campo-navy transition-colors duration-300 group-hover:text-white group-focus:text-white sm:mt-5 sm:text-lg">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-slate-600 transition-colors duration-300 group-hover:text-slate-300 group-focus:text-slate-300 sm:mt-2">
+                      {item.description}
+                    </p>
                   </div>
-                  <h3 className="mt-5 font-display text-lg font-bold text-campo-navy">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                    {item.description}
-                  </p>
                 </div>
               );
             })}
