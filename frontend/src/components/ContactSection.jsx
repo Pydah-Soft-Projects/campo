@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { siteConfig } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
-import { Reveal } from './MotionPrimitives';
+import { Reveal, SectionBackground } from './MotionPrimitives';
 
 const initialFormState = {
   fullName: '',
@@ -167,9 +167,10 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
   return (
     <section
       id="contact"
-      className="section-padding border-t border-slate-200/80 bg-campo-surface"
+      className="section-padding relative overflow-hidden border-t border-slate-200/80 bg-white"
     >
-      <div className="container-campo">
+      <SectionBackground variant="flipY" opacityClass="opacity-85" />
+      <div className="container-campo relative z-10">
         <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left Column: Heading + Configurable Contact Placeholders */}
           <Reveal className="lg:col-span-5">

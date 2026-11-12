@@ -8,7 +8,7 @@ import {
   X,
 } from 'lucide-react';
 import { applications, applicationCategories } from '../data/campoData';
-import { SectionHeading, revealEase } from './MotionPrimitives';
+import { SectionBackground, SectionHeading, revealEase } from './MotionPrimitives';
 
 export function ApplicationsSection({ onRequestDemo }) {
   const [activeCategory, setActiveCategory] = useState('All Modules');
@@ -43,9 +43,10 @@ export function ApplicationsSection({ onRequestDemo }) {
   return (
     <section
       id="solutions"
-      className="section-padding border-y border-slate-200/80 bg-campo-surface"
+      className="section-padding relative overflow-hidden border-y border-slate-200/80 bg-white"
     >
-      <div className="container-campo">
+      <SectionBackground variant="flipBoth" opacityClass="opacity-90" />
+      <div className="container-campo relative z-10">
         <SectionHeading
           index="03"
           label="Applications & Solutions"

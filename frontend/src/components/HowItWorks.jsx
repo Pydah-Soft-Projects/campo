@@ -2,12 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { howItWorksSteps } from '../data/campoData';
-import { SectionHeading, revealEase } from './MotionPrimitives';
+import { SectionBackground, SectionHeading, revealEase } from './MotionPrimitives';
 
 export function HowItWorks() {
   return (
-    <section className="section-padding border-y border-slate-200/80 bg-campo-surface">
-      <div className="container-campo">
+    <section className="section-padding relative overflow-hidden border-y border-slate-200/80 bg-white">
+      <SectionBackground variant="default" opacityClass="opacity-85" />
+      <div className="container-campo relative z-10">
         <SectionHeading
           index="05"
           label="How Campo Works"

@@ -4,6 +4,7 @@ import { whyCampoFeatures } from '../data/campoData';
 import {
   AnimatedCounter,
   Reveal,
+  SectionBackground,
   SectionHeading,
   revealEase,
 } from './MotionPrimitives';
@@ -20,8 +21,9 @@ export function WhyCampo() {
   const FeaturedIcon = featuredItem.icon;
 
   return (
-    <section id="about" className="section-padding bg-white">
-      <div className="container-campo">
+    <section id="about" className="section-padding relative overflow-hidden bg-white">
+      <SectionBackground variant="flipX" opacityClass="opacity-75" />
+      <div className="container-campo relative z-10">
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left: Editorial Narrative */}
           <div className="lg:col-span-6">

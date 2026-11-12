@@ -1,7 +1,45 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import sectionBg from '../assets/section-bg.jpg';
 
 export const revealEase = [0.22, 1, 0.36, 1];
+
+const backgroundOrientations = {
+  default: '',
+  flipX: '-scale-x-100',
+  flipY: '-scale-y-100',
+  flipBoth: '-scale-x-100 -scale-y-100',
+};
+
+/**
+ * Shared light cyan orbital background layer for content sections with edge fades
+ * to maintain seamless transitions and crisp text/card contrast.
+ */
+export function SectionBackground({
+  variant = 'default',
+  opacityClass = 'opacity-85',
+  washClass = 'bg-white/25',
+}) {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+    >
+      <img
+        src={sectionBg}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        className={`h-full w-full object-cover object-center ${opacityClass} ${
+          backgroundOrientations[variant] || backgroundOrientations.default
+        }`}
+      />
+      <div className={`absolute inset-0 ${washClass}`} />
+      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white/75 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/75 to-transparent" />
+    </div>
+  );
+}
 
 export function Reveal({
   children,

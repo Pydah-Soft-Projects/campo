@@ -1,19 +1,24 @@
 import React from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { Reveal } from './MotionPrimitives';
+import { Reveal, SectionBackground } from './MotionPrimitives';
 
 export function CTASection({ onRequestDemo, onContactUs }) {
   return (
     <section className="border-t border-slate-200/80 bg-white py-16 sm:py-20">
       <div className="container-campo">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-campo-surface p-8 shadow-card sm:p-12 lg:p-14">
+          <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-card sm:p-12 lg:p-14">
+            <SectionBackground
+              variant="flipBoth"
+              opacityClass="opacity-95"
+              washClass="bg-white/20"
+            />
             <span
               aria-hidden="true"
-              className="absolute inset-y-0 left-0 w-1.5 bg-campo-teal"
+              className="absolute inset-y-0 left-0 z-10 w-1.5 bg-campo-teal"
             />
 
-            <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-center">
+            <div className="relative z-10 flex flex-col justify-between gap-8 lg:flex-row lg:items-center">
               <div className="max-w-2xl">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark">
                   Connected Institutional Leadership

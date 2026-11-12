@@ -1,12 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { aiCapabilities } from '../data/campoData';
-import { SectionHeading, revealEase } from './MotionPrimitives';
+import { SectionBackground, SectionHeading, revealEase } from './MotionPrimitives';
 
 export function IntelligenceSection() {
   return (
-    <section id="features" className="section-padding bg-white">
-      <div className="container-campo">
+    <section id="features" className="section-padding relative overflow-hidden bg-white">
+      <SectionBackground variant="flipY" opacityClass="opacity-75" />
+      <div className="container-campo relative z-10">
         <SectionHeading
           index="04"
           label="Intelligent Institutional Operations"

@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, CheckCircle2, Layers } from 'lucide-react';
 import { ecosystemHighlights, ecosystemPillars } from '../data/campoData';
-import { Reveal, SectionHeading, revealEase } from './MotionPrimitives';
+import {
+  Reveal,
+  SectionBackground,
+  SectionHeading,
+  revealEase,
+} from './MotionPrimitives';
 
 export function CampoIntroduction() {
   const [selectedPillarId, setSelectedPillarId] = useState(
@@ -14,8 +19,9 @@ export function CampoIntroduction() {
     ecosystemPillars[0];
 
   return (
-    <section id="platform" className="section-padding bg-white">
-      <div className="container-campo">
+    <section id="platform" className="section-padding relative overflow-hidden bg-white">
+      <SectionBackground variant="flipX" opacityClass="opacity-80" />
+      <div className="container-campo relative z-10">
         <SectionHeading
           index="02"
           label="Introducing Campo"
