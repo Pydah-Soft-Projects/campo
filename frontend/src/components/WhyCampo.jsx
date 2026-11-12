@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { whyCampoFeatures } from '../data/campoData';
+import { CampoLogo } from './CampoLogo';
 import {
   AnimatedCounter,
+  BrandCornerWave,
   Reveal,
   SectionBackground,
   SectionHeading,
@@ -57,34 +59,40 @@ export function WhyCampo() {
 
         {/* Differentiators Grid */}
         <div className="mt-14 grid gap-5 lg:grid-cols-12">
-          {/* Featured Ecosystem Card (Light Editorial with Navy Left Rule) */}
+          {/* Featured Ecosystem Card (Dark Navy Anchor Card with Teal Brand Wave) */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.45, ease: revealEase }}
-            className="flex flex-col justify-between rounded-2xl border border-slate-200 border-t-4 border-t-campo-navy bg-campo-surface p-7 shadow-card lg:col-span-5"
+            className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-campo-secondary border-t-4 border-t-campo-teal bg-gradient-to-br from-campo-navy via-campo-navy to-campo-deep p-7 text-white shadow-workspace lg:col-span-5"
           >
-            <div>
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-campo-navy">
-                <FeaturedIcon className="h-5 w-5 text-campo-teal-dark" />
+            <BrandCornerWave className="h-28 w-64 opacity-85" />
+
+            <div className="relative z-10">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-campo-teal">
+                  <FeaturedIcon className="h-5 w-5" />
+                </div>
+                <CampoLogo variant="light" size="sm" />
               </div>
-              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal-dark">
+
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
                 Core Differentiation
               </p>
-              <h3 className="mt-2 font-display text-2xl font-bold text-campo-navy">
+              <h3 className="mt-2 font-display text-2xl font-bold text-white">
                 {featuredItem.title}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+              <p className="mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">
                 {featuredItem.description}
               </p>
             </div>
 
-            <div className="mt-8 rounded-xl border border-slate-200 bg-white p-4">
-              <p className="text-xs font-semibold text-campo-navy">
+            <div className="relative z-10 mt-8 rounded-xl border border-white/15 bg-white/[0.06] p-4 backdrop-blur-sm">
+              <p className="text-xs font-semibold text-white">
                 Built for Real Institutional Scale
               </p>
-              <p className="mt-1 text-xs leading-relaxed text-slate-600">
+              <p className="mt-1 text-xs leading-relaxed text-slate-300">
                 Every workflow—from applicant enquiry to student records, fee
                 reconciliation, and campus workforce—operates on one coherent
                 foundation.

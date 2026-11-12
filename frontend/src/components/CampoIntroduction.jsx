@@ -50,25 +50,39 @@ export function CampoIntroduction() {
                           onClick={() => setSelectedPillarId(pillar.id)}
                           className={`group relative flex w-full items-center justify-between rounded-xl border px-4 py-3.5 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal ${
                             isSelected
-                              ? 'border-campo-navy/20 bg-white shadow-card'
-                              : 'border-slate-200/80 bg-white/55 hover:bg-white'
+                              ? 'border-campo-navy bg-campo-navy text-white shadow-elevated'
+                              : 'border-slate-200/80 bg-white/80 hover:border-slate-300 hover:bg-white'
                           }`}
                         >
                           {isSelected && (
                             <span
                               aria-hidden="true"
-                              className="absolute inset-y-2 left-0 w-1 rounded-r-full bg-campo-teal-dark"
+                              className="absolute inset-y-2 left-0 w-1 rounded-r-full bg-campo-teal"
                             />
                           )}
                           <div className="pl-1.5">
-                            <span className="font-mono text-[11px] font-semibold text-campo-teal-dark">
+                            <span
+                              className={`font-mono text-[11px] font-semibold ${
+                                isSelected ? 'text-campo-teal' : 'text-campo-teal-dark'
+                              }`}
+                            >
                               0{index + 1}
                             </span>
-                            <p className="font-display text-sm font-bold text-campo-navy sm:text-base">
+                            <p
+                              className={`font-display text-sm font-bold sm:text-base ${
+                                isSelected ? 'text-white' : 'text-campo-navy'
+                              }`}
+                            >
                               {pillar.label}
                             </p>
                           </div>
-                          <span className="rounded-md bg-campo-surface px-2.5 py-1 text-[11px] font-semibold text-slate-600">
+                          <span
+                            className={`rounded-md px-2.5 py-1 text-[11px] font-semibold ${
+                              isSelected
+                                ? 'bg-white/15 text-teal-100'
+                                : 'bg-campo-surface text-slate-600'
+                            }`}
+                          >
                             {pillar.modules.length} apps
                           </span>
                         </button>
@@ -95,62 +109,64 @@ export function CampoIntroduction() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.24, ease: revealEase }}
-                    className="flex w-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-card sm:p-8"
+                    className="flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card"
                   >
                     <div>
-                      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
-                        <span className="text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal-dark">
+                      <div className="flex flex-wrap items-center justify-between gap-2 bg-campo-navy px-6 py-4 text-white sm:px-8">
+                        <span className="text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
                           Connected Pillar View
                         </span>
-                        <span className="rounded-full bg-teal-50 px-3 py-1 text-[11px] font-semibold text-campo-teal-dark">
+                        <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold text-teal-100">
                           Permission-Governed
                         </span>
                       </div>
 
-                      <h3 className="mt-5 font-display text-2xl font-bold text-campo-navy">
-                        {selectedPillar.label}
-                      </h3>
-                      <p className="mt-2.5 text-sm leading-relaxed text-slate-600 sm:text-base">
-                        {selectedPillar.description}
-                      </p>
-
-                      {/* Connected Applications */}
-                      <div className="mt-6">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                          Synchronized Applications
+                      <div className="p-6 sm:p-8">
+                        <h3 className="font-display text-2xl font-bold text-campo-navy">
+                          {selectedPillar.label}
+                        </h3>
+                        <p className="mt-2.5 text-sm leading-relaxed text-slate-600 sm:text-base">
+                          {selectedPillar.description}
                         </p>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {selectedPillar.modules.map((mod) => (
-                            <span
-                              key={mod}
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-campo-surface px-3 py-1.5 text-xs font-semibold text-campo-navy"
-                            >
-                              <CheckCircle2 className="h-3.5 w-3.5 text-campo-teal-dark" />
-                              {mod}
-                            </span>
-                          ))}
+
+                        {/* Connected Applications */}
+                        <div className="mt-6">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Synchronized Applications
+                          </p>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {selectedPillar.modules.map((mod) => (
+                              <span
+                                key={mod}
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-campo-surface px-3 py-1.5 text-xs font-semibold text-campo-navy"
+                              >
+                                <CheckCircle2 className="h-3.5 w-3.5 text-campo-teal-dark" />
+                                {mod}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Shared Institutional Data */}
+                        <div className="mt-6 rounded-xl border border-slate-200/90 bg-campo-surface/70 p-4">
+                          <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                            Shared Institutional Data Entities
+                          </p>
+                          <p className="mt-1 text-sm font-semibold text-campo-navy">
+                            {selectedPillar.sharedData}
+                          </p>
+                        </div>
+
+                        <div className="mt-6 border-t border-slate-100 pt-4">
+                          <a
+                            href="#solutions"
+                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-campo-navy transition-colors hover:text-campo-teal-dark"
+                          >
+                            Explore all 12 connected applications
+                            <ArrowRight className="h-4 w-4" />
+                          </a>
                         </div>
                       </div>
-
-                      {/* Shared Institutional Data */}
-                      <div className="mt-6 rounded-xl border border-slate-200/90 bg-campo-surface/70 p-4">
-                        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                          Shared Institutional Data Entities
-                        </p>
-                        <p className="mt-1 text-sm font-semibold text-campo-navy">
-                          {selectedPillar.sharedData}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-6 border-t border-slate-100 pt-4">
-                      <a
-                        href="#solutions"
-                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-campo-navy transition-colors hover:text-campo-teal-dark"
-                      >
-                        Explore all 12 connected applications
-                        <ArrowRight className="h-4 w-4" />
-                      </a>
                     </div>
                   </motion.div>
                 </AnimatePresence>

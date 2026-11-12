@@ -41,6 +41,32 @@ export function SectionBackground({
   );
 }
 
+/**
+ * Signature bottom-right layered teal curved wave matching Campo's dark brand cards.
+ */
+export function BrandCornerWave({ className = '' }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 360 150"
+      fill="none"
+      preserveAspectRatio="none"
+      className={`pointer-events-none absolute bottom-0 right-0 select-none ${className}`}
+    >
+      <path
+        d="M360 150H35C118 134 195 92 268 42C302 19 332 6 360 0V150Z"
+        fill="#009E91"
+        fillOpacity="0.45"
+      />
+      <path
+        d="M360 150H95C172 132 238 96 300 49C322 32 342 20 360 14V150Z"
+        fill="#00C5B5"
+        fillOpacity="0.9"
+      />
+    </svg>
+  );
+}
+
 export function Reveal({
   children,
   className = '',

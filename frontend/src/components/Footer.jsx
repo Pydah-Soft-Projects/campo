@@ -3,6 +3,7 @@ import { Globe, Linkedin, Share2 } from 'lucide-react';
 import { footerColumns } from '../data/campoData';
 import { siteConfig } from '../config/siteConfig';
 import { CampoLogo } from './CampoLogo';
+import { BrandCornerWave } from './MotionPrimitives';
 
 const socialIconMap = {
   linkedin: Linkedin,
@@ -29,8 +30,10 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
   };
 
   return (
-    <footer className="border-t border-slate-200 bg-white text-campo-ink">
-      <div className="container-campo py-14 sm:py-16">
+    <footer className="relative overflow-hidden border-t border-campo-secondary bg-gradient-to-br from-campo-navy via-campo-navy to-campo-deep text-white">
+      <BrandCornerWave className="h-32 w-72 opacity-80 sm:h-40 sm:w-[420px]" />
+
+      <div className="container-campo relative z-10 py-14 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-4">
@@ -39,10 +42,10 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
               onClick={(e) => handleLinkClick(e, 'Home', '#home')}
               className="inline-flex items-center rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal"
             >
-              <CampoLogo variant="dark" />
+              <CampoLogo variant="light" />
             </a>
 
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-600">
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-300">
               {siteConfig.brand.description}
             </p>
 
@@ -57,7 +60,7 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
                     aria-label={item.label}
                     title={item.label}
                     onClick={(e) => handleLinkClick(e, item.label, item.href)}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-campo-surface text-slate-600 transition-colors duration-200 hover:border-campo-teal/60 hover:bg-white hover:text-campo-navy"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/5 text-slate-300 transition-colors duration-200 hover:border-campo-teal/70 hover:bg-white/10 hover:text-campo-teal"
                   >
                     <Icon className="h-4 w-4" />
                   </a>
@@ -69,7 +72,7 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
           {/* Link Columns */}
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-8">
             <div>
-              <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-navy">
+              <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
                 Platform
               </h3>
               <ul className="mt-4 space-y-2.5">
@@ -78,7 +81,7 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
                     <a
                       href={item.href}
                       onClick={(e) => handleLinkClick(e, item.label, item.href)}
-                      className="text-sm text-slate-600 transition-colors hover:text-campo-teal-dark"
+                      className="text-sm text-slate-300 transition-colors hover:text-white"
                     >
                       {item.label}
                     </a>
@@ -88,7 +91,7 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
             </div>
 
             <div>
-              <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-navy">
+              <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
                 Solutions
               </h3>
               <ul className="mt-4 space-y-2.5">
@@ -97,7 +100,7 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
                     <a
                       href={item.href}
                       onClick={(e) => handleLinkClick(e, item.label, item.href)}
-                      className="text-sm text-slate-600 transition-colors hover:text-campo-teal-dark"
+                      className="text-sm text-slate-300 transition-colors hover:text-white"
                     >
                       {item.label}
                     </a>
@@ -107,7 +110,7 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
             </div>
 
             <div>
-              <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-navy">
+              <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
                 Company
               </h3>
               <ul className="mt-4 space-y-2.5">
@@ -116,7 +119,7 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
                     <a
                       href={item.href}
                       onClick={(e) => handleLinkClick(e, item.label, item.href)}
-                      className="text-sm text-slate-600 transition-colors hover:text-campo-teal-dark"
+                      className="text-sm text-slate-300 transition-colors hover:text-white"
                     >
                       {item.label}
                     </a>
@@ -128,7 +131,7 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
         </div>
 
         {/* Bottom Legal Bar */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-8 text-xs text-slate-500 sm:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-slate-400 sm:flex-row">
           <p>
             © {currentYear} {siteConfig.legal.copyrightHolder}. All rights reserved.
           </p>
@@ -137,14 +140,14 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
             <button
               type="button"
               onClick={() => onOpenLegal?.('privacy')}
-              className="transition-colors hover:text-campo-navy"
+              className="transition-colors hover:text-white"
             >
               Privacy Policy
             </button>
             <button
               type="button"
               onClick={() => onOpenLegal?.('terms')}
-              className="transition-colors hover:text-campo-navy"
+              className="transition-colors hover:text-white"
             >
               Terms &amp; Conditions
             </button>
