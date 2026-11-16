@@ -10,9 +10,9 @@ import {
 } from 'lucide-react';
 import { CampoLogo } from './CampoLogo';
 import { SectionHeading, revealEase } from './MotionPrimitives';
-import leadershipImg from '../assets/institutional-leadership.jpg';
-import libraryImg from '../assets/campus-library.jpg';
-import convocationImg from '../assets/campus-convocation-success.jpg';
+import leadershipImg from '../assets/institutional-leadership.webp';
+import libraryImg from '../assets/campus-library.webp';
+import convocationImg from '../assets/campus-convocation-success.webp';
 
 export function WhyCampo() {
   return (
@@ -40,6 +40,8 @@ export function WhyCampo() {
               <img
                 src={leadershipImg}
                 alt="University academic leadership team"
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover opacity-90 transition-transform duration-700 hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
@@ -95,6 +97,8 @@ export function WhyCampo() {
                 <img
                   src={convocationImg}
                   alt="Graduates celebrating at convocation"
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-transparent to-black/20" />
@@ -122,6 +126,8 @@ export function WhyCampo() {
                 <img
                   src={libraryImg}
                   alt="Modern university central library"
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-transparent to-black/20" />

@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowRight, ArrowUpRight, Sparkles } from 'lucide-react';
 import { CampoLogo } from './CampoLogo';
 import { Reveal } from './MotionPrimitives';
-import campusHeroImg from '../assets/campus-hero.jpg';
+import campusHeroImg from '../assets/campus-hero.webp';
 
 export function CTASection({ onRequestDemo, onContactUs }) {
   return (
@@ -15,6 +15,8 @@ export function CTASection({ onRequestDemo, onContactUs }) {
               <img
                 src={campusHeroImg}
                 alt="Modern university campus architecture"
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover opacity-45 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-campo-deep/90 via-campo-navy/75 to-campo-navy/40" />

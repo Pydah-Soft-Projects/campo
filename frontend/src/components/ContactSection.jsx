@@ -16,7 +16,7 @@ import { siteConfig } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
 import { CampoLogo } from './CampoLogo';
 import { BrandCornerWave, Reveal, SectionBackground } from './MotionPrimitives';
-import advisorImg from '../assets/contact-advisor-pointing.png';
+import advisorImg from '../assets/contact-advisor-pointing.webp';
 
 const initialFormState = {
   fullName: '',
@@ -193,6 +193,8 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
               <img
                 src={advisorImg}
                 alt="Campo Campus Solutions Specialist"
+                loading="lazy"
+                decoding="async"
                 className="h-[340px] sm:h-[380px] lg:h-[400px] w-auto object-contain filter drop-shadow-[0_18px_28px_rgba(7,28,70,0.14)] transition-transform duration-500 hover:scale-[1.02]"
               />
             </div>

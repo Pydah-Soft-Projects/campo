@@ -8,7 +8,7 @@ import {
   Quote,
 } from 'lucide-react';
 import { SectionHeading, revealEase } from './MotionPrimitives';
-import campusHeroImg from '../assets/campus-hero.jpg';
+import campusHeroImg from '../assets/campus-hero.webp';
 
 const frictionPoints = [
   {
@@ -63,6 +63,8 @@ export function ProblemSection() {
             <img
               src={campusHeroImg}
               alt="Autonomous college campus architecture"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
             />
             {/* Gradient Overlay - Subtle so photo shows through clearly */}

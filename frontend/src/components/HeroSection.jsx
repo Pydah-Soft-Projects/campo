@@ -17,9 +17,9 @@ import {
 } from 'lucide-react';
 import { revealEase } from './MotionPrimitives';
 import { DashboardMockup } from './mockups/DashboardMockup';
-import studentMobileImg from '../assets/student-mobile-campus.jpg';
-import leadershipImg from '../assets/institutional-leadership.jpg';
-import studentsLabImg from '../assets/students-classroom.jpg';
+import studentMobileImg from '../assets/student-mobile-campus.webp';
+import leadershipImg from '../assets/institutional-leadership.webp';
+import studentsLabImg from '../assets/students-classroom.webp';
 
 export function HeroSection({ onRequestDemo }) {
   const sectionRef = useRef(null);
@@ -107,16 +107,19 @@ export function HeroSection({ onRequestDemo }) {
                 <img
                   src={studentMobileImg}
                   alt="Student user"
+                  loading="eager"
                   className="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover"
                 />
                 <img
                   src={leadershipImg}
                   alt="Campus Dean"
+                  loading="eager"
                   className="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover"
                 />
                 <img
                   src={studentsLabImg}
                   alt="Students in lab"
+                  loading="eager"
                   className="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover"
                 />
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-campo-navy text-[10px] font-bold text-campo-teal ring-2 ring-white">

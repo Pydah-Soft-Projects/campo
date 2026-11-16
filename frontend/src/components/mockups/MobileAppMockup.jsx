@@ -17,7 +17,7 @@ import {
   MapPin,
 } from 'lucide-react';
 import { CampoLogo } from '../CampoLogo';
-import studentPhoto from '../../assets/student-mobile-campus.jpg';
+import studentPhoto from '../../assets/student-mobile-campus.webp';
 
 export function MobileAppMockup({ screen = 'dashboard' }) {
   return (

@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { SectionHeading, revealEase } from './MotionPrimitives';
-import migrationImg from '../assets/data-records-migration.jpg';
-import facultySetupImg from '../assets/faculty-staff-setup.jpg';
-import goLiveImg from '../assets/campus-go-live.jpg';
+import migrationImg from '../assets/data-records-migration.webp';
+import facultySetupImg from '../assets/faculty-staff-setup.webp';
+import goLiveImg from '../assets/campus-go-live.webp';
 
 const simpleSteps = [
   {
@@ -86,6 +86,8 @@ export function HowItWorks() {
                     <img
                       src={item.image}
                       alt={item.title}
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />

@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import { ecosystemPillars } from '../data/campoData';
 import { Reveal, SectionHeading, revealEase } from './MotionPrimitives';
-import admissionsImg from '../assets/admissions-counseling.jpg';
-import studentsLabImg from '../assets/students-classroom.jpg';
-import boardroomImg from '../assets/executive-analytics-boardroom.jpg';
-import fleetImg from '../assets/campus-fleet-transport.jpg';
+import admissionsImg from '../assets/admissions-counseling.webp';
+import studentsLabImg from '../assets/students-classroom.webp';
+import boardroomImg from '../assets/executive-analytics-boardroom.webp';
+import fleetImg from '../assets/campus-fleet-transport.webp';
 
 const pillarImages = {
   'admissions-identity': admissionsImg,
@@ -164,6 +164,8 @@ export function CampoIntroduction() {
                         <img
                           src={currentImage}
                           alt={selectedPillar.label}
+                          loading="lazy"
+                          decoding="async"
                           className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />

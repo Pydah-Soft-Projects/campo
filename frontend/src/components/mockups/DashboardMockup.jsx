@@ -12,7 +12,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import { CampoLogo } from '../CampoLogo';
-import adminAvatarImg from '../../assets/institutional-leadership.jpg';
+import adminAvatarImg from '../../assets/institutional-leadership.webp';
 
 // Animated Counter Component with Smooth Numeric Count-Up Effect
 function AnimatedNumber({ value, prefix = '', suffix = '', decimals = 0, duration = 1.6, delay = 0 }) {

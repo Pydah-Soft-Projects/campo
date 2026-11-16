@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { CampoLogo } from './CampoLogo';
 import { SectionHeading, revealEase } from './MotionPrimitives';
-import boardroomAnalyticsImg from '../assets/executive-analytics-boardroom.jpg';
+import boardroomAnalyticsImg from '../assets/executive-analytics-boardroom.webp';
 
 const coreFeatures = [
   {
@@ -66,6 +66,8 @@ export function IntelligenceSection() {
             <img
               src={boardroomAnalyticsImg}
               alt="University leadership monitoring real-time centralized campus operations"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />

@@ -9,18 +9,18 @@ import {
 } from 'lucide-react';
 import { applications } from '../data/campoData';
 import { SectionHeading, revealEase } from './MotionPrimitives';
-import admissionsCardBg from '../assets/Module-Card-Bgs/Modern Admissions Campus Hero.png';
-import hrmsCardBg from '../assets/Module-Card-Bgs/Modern HR Payroll Workspace.png';
-import examCardBg from '../assets/Module-Card-Bgs/Exam Module Banner.png';
-import feeCardBg from '../assets/Module-Card-Bgs/Fee Management Banner.png';
-import libraryCardBg from '../assets/Module-Card-Bgs/Modern Library Study Banner.png';
-import stationeryCardBg from '../assets/Module-Card-Bgs/Stationary module Banner.png';
-import transportCardBg from '../assets/Module-Card-Bgs/Transport Module Banner.png';
-import hostelCardBg from '../assets/Module-Card-Bgs/Modern Hostel Management Campus.png';
-import academicCardBg from '../assets/Module-Card-Bgs/Academic Portal Banner.png';
-import studentDataCardBg from '../assets/Module-Card-Bgs/Student Data Management Banner.png';
-import staffRecruitmentCardBg from '../assets/Module-Card-Bgs/Staff Recruitement Module Banner.png';
-import maintenanceCardBg from '../assets/Module-Card-Bgs/Maintenance Module.png';
+import admissionsCardBg from '../assets/Module-Card-Bgs/Modern Admissions Campus Hero.webp';
+import hrmsCardBg from '../assets/Module-Card-Bgs/Modern HR Payroll Workspace.webp';
+import examCardBg from '../assets/Module-Card-Bgs/Exam Module Banner.webp';
+import feeCardBg from '../assets/Module-Card-Bgs/Fee Management Banner.webp';
+import libraryCardBg from '../assets/Module-Card-Bgs/Modern Library Study Banner.webp';
+import stationeryCardBg from '../assets/Module-Card-Bgs/Stationary module Banner.webp';
+import transportCardBg from '../assets/Module-Card-Bgs/Transport Module Banner.webp';
+import hostelCardBg from '../assets/Module-Card-Bgs/Modern Hostel Management Campus.webp';
+import academicCardBg from '../assets/Module-Card-Bgs/Academic Portal Banner.webp';
+import studentDataCardBg from '../assets/Module-Card-Bgs/Student Data Management Banner.webp';
+import staffRecruitmentCardBg from '../assets/Module-Card-Bgs/Staff Recruitement Module Banner.webp';
+import maintenanceCardBg from '../assets/Module-Card-Bgs/Maintenance Module.webp';
 
 // Complete Module card images map
 const moduleImages = {
@@ -186,6 +186,8 @@ function ModuleCard({ app, onInspect }) {
           <img
             src={moduleImg}
             alt={app.name}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover object-right pointer-events-none"
           />
           {/* Subtle light gradient: light at top-left, gentle at bottom-left so artwork shows through */}
