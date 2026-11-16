@@ -1,17 +1,234 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-  ArrowUpRight,
+  ArrowRight,
   CheckCircle2,
-  Link2,
   Users,
   X,
+  Link2,
 } from 'lucide-react';
-import { applications, applicationCategories } from '../data/campoData';
-import { BrandCornerWave, SectionBackground, SectionHeading, revealEase } from './MotionPrimitives';
+import { applications } from '../data/campoData';
+import { SectionHeading, revealEase } from './MotionPrimitives';
+import admissionsCardBg from '../assets/Module-Card-Bgs/Modern Admissions Campus Hero.png';
+import hrmsCardBg from '../assets/Module-Card-Bgs/Modern HR Payroll Workspace.png';
+import examCardBg from '../assets/Module-Card-Bgs/Exam Module Banner.png';
+import feeCardBg from '../assets/Module-Card-Bgs/Fee Management Banner.png';
+import libraryCardBg from '../assets/Module-Card-Bgs/Modern Library Study Banner.png';
+import stationeryCardBg from '../assets/Module-Card-Bgs/Stationary module Banner.png';
+import transportCardBg from '../assets/Module-Card-Bgs/Transport Module Banner.png';
+import hostelCardBg from '../assets/Module-Card-Bgs/Modern Hostel Management Campus.png';
+import academicCardBg from '../assets/Module-Card-Bgs/Academic Portal Banner.png';
+import studentDataCardBg from '../assets/Module-Card-Bgs/Student Data Management Banner.png';
+import staffRecruitmentCardBg from '../assets/Module-Card-Bgs/Staff Recruitement Module Banner.png';
+import maintenanceCardBg from '../assets/Module-Card-Bgs/Maintenance Module.png';
+
+// Complete Module card images map
+const moduleImages = {
+  'admissions-crm': admissionsCardBg,
+  'hrms': hrmsCardBg,
+  'examination-management': examCardBg,
+  'fee-management': feeCardBg,
+  'library-management': libraryCardBg,
+  'stationery-management': stationeryCardBg,
+  'transport-management': transportCardBg,
+  'hostel-management': hostelCardBg,
+  'academic-management': academicCardBg,
+  'student-data': studentDataCardBg,
+  'staff-recruitment': staffRecruitmentCardBg,
+  'maintenance-management': maintenanceCardBg,
+};
+
+const modulePillConfig = {
+  'admissions-crm': {
+    pill: 'bg-emerald-50/95 text-emerald-800 border-emerald-200/80',
+    circle: 'bg-emerald-600 text-white',
+    label: 'Student & Academics',
+    cardBg: 'bg-[#FAFBFD]',
+    border: 'border-emerald-100',
+    hoverBorder: 'hover:border-emerald-300',
+    actionText: 'text-emerald-700 group-hover:text-emerald-800',
+    aura: 'bg-emerald-400/20',
+  },
+  'hrms': {
+    pill: 'bg-blue-50/95 text-blue-800 border-blue-200/80',
+    circle: 'bg-blue-600 text-white',
+    label: 'Administration & Finance',
+    cardBg: 'bg-[#EFF5FC]',
+    border: 'border-blue-100',
+    hoverBorder: 'hover:border-blue-300',
+    actionText: 'text-blue-700 group-hover:text-blue-800',
+    aura: 'bg-blue-400/20',
+  },
+  'examination-management': {
+    pill: 'bg-emerald-50/95 text-emerald-800 border-emerald-200/80',
+    circle: 'bg-emerald-600 text-white',
+    label: 'Student & Academics',
+    cardBg: 'bg-[#F1F8F3]',
+    border: 'border-emerald-100',
+    hoverBorder: 'hover:border-emerald-300',
+    actionText: 'text-emerald-700 group-hover:text-emerald-800',
+    aura: 'bg-emerald-400/20',
+  },
+  'fee-management': {
+    pill: 'bg-teal-50/95 text-teal-800 border-teal-200/80',
+    circle: 'bg-teal-600 text-white',
+    label: 'Administration & Finance',
+    cardBg: 'bg-[#F0F9F7]',
+    border: 'border-teal-100',
+    hoverBorder: 'hover:border-teal-300',
+    actionText: 'text-teal-700 group-hover:text-teal-800',
+    aura: 'bg-teal-400/20',
+  },
+  'library-management': {
+    pill: 'bg-purple-50/95 text-purple-800 border-purple-200/80',
+    circle: 'bg-purple-600 text-white',
+    label: 'Library',
+    cardBg: 'bg-[#F5F0FD]',
+    border: 'border-purple-100',
+    hoverBorder: 'hover:border-purple-300',
+    actionText: 'text-purple-700 group-hover:text-purple-800',
+    aura: 'bg-purple-400/20',
+  },
+  'student-data': {
+    pill: 'bg-cyan-50/95 text-cyan-800 border-cyan-200/80',
+    circle: 'bg-cyan-600 text-white',
+    label: 'Student & Academics',
+    cardBg: 'bg-[#F0FAFB]',
+    border: 'border-cyan-100',
+    hoverBorder: 'hover:border-cyan-300',
+    actionText: 'text-cyan-700 group-hover:text-cyan-800',
+    aura: 'bg-cyan-400/20',
+  },
+  'academic-management': {
+    pill: 'bg-purple-50/95 text-purple-800 border-purple-200/80',
+    circle: 'bg-purple-600 text-white',
+    label: 'Student & Academics',
+    cardBg: 'bg-[#F7F4FD]',
+    border: 'border-purple-100',
+    hoverBorder: 'hover:border-purple-300',
+    actionText: 'text-purple-700 group-hover:text-purple-800',
+    aura: 'bg-purple-400/20',
+  },
+  'transport-management': {
+    pill: 'bg-sky-50/95 text-sky-800 border-sky-200/80',
+    circle: 'bg-sky-500 text-white',
+    label: 'Campus Operations',
+    cardBg: 'bg-[#F0F6FD]',
+    border: 'border-sky-100',
+    hoverBorder: 'hover:border-sky-300',
+    actionText: 'text-sky-700 group-hover:text-sky-800',
+    aura: 'bg-sky-400/20',
+  },
+  'hostel-management': {
+    pill: 'bg-rose-50/95 text-rose-800 border-rose-200/80',
+    circle: 'bg-rose-500 text-white',
+    label: 'Campus Operations',
+    cardBg: 'bg-[#FAF0ED]',
+    border: 'border-rose-100',
+    hoverBorder: 'hover:border-rose-300',
+    actionText: 'text-rose-700 group-hover:text-rose-800',
+    aura: 'bg-rose-400/20',
+  },
+  'staff-recruitment': {
+    pill: 'bg-orange-50/95 text-orange-800 border-orange-200/80',
+    circle: 'bg-orange-500 text-white',
+    label: 'Administration & Finance',
+    cardBg: 'bg-[#FDF3EE]',
+    border: 'border-orange-100',
+    hoverBorder: 'hover:border-orange-300',
+    actionText: 'text-orange-700 group-hover:text-orange-800',
+    aura: 'bg-orange-400/20',
+  },
+  'maintenance-management': {
+    pill: 'bg-teal-50/95 text-teal-800 border-teal-200/80',
+    circle: 'bg-teal-600 text-white',
+    label: 'Campus Operations',
+    cardBg: 'bg-[#F2FAF9]',
+    border: 'border-teal-100',
+    hoverBorder: 'hover:border-teal-300',
+    actionText: 'text-teal-700 group-hover:text-teal-800',
+    aura: 'bg-teal-400/20',
+  },
+  'stationery-management': {
+    pill: 'bg-amber-50/95 text-amber-800 border-amber-200/80',
+    circle: 'bg-amber-500 text-white',
+    label: 'Campus Operations',
+    cardBg: 'bg-[#FDF7F0]',
+    border: 'border-amber-100',
+    hoverBorder: 'hover:border-amber-300',
+    actionText: 'text-amber-700 group-hover:text-amber-800',
+    aura: 'bg-amber-400/20',
+  },
+};
+
+function ModuleCard({ app, onInspect }) {
+  const Icon = app.icon;
+  const moduleImg = moduleImages[app.id];
+  const config = modulePillConfig[app.id] || {
+    pill: 'bg-emerald-50/90 text-emerald-800 border-emerald-200/80',
+    circle: 'bg-emerald-600 text-white',
+    label: app.category,
+    cardBg: 'bg-white',
+    border: 'border-slate-200/90',
+    hoverBorder: 'hover:border-campo-teal/60',
+    actionText: 'text-campo-teal-dark group-hover:text-campo-navy',
+    aura: 'bg-emerald-400/20',
+  };
+
+  return (
+    <article
+      onClick={() => onInspect(app)}
+      className={`group relative flex h-[205px] sm:h-[215px] w-[370px] sm:w-[410px] shrink-0 overflow-hidden rounded-3xl border ${config.border} ${config.cardBg} shadow-card transition-all duration-300 hover:-translate-y-1 ${config.hoverBorder} hover:shadow-elevated cursor-pointer select-none`}
+    >
+      {/* Background Graphic / Image Area */}
+      {moduleImg ? (
+        <>
+          <img
+            src={moduleImg}
+            alt={app.name}
+            className="absolute inset-0 h-full w-full object-cover object-right pointer-events-none"
+          />
+          {/* Subtle light gradient: light at top-left, gentle at bottom-left so artwork shows through */}
+          <div className="absolute inset-y-0 left-0 w-[65%] sm:w-[68%] bg-gradient-to-br from-white/70 via-white/30 to-transparent pointer-events-none z-[1]" />
+        </>
+      ) : (
+        <div className="absolute right-4 inset-y-0 w-[38%] flex items-center justify-center pointer-events-none">
+          {/* Soft Aura Glow */}
+          <div className={`absolute h-24 w-24 rounded-full ${config.aura} blur-xl`} />
+          {/* Subtle placeholder icon tile ready for upcoming module images */}
+          <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200/80 bg-white/80 shadow-xs backdrop-blur-xs transition-transform duration-300 group-hover:scale-105">
+            {Icon && <Icon className="h-8 w-8 text-slate-400 group-hover:text-campo-teal-dark transition-colors" />}
+          </div>
+        </div>
+      )}
+
+      {/* Left Content Column */}
+      <div className="relative z-10 flex h-full w-[68%] sm:w-[70%] flex-col justify-between p-4 sm:p-4.5">
+        {/* Top: Module Title & Sub text directly under it */}
+        <div>
+          <div className="-ml-1 inline-block rounded-lg border border-white/70 bg-white/75 px-2 py-0.5 shadow-2xs backdrop-blur-md">
+            <h4 className="font-display text-sm sm:text-[15px] font-bold leading-snug whitespace-nowrap text-campo-navy group-hover:text-campo-secondary transition-colors">
+              {app.name}
+            </h4>
+          </div>
+
+          {/* Sub text under header */}
+          <p className="mt-2 text-xs sm:text-[13px] leading-relaxed text-slate-600 line-clamp-2">
+            {app.description}
+          </p>
+        </div>
+
+        {/* Bottom: Explore Module Link */}
+        <div className={`inline-flex items-center gap-1.5 text-xs font-bold ${config.actionText} transition-colors`}>
+          <span>Explore Module</span>
+          <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+        </div>
+      </div>
+    </article>
+  );
+}
 
 export function ApplicationsSection({ onRequestDemo }) {
-  const [activeCategory, setActiveCategory] = useState('All Modules');
   const [selectedApp, setSelectedApp] = useState(null);
 
   useEffect(() => {
@@ -22,11 +239,6 @@ export function ApplicationsSection({ onRequestDemo }) {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [selectedApp]);
-
-  const filteredApps =
-    activeCategory === 'All Modules'
-      ? applications
-      : applications.filter((app) => app.category === activeCategory);
 
   const handleRequestModuleDemo = () => {
     setSelectedApp(null);
@@ -40,246 +252,224 @@ export function ApplicationsSection({ onRequestDemo }) {
     }
   };
 
+  // Map of applications by ID for curated, distinct color distribution
+  const appMap = new Map(applications.map((app) => [app.id, app]));
+
+  // Curated color-alternating rows so no same-color cards appear side-by-side (including loop seams)
+  const row1Ids = [
+    'admissions-crm',        // Green (Admissions CRM)
+    'academic-management',   // Purple (Academics)
+    'hrms',                  // Blue (HRMS)
+    'stationery-management', // Amber (Stationery)
+    'fee-management',        // Teal (Fees & Payments)
+    'hostel-management',     // Rose (Hostel)
+  ];
+
+  const row2Ids = [
+    'student-data',           // Cyan (Student Records)
+    'examination-management', // Sage Green (Examinations)
+    'library-management',     // Purple (Library)
+    'transport-management',   // Sky Blue (Campus Transport)
+    'staff-recruitment',      // Coral Orange (Staff Recruitment)
+    'maintenance-management', // Mint (Maintenance)
+  ];
+
+  const row1 = row1Ids.map((id) => appMap.get(id)).filter(Boolean);
+  const row2 = row2Ids.map((id) => appMap.get(id)).filter(Boolean);
+
+  // Duplicate arrays to create an infinite, seamless loop
+  const row1Items = [...row1, ...row1];
+  const row2Items = [...row2, ...row2];
+
   return (
     <section
       id="solutions"
-      className="section-padding relative overflow-hidden border-y border-slate-200/80 bg-white"
+      className="section-padding relative overflow-hidden bg-slate-50/70 border-y border-slate-200/80"
     >
-      <SectionBackground variant="flipBoth" opacityClass="opacity-90" />
-      <div className="container-campo relative z-10">
+      <style>{`
+        @keyframes marqueeLeft {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes marqueeRight {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0%); }
+        }
+        .animate-marquee-left {
+          display: flex;
+          width: max-content;
+          animation: marqueeLeft 42s linear infinite;
+        }
+        .animate-marquee-right {
+          display: flex;
+          width: max-content;
+          animation: marqueeRight 42s linear infinite;
+        }
+        .animate-marquee-left:hover,
+        .animate-marquee-right:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
+      <div className="container-campo relative z-10 mb-8 sm:mb-12">
         <SectionHeading
           index="03"
-          label="Applications & Solutions"
-          title="Twelve Purpose-Built Applications. One Connected Ecosystem."
-          description="Twelve specialized modules sharing one unified institutional directory."
+          label="Platform Modules"
+          title="Unified Campus Modules Operating on One Core."
+          description="Continuous bidirectional synchronization across every institutional domain. Hover to pause and inspect any module."
           align="center"
         />
+      </div>
 
-        {/* Centered Category Filter Tabs */}
-        <div className="mt-6 flex justify-center sm:mt-7">
-          <div
-            role="tablist"
-            aria-label="Filter Campo applications by domain"
-            className="inline-flex max-w-full flex-wrap justify-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm sm:gap-1.5 sm:p-1.5"
-          >
-            {applicationCategories.map((category) => {
-              const isSelected = activeCategory === category;
-              const count =
-                category === 'All Modules'
-                  ? applications.length
-                  : applications.filter((a) => a.category === category).length;
+      {/* Two-Row Continuous Bidirectional Marquee */}
+      <div className="relative w-full overflow-hidden space-y-4 sm:space-y-5 py-2">
+        {/* Soft Gradient Fade Masks on Screen Edges */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-36 bg-gradient-to-r from-slate-50/95 via-slate-50/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-36 bg-gradient-to-l from-slate-50/95 via-slate-50/80 to-transparent z-10" />
 
-              return (
-                <button
-                  key={category}
-                  role="tab"
-                  aria-selected={isSelected}
-                  type="button"
-                  onClick={() => setActiveCategory(category)}
-                  className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition-all duration-200 sm:px-3 sm:text-xs ${
-                    isSelected
-                      ? 'bg-campo-navy text-white'
-                      : 'text-slate-600 hover:bg-campo-surface hover:text-campo-navy'
-                  }`}
-                >
-                  <span>{category}</span>
-                  <span
-                    className={`text-[11px] ${
-                      isSelected ? 'text-campo-teal' : 'text-slate-400'
-                    }`}
-                  >
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
+        {/* Row 1: Right-to-Left Continuous Marquee */}
+        <div className="flex overflow-hidden">
+          <div className="animate-marquee-left flex gap-4 sm:gap-5">
+            {row1Items.map((app, index) => (
+              <ModuleCard
+                key={`r1-${app.id}-${index}`}
+                app={app}
+                onInspect={setSelectedApp}
+              />
+            ))}
           </div>
         </div>
 
-        {/* Clean 4-Column Architectural Module Grid */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {filteredApps.map((app, index) => {
-            const Icon = app.icon;
-            return (
-              <motion.article
-                key={app.id}
-                layout
-                initial={{ opacity: 0, y: 22, scale: 0.97 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.12 }}
-                transition={{
-                  duration: 0.42,
-                  delay: (index % 4) * 0.05,
-                  ease: revealEase,
-                }}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-campo-teal/50 hover:shadow-elevated sm:p-5"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-campo-navy text-campo-teal shadow-sm transition-transform duration-300 group-hover:scale-105">
-                      <Icon className="h-[18px] w-[18px]" />
-                    </div>
-                    <span className="text-right text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-                      {app.category}
-                    </span>
-                  </div>
-
-                  <h3 className="mt-3.5 font-display text-base font-bold text-campo-navy">
-                    {app.name}
-                  </h3>
-
-                  <p className="mt-1.5 text-xs leading-relaxed text-slate-600">
-                    {app.description}
-                  </p>
-                </div>
-
-                {/* Minimal Action Footer */}
-                <div className="mt-3.5 flex justify-end border-t border-slate-100 pt-2.5">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedApp(app)}
-                    className="inline-flex items-center gap-1 rounded text-xs font-semibold text-campo-navy transition-colors hover:text-campo-teal-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal"
-                  >
-                    Explore module
-                    <ArrowUpRight className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              </motion.article>
-            );
-          })}
+        {/* Row 2: Left-to-Right Continuous Marquee */}
+        <div className="flex overflow-hidden">
+          <div className="animate-marquee-right flex gap-4 sm:gap-5">
+            {row2Items.map((app, index) => (
+              <ModuleCard
+                key={`r2-${app.id}-${index}`}
+                app={app}
+                onInspect={setSelectedApp}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Light-Mode Application Detail Inspector Modal */}
+      {/* Enhanced Module Detail Modal */}
       <AnimatePresence>
         {selectedApp && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedApp(null)}
+          <div
             role="dialog"
             aria-modal="true"
-            aria-labelledby="app-modal-title"
-            className="fixed inset-0 z-50 flex items-center justify-center bg-campo-navy/25 p-4 backdrop-blur-sm"
+            aria-labelledby="module-modal-title"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
           >
+            {/* Backdrop */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.97, y: 12 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedApp(null)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+
+            {/* Modal Dialog Content */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.97, y: 12 }}
-              transition={{ duration: 0.2, ease: revealEase }}
-              onClick={(e) => e.stopPropagation()}
-              className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-workspace"
+              exit={{ opacity: 0, scale: 0.95, y: 16 }}
+              transition={{ duration: 0.28, ease: revealEase }}
+              className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-workspace z-10"
             >
-              <div className="relative flex items-start justify-between gap-4 overflow-hidden bg-campo-navy px-5 py-4 text-white sm:px-8 sm:py-5">
-                <BrandCornerWave className="h-20 w-44 opacity-60" />
-                <div className="relative z-10 flex items-center gap-3.5">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-campo-teal">
-                    {React.createElement(selectedApp.icon, {
-                      className: 'h-5 w-5',
-                    })}
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-campo-teal">
-                      {selectedApp.category}
-                    </span>
-                    <h3
-                      id="app-modal-title"
-                      className="font-display text-xl font-bold text-white"
-                    >
-                      {selectedApp.name}
-                    </h3>
-                  </div>
+              {/* Modal Navy Header */}
+              <div className="bg-campo-navy p-5 sm:p-6 text-white flex items-start justify-between gap-4">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-campo-teal">
+                    {selectedApp.category}
+                  </span>
+                  <h3 id="module-modal-title" className="font-display text-xl font-bold sm:text-2xl mt-0.5">
+                    {selectedApp.name}
+                  </h3>
                 </div>
 
                 <button
                   type="button"
                   onClick={() => setSelectedApp(null)}
-                  aria-label="Close application details"
-                  className="relative z-10 rounded-lg p-1.5 text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+                  className="rounded-full bg-white/10 p-1.5 text-slate-300 hover:bg-white/20 hover:text-white transition-colors"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <div className="p-5 sm:p-8">
-                <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
-                  {selectedApp.description}
-                </p>
+              {/* Modal Body */}
+              <div className="p-5 sm:p-7 space-y-5 max-h-[75vh] overflow-y-auto">
+                <div>
+                  <p className="text-sm leading-relaxed text-slate-700">
+                    {selectedApp.description}
+                  </p>
+                </div>
 
-                <div className="mt-6">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                    Key Institutional Workflows
-                  </h4>
-                  <ul className="mt-3 space-y-2.5">
-                    {selectedApp.workflows?.map((workflow) => (
-                      <li
-                        key={workflow}
-                        className="flex items-start gap-2.5 text-sm text-campo-ink"
+                {/* Target Roles */}
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
+                    Primary Operational Stakeholders
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedApp.roles?.map((role) => (
+                      <span
+                        key={role}
+                        className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-campo-navy"
                       >
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-campo-teal-dark" />
-                        <span>{workflow}</span>
-                      </li>
+                        <Users className="h-3 w-3 text-campo-teal-dark" />
+                        {role}
+                      </span>
                     ))}
-                  </ul>
-                </div>
-
-                <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-xl border border-slate-200 bg-campo-surface/70 p-4">
-                    <div className="flex items-center gap-1.5 text-xs font-semibold text-campo-navy">
-                      <Users className="h-3.5 w-3.5 text-campo-teal-dark" />
-                      <span>Primary Roles</span>
-                    </div>
-                    <div className="mt-2.5 flex flex-wrap gap-1.5">
-                      {selectedApp.roles?.map((role) => (
-                        <span
-                          key={role}
-                          className="rounded-md border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-campo-ink"
-                        >
-                          {role}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="rounded-xl border border-slate-200 bg-campo-surface/70 p-4">
-                    <div className="flex items-center gap-1.5 text-xs font-semibold text-campo-navy">
-                      <Link2 className="h-3.5 w-3.5 text-campo-teal-dark" />
-                      <span>Direct Ecosystem Links</span>
-                    </div>
-                    <div className="mt-2.5 flex flex-wrap gap-1.5">
-                      {selectedApp.connectsTo.map((peer) => (
-                        <span
-                          key={peer}
-                          className="rounded-md border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-campo-navy"
-                        >
-                          {peer}
-                        </span>
-                      ))}
-                    </div>
                   </div>
                 </div>
 
-                <div className="mt-7 flex flex-col-reverse gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:justify-end">
+                {/* Connected Workflows */}
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
+                    Key Integrated Workflows
+                  </span>
+                  <div className="space-y-2">
+                    {selectedApp.workflows?.map((wf) => (
+                      <div key={wf} className="flex items-start gap-2.5 text-xs text-slate-700">
+                        <CheckCircle2 className="h-4 w-4 shrink-0 text-campo-teal-dark mt-0.5" />
+                        <span>{wf}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Ecosystem Connections */}
+                <div className="flex items-center justify-between border-t border-slate-100 pt-4 text-xs">
+                  <div className="flex items-center gap-2 text-slate-500">
+                    <Link2 className="h-4 w-4 text-campo-teal-dark" />
+                    <span>Synchronized with: <strong>{selectedApp.connectsTo?.join(', ')}</strong></span>
+                  </div>
+                </div>
+
+                {/* Modal CTA */}
+                <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:justify-end">
                   <button
                     type="button"
                     onClick={() => setSelectedApp(null)}
-                    className="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 hover:text-campo-navy"
+                    className="rounded-xl border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                   >
                     Close
                   </button>
                   <button
                     type="button"
                     onClick={handleRequestModuleDemo}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-campo-navy px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-campo-secondary"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-campo-navy px-5 py-2 text-xs font-semibold text-white shadow-card hover:bg-campo-secondary"
                   >
-                    Request Demo for {selectedApp.name}
-                    <ArrowUpRight className="h-4 w-4 text-campo-teal" />
+                    <span>Request Demo for {selectedApp.name}</span>
+                    <ArrowRight className="h-3.5 w-3.5 text-campo-teal" />
                   </button>
                 </div>
               </div>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </section>

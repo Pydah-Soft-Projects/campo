@@ -19,33 +19,61 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
   }, []);
 
   useEffect(() => {
-    const sectionIds = navLinks.map((link) => link.href.replace('#', ''));
-    const observers = [];
+    if (currentPath !== '/') return undefined;
 
-    sectionIds.forEach((id) => {
-      const element = document.getElementById(id);
-      if (!element) return;
+    const sections = [
+      { id: 'contact', href: '#contact' },
+      { id: 'about', href: '#about' },
+      { id: 'features', href: '#features' },
+      { id: 'solutions', href: '#solutions' },
+      { id: 'platform', href: '#platform' },
+      { id: 'home', href: '#home' },
+    ];
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActiveHref(`#${id}`);
-            }
-          });
-        },
-        { rootMargin: '-38% 0px -52% 0px' }
-      );
-      observer.observe(element);
-      observers.push(observer);
-    });
+    const handleScrollSpy = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
 
-    return () => observers.forEach((obs) => obs.disconnect());
-  }, []);
+      // When near very top, activate Home
+      if (scrollY < 120) {
+        setActiveHref('#home');
+        return;
+      }
+
+      // When near bottom of document, activate Contact
+      if (scrollY + windowHeight >= documentHeight - 80) {
+        setActiveHref('#contact');
+        return;
+      }
+
+      // Check sections from bottom to top
+      const triggerThreshold = windowHeight * 0.35;
+      for (const section of sections) {
+        const el = document.getElementById(section.id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= triggerThreshold) {
+            setActiveHref(section.href);
+            break;
+          }
+        }
+      }
+    };
+
+    handleScrollSpy();
+    window.addEventListener('scroll', handleScrollSpy, { passive: true });
+    window.addEventListener('resize', handleScrollSpy, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScrollSpy);
+      window.removeEventListener('resize', handleScrollSpy);
+    };
+  }, [currentPath]);
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
     setMobileOpen(false);
+    setActiveHref(href);
     if (currentPath !== '/') {
       onNavigate?.('/', href);
       return;

@@ -1,135 +1,179 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { whyCampoFeatures } from '../data/campoData';
-import { CampoLogo } from './CampoLogo';
 import {
-  AnimatedCounter,
-  BrandCornerWave,
-  Reveal,
-  SectionBackground,
-  SectionHeading,
-  revealEase,
-} from './MotionPrimitives';
-
-const platformStats = [
-  { value: 12, suffix: '', label: 'Connected Institutional Apps' },
-  { value: 1, suffix: '', label: 'Unified Ecosystem Core' },
-  { value: 100, suffix: '%', label: 'Role-Scoped Information Access' },
-  { value: 360, suffix: '°', label: 'Cross-Department Visibility' },
-];
+  Layers,
+  ShieldCheck,
+  Building2,
+  FileCheck,
+  Quote,
+  Sparkles,
+} from 'lucide-react';
+import { CampoLogo } from './CampoLogo';
+import { SectionHeading, revealEase } from './MotionPrimitives';
+import leadershipImg from '../assets/institutional-leadership.jpg';
+import libraryImg from '../assets/campus-library.jpg';
+import convocationImg from '../assets/campus-convocation-success.jpg';
 
 export function WhyCampo() {
-  const [featuredItem, ...otherItems] = whyCampoFeatures;
-  const FeaturedIcon = featuredItem.icon;
-
   return (
     <section id="about" className="section-padding relative overflow-hidden bg-white">
-      <SectionBackground variant="flipX" opacityClass="opacity-75" />
       <div className="container-campo relative z-10">
-        <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-12">
-          {/* Left: Editorial Narrative */}
-          <div className="lg:col-span-6">
-            <SectionHeading
-              index="06"
-              label="Why Campo"
-              title="More Than Software. A Better Way to Run Your Institution."
-              description="Built for Directors, Chairmen, Registrars, and institutional administrators who want unified governance without compromising departmental autonomy."
-            />
-          </div>
+        <SectionHeading
+          index="06"
+          label="Why Campo"
+          title="“Everything our campus needs, in one calm and connected place.”"
+          description="Built directly with campus directors, teachers, and administrators who wanted an ERP that feels natural, fast, and reliable every single day."
+          align="center"
+        />
 
-          {/* Right: 2x2 Platform Counters */}
-          <Reveal delay={0.08} className="lg:col-span-6">
-            <div className="grid grid-cols-2 gap-3.5 rounded-2xl border border-slate-200 bg-campo-surface p-4 sm:gap-4 sm:p-7">
-              {platformStats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="border-l-2 border-campo-teal-dark/70 pl-3 sm:pl-3.5"
-                >
-                  <span className="font-display text-xl font-extrabold text-campo-navy sm:text-3xl">
-                    <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-                  </span>
-                  <p className="mt-1 text-[11px] font-medium leading-snug text-slate-600 sm:text-xs">
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-
-        {/* Differentiators Grid */}
-        <div className="mt-9 grid gap-4 sm:mt-14 sm:gap-5 lg:grid-cols-12">
-          {/* Featured Ecosystem Card (Dark Navy Anchor Card with Teal Brand Wave) */}
+        {/* Split-Screen Composition with Authentic Campus Photography */}
+        <div className="mt-12 grid items-stretch gap-8 lg:grid-cols-12 lg:gap-10">
+          {/* Left Column: Leadership Feature Card with Quote */}
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.45, ease: revealEase }}
-            className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-campo-secondary border-t-4 border-t-campo-teal bg-gradient-to-br from-campo-navy via-campo-navy to-campo-deep p-5 text-white shadow-workspace sm:p-7 lg:col-span-5"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: revealEase }}
+            className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 text-white shadow-workspace lg:col-span-5 flex flex-col justify-between"
           >
-            <BrandCornerWave className="h-24 w-52 opacity-85 sm:h-28 sm:w-64" />
-
-            <div className="relative z-10">
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-campo-teal">
-                  <FeaturedIcon className="h-5 w-5" />
-                </div>
+            <div className="relative min-h-[280px] sm:min-h-[320px] w-full overflow-hidden">
+              <img
+                src={leadershipImg}
+                alt="University academic leadership team"
+                className="h-full w-full object-cover opacity-90 transition-transform duration-700 hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+              
+              <div className="absolute top-4 left-4">
                 <CampoLogo variant="light" size="sm" />
               </div>
 
-              <p className="mt-5 text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal sm:mt-6">
-                Core Differentiation
-              </p>
-              <h3 className="mt-2 font-display text-xl font-bold text-white sm:text-2xl">
-                {featuredItem.title}
-              </h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-slate-300 sm:mt-3 sm:text-base">
-                {featuredItem.description}
-              </p>
+              <div className="absolute bottom-4 left-4 right-4">
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-campo-teal/20 px-2.5 py-0.5 text-[10px] font-bold text-campo-teal backdrop-blur-xs mb-2">
+                  <Quote className="h-3 w-3" />
+                  <span>Campus Director</span>
+                </div>
+                <p className="font-display text-sm sm:text-base font-bold text-white leading-snug">
+                  “Campo eliminated weeks of manual reconciliation between our admissions, examinations, and fee counters.”
+                </p>
+              </div>
             </div>
 
-            <div className="relative z-10 mt-6 rounded-xl border border-white/15 bg-white/[0.06] p-4 backdrop-blur-sm sm:mt-8">
-              <p className="text-xs font-semibold text-white">
-                Built for Real Institutional Scale
-              </p>
-              <p className="mt-1 text-xs leading-relaxed text-slate-300">
-                Every workflow—from applicant enquiry to student records, fee
-                reconciliation, and campus workforce—operates on one coherent
-                foundation.
+            <div className="p-6 bg-slate-950 space-y-4">
+              <div className="grid grid-cols-2 gap-3 border-b border-white/10 pb-4">
+                <div>
+                  <span className="font-display text-lg sm:text-xl font-extrabold text-campo-teal">
+                    “One System”
+                  </span>
+                  <p className="text-[11px] text-slate-400 mt-0.5">No duplicate paperwork</p>
+                </div>
+                <div>
+                  <span className="font-display text-lg sm:text-xl font-extrabold text-white">
+                    “Zero Confusion”
+                  </span>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Clear records for everyone</p>
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-300 leading-relaxed">
+                “We don't just deliver software — our team stays right beside your staff on campus until everyone feels comfortable, confident, and fast.”
               </p>
             </div>
           </motion.div>
 
-          {/* 6 Architectural Differentiator Cells */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
-            {otherItems.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 20, scale: 0.97 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, amount: 0.16 }}
-                  transition={{
-                    duration: 0.45,
-                    delay: idx * 0.05,
-                    ease: revealEase,
-                  }}
-                  className="group rounded-2xl border border-slate-200 bg-white/95 p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-campo-teal/50 hover:shadow-elevated"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-campo-navy text-campo-teal shadow-sm transition-transform duration-300 group-hover:scale-105">
-                    <Icon className="h-[18px] w-[18px]" />
+          {/* Right Column: Experience Cards with Relatable Quotes */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: revealEase }}
+            className="flex flex-col justify-between gap-5 lg:col-span-7"
+          >
+            {/* Showcase Card 1: Academic & Student Success */}
+            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-card flex flex-col sm:flex-row items-center transition-all duration-300 hover:border-campo-teal/50 hover:shadow-elevated">
+              <div className="relative h-44 sm:h-full sm:w-56 w-full shrink-0 overflow-hidden">
+                <img
+                  src={convocationImg}
+                  alt="Graduates celebrating at convocation"
+                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-transparent to-black/20" />
+                <span className="absolute top-3 left-3 rounded-full bg-campo-navy/85 px-2.5 py-0.5 text-[9px] font-bold text-campo-teal backdrop-blur-xs">
+                  Student Success
+                </span>
+              </div>
+              <div className="p-5 text-xs">
+                <div className="flex items-center gap-1.5 text-campo-teal-dark font-bold text-[10px] uppercase tracking-wider">
+                  <FileCheck className="h-3.5 w-3.5" />
+                  <span>“From Day One to Convocation”</span>
+                </div>
+                <h4 className="mt-1 font-display text-base font-bold text-campo-navy">
+                  “Every student journey stays smooth and organized.”
+                </h4>
+                <p className="mt-1.5 text-slate-600 text-xs leading-relaxed">
+                  “Admissions, marks lists, attendance alerts, and hall tickets stay completely in sync. Staff spend less time managing files and more time mentoring students.”
+                </p>
+              </div>
+            </div>
+
+            {/* Showcase Card 2: Connected Campus Operations */}
+            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-card flex flex-col sm:flex-row items-center transition-all duration-300 hover:border-campo-teal/50 hover:shadow-elevated">
+              <div className="relative h-44 sm:h-full sm:w-56 w-full shrink-0 overflow-hidden">
+                <img
+                  src={libraryImg}
+                  alt="Modern university central library"
+                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-transparent to-black/20" />
+                <span className="absolute top-3 left-3 rounded-full bg-campo-navy/85 px-2.5 py-0.5 text-[9px] font-bold text-campo-teal backdrop-blur-xs">
+                  Connected Campus
+                </span>
+              </div>
+              <div className="p-5 text-xs">
+                <div className="flex items-center gap-1.5 text-campo-teal-dark font-bold text-[10px] uppercase tracking-wider">
+                  <Layers className="h-3.5 w-3.5" />
+                  <span>“One Campus, One Single Record”</span>
+                </div>
+                <h4 className="mt-1 font-display text-base font-bold text-campo-navy">
+                  “Classrooms, library, bus routes, and fees speak to each other.”
+                </h4>
+                <p className="mt-1.5 text-slate-600 text-xs leading-relaxed">
+                  “When a student clears fees or books a bus route, the accounts and transport teams see it immediately. No manual entries, no delays, no mismatched numbers.”
+                </p>
+              </div>
+            </div>
+
+            {/* 2 Bottom Quick Quotation Highlights */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div className="rounded-2xl border border-slate-200/90 bg-slate-50/70 p-4 shadow-2xs">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-campo-navy text-campo-teal">
+                    <ShieldCheck className="h-4 w-4" />
                   </div>
-                  <h3 className="mt-4 font-display text-base font-bold text-campo-navy">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                    {item.description}
-                  </p>
-                </motion.div>
-              );
-            })}
-          </div>
+                  <h5 className="font-display text-xs font-bold text-campo-navy">
+                    “Right access for the right person.”
+                  </h5>
+                </div>
+                <p className="mt-2 text-[11px] text-slate-600 leading-relaxed">
+                  “Teachers take attendance, accountants handle fees, and principals see the big picture — each with clean, secure, role-based views.”
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-200/90 bg-slate-50/70 p-4 shadow-2xs">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-campo-navy text-campo-teal">
+                    <Building2 className="h-4 w-4" />
+                  </div>
+                  <h5 className="font-display text-xs font-bold text-campo-navy">
+                    “Grows with your institutions.”
+                  </h5>
+                </div>
+                <p className="mt-2 text-[11px] text-slate-600 leading-relaxed">
+                  “Whether you operate a single college or a large educational trust, manage all campuses easily from one unified, dependable login.”
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,89 +1,147 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { aiCapabilities } from '../data/campoData';
+import {
+  Database,
+  Link2,
+  CheckCircle2,
+  ShieldCheck,
+} from 'lucide-react';
 import { CampoLogo } from './CampoLogo';
-import { SectionBackground, SectionHeading, revealEase } from './MotionPrimitives';
+import { SectionHeading, revealEase } from './MotionPrimitives';
+import boardroomAnalyticsImg from '../assets/executive-analytics-boardroom.jpg';
+
+const coreFeatures = [
+  {
+    icon: Database,
+    tag: 'Single Source of Truth',
+    title: 'Centralized Master Data',
+    description:
+      'Every student, course, fee ledger, and staff record lives in one shared central database. No scattered files, no lost records, and zero conflicting numbers across campus offices.',
+  },
+  {
+    icon: CheckCircle2,
+    tag: 'Instant Live Updates',
+    title: 'Zero Confusion & Duplicate Work',
+    description:
+      'When accounts logs a fee payment or teachers mark attendance, the update reflects everywhere instantly. Staff never waste time exporting Excel sheets or reconciling conflicting reports.',
+  },
+  {
+    icon: Link2,
+    tag: '12 Synchronized Modules',
+    title: 'Interconnected Applications',
+    description:
+      'Admissions, Academics, Exams, Finance, Transport, Hostel, and Library speak to each other automatically. When an event happens in one module, all related workflows update in harmony.',
+  },
+  {
+    icon: ShieldCheck,
+    tag: 'Strict Institutional Security',
+    title: 'Role-Based Access Controls',
+    description:
+      'Principals, deans, teachers, accountants, and wardens access strictly what their designated role permits. Sensitive financial ledgers and academic scores stay private and secure.',
+  },
+];
 
 export function IntelligenceSection() {
   return (
-    <section id="features" className="section-padding relative overflow-hidden bg-white">
-      <SectionBackground variant="flipY" opacityClass="opacity-75" />
+    <section id="features" className="section-padding relative overflow-hidden bg-slate-50/60 border-y border-slate-200/80">
       <div className="container-campo relative z-10">
         <SectionHeading
           index="04"
-          label="Intelligent Institutional Operations"
-          title="From Institutional Data to Intelligent Decisions."
-          description="Query existing institutional data directly—strictly scoped to each user's role and permissions."
+          label="Centralized Data"
+          title="All Applications Connected. All Data in One Central System."
           align="center"
         />
 
-        <motion.div
-          initial={{ opacity: 0, y: 24, scale: 0.985 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.14 }}
-          transition={{ duration: 0.5, ease: revealEase }}
-          className="mx-auto mt-8 max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-elevated sm:mt-10"
-        >
-          {/* Deep Navy Brand Header Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2.5 bg-campo-navy px-4 py-3.5 text-white sm:gap-3 sm:px-6 sm:py-4">
-            <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Full-Section Expansive Layout with Image Fitting Entire Section Height */}
+        <div className="mt-10 lg:mt-12 grid gap-8 lg:grid-cols-12 items-stretch">
+          {/* Left Column (5 Cols): Full-Height Authentic Boardroom Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: revealEase }}
+            className="relative min-h-[400px] lg:min-h-full rounded-3xl overflow-hidden border border-slate-200 bg-slate-900 shadow-workspace lg:col-span-5 flex flex-col justify-end"
+          >
+            {/* Image fits entire height of section */}
+            <img
+              src={boardroomAnalyticsImg}
+              alt="University leadership monitoring real-time centralized campus operations"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
+
+            <div className="absolute top-4 left-4 z-10">
               <CampoLogo variant="light" size="sm" />
-              <span aria-hidden="true" className="h-3.5 w-px bg-white/20" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-campo-teal sm:text-xs sm:tracking-[0.14em]">
-                Operational Intelligence
-              </span>
             </div>
-            <span className="rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-semibold text-teal-100 sm:px-3 sm:text-[11px]">
-              Permission-Scoped Access
-            </span>
-          </div>
 
-          <div className="divide-y divide-slate-200/80">
-            {aiCapabilities.map((cap, idx) => {
-              const Icon = cap.icon;
-              const isImplemented = cap.statusTone === 'implemented';
+            <div className="relative z-10 p-6 sm:p-8 text-white space-y-3">
+              <h4 className="font-display text-lg sm:text-2xl font-bold text-white leading-snug">
+                “When all campus departments share one core, data flows without barriers.”
+              </h4>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Empowering trustees, directors, and principals with reliable live visibility across all academic and financial operations.
+              </p>
 
-              return (
-                <motion.div
-                  key={cap.title}
-                  initial={{ opacity: 0, x: -16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{
-                    duration: 0.4,
-                    delay: idx * 0.06,
-                    ease: revealEase,
-                  }}
-                  className="group flex flex-col justify-between gap-3 px-4 py-4 transition-colors duration-200 hover:bg-campo-light/70 sm:flex-row sm:items-center sm:gap-4 sm:px-6 sm:py-5"
-                >
-                  <div className="flex items-start gap-3.5 sm:items-center">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-campo-navy text-campo-teal transition-transform duration-200 group-hover:scale-105">
-                      <Icon className="h-4 w-4" />
-                    </div>
+              <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-300">
+                <span>12 Connected Modules</span>
+                <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                  Live Synchronized
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Column (7 Cols): Core Features */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: revealEase }}
+            className="lg:col-span-7 flex flex-col justify-between"
+          >
+            {/* 4 Focused Feature Cards (2x2 Grid with Light Background and Dark Icon Line) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full">
+              {coreFeatures.map((feat) => {
+                const Icon = feat.icon;
+                return (
+                  <div
+                    key={feat.title}
+                    className="group flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 shadow-card transition-all duration-300 hover:border-campo-teal/60 hover:shadow-elevated"
+                  >
                     <div>
-                      <h3 className="font-display text-sm font-bold text-campo-navy sm:text-base">
-                        {cap.title}
-                      </h3>
-                      <p className="mt-0.5 text-xs text-slate-600 sm:text-sm">
-                        {cap.description}
+                      {/* Icon with Dark Line Color (Not filled dark box) & Tag */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200/90 bg-slate-50 text-campo-navy transition-all duration-300 group-hover:border-campo-teal/60 group-hover:bg-campo-teal/10 group-hover:text-campo-teal-dark group-hover:scale-105">
+                          <Icon className="h-5 w-5 stroke-[1.8]" />
+                        </div>
+                        <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[10px] font-bold text-slate-600 border border-slate-200">
+                          {feat.tag}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h5 className="mt-4 font-display text-base font-bold text-campo-navy">
+                        {feat.title}
+                      </h5>
+
+                      {/* Description */}
+                      <p className="mt-2 text-xs sm:text-[13px] leading-relaxed text-slate-600">
+                        {feat.description}
                       </p>
                     </div>
-                  </div>
 
-                  <span
-                    className={`w-fit shrink-0 rounded-full px-3 py-1 text-[11px] font-semibold ${
-                      isImplemented
-                        ? 'border border-teal-200 bg-teal-50 text-campo-teal-dark'
-                        : 'border border-slate-200 bg-slate-100 text-slate-600'
-                    }`}
-                  >
-                    {cap.status}
-                  </span>
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
+                    {/* Bottom Check Tag */}
+                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-semibold text-campo-teal-dark">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      <span>Verified System Capability</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

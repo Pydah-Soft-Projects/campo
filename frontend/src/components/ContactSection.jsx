@@ -10,11 +10,13 @@ import {
   Info,
   Copy,
   Check,
+  ArrowRight,
 } from 'lucide-react';
 import { siteConfig } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
 import { CampoLogo } from './CampoLogo';
 import { BrandCornerWave, Reveal, SectionBackground } from './MotionPrimitives';
+import advisorImg from '../assets/contact-advisor-pointing.png';
 
 const initialFormState = {
   fullName: '',
@@ -168,69 +170,67 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
   return (
     <section
       id="contact"
-      className="section-padding relative overflow-hidden border-t border-slate-200/80 bg-white"
+      className="section-padding relative overflow-hidden border-t border-slate-200/80 bg-slate-50/60"
     >
-      <SectionBackground variant="flipY" opacityClass="opacity-85" />
       <div className="container-campo relative z-10">
-        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
-          {/* Left Column: Heading + Configurable Contact Placeholders */}
-          <Reveal className="lg:col-span-5">
-            <div className="mb-3 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark">
-              <span className="font-mono text-campo-navy/45">07</span>
-              <span className="h-px w-5 bg-slate-300" />
-              <span>Get in Touch</span>
+        <div className="grid items-stretch gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* Left Column: Heading, Advisor Image in Middle, Supporting Details Below */}
+          <Reveal className="flex flex-col justify-between lg:col-span-5">
+            <div>
+              <div className="mb-3 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark">
+                <span className="font-mono text-campo-navy/45">07</span>
+                <span className="h-px w-5 bg-slate-300" />
+                <span>Institutional Inquiries</span>
+              </div>
+
+              <h2 className="font-display text-2xl sm:text-3xl lg:text-[2.25rem] font-bold leading-[1.18] tracking-tight text-campo-navy">
+                Let&apos;s Build a More Connected Campus.
+              </h2>
             </div>
 
-            <h2 className="font-display text-[1.65rem] font-bold leading-[1.2] tracking-tight text-campo-navy sm:text-4xl lg:leading-[1.15]">
-              Let&apos;s Build a More Connected Institution.
-            </h2>
+            {/* Employee Advisor Cutout Image in Middle Pointing Directly Toward Form */}
+            <div className="relative my-3 flex justify-center lg:justify-start">
+              <img
+                src={advisorImg}
+                alt="Campo Campus Solutions Specialist"
+                className="h-[340px] sm:h-[380px] lg:h-[400px] w-auto object-contain filter drop-shadow-[0_18px_28px_rgba(7,28,70,0.14)] transition-transform duration-500 hover:scale-[1.02]"
+              />
+            </div>
 
-            <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:mt-4 sm:text-base">
-              Whether you are evaluating Campo for a single campus or a multi-institution
-              group, share your institutional context and our team will prepare a
-              tailored platform walkthrough.
-            </p>
+            {/* Below the Image: Subtitle Copy + Trust Value Badges */}
+            <div className="space-y-3">
+              <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
+                Speak directly with our campus solutions team for a personalized platform walkthrough and tailored migration roadmap.
+              </p>
 
-            <div className="mt-8 space-y-3">
-              {contactItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={item.label}
-                    className="group flex items-start gap-4 rounded-xl border border-slate-200 bg-white/95 p-4 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-campo-teal/50 hover:shadow-elevated"
-                  >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-campo-navy text-campo-teal shadow-sm transition-transform duration-200 group-hover:scale-105">
-                      <Icon className="h-[18px] w-[18px]" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                        {item.label}
-                      </p>
-                      <p className="mt-0.5 break-words text-sm font-semibold text-campo-navy">
-                        {item.value}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="flex flex-wrap gap-2 text-xs font-semibold text-slate-700">
+                <span className="inline-flex items-center gap-1.5 rounded-xl bg-white px-3 py-1.5 border border-slate-200/90 shadow-2xs">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-campo-teal-dark" />
+                  Dedicated Solutions Engineer
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-xl bg-white px-3 py-1.5 border border-slate-200/90 shadow-2xs">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-campo-teal-dark" />
+                  Zero Data Loss Migration
+                </span>
+              </div>
             </div>
           </Reveal>
 
           {/* Right Column: Institutional Inquiry & Demo Form */}
           <Reveal delay={0.08} className="lg:col-span-7">
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-workspace">
-              <div className="relative flex flex-col justify-between gap-4 overflow-hidden bg-campo-navy px-5 py-4 text-white sm:flex-row sm:items-center sm:px-8 sm:py-5">
-                <BrandCornerWave className="h-24 w-56 opacity-70" />
-                <div className="relative z-10">
-                  <div className="mb-1.5 flex items-center gap-2.5">
+            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-workspace">
+              <div className="flex flex-col justify-between gap-4 bg-campo-navy px-5 py-4 text-white sm:flex-row sm:items-center sm:px-8 sm:py-5">
+                <div>
+                  <div className="mb-1 flex items-center gap-2">
                     <CampoLogo variant="light" size="sm" />
+                    <span className="h-3 w-px bg-white/20" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-campo-teal">
+                      Direct Executive Channel
+                    </span>
                   </div>
-                  <h3 className="font-display text-lg font-bold text-white sm:text-xl">
+                  <h3 className="font-display text-base font-bold text-white sm:text-lg">
                     Institutional Inquiry Form
                   </h3>
-                  <p className="mt-0.5 text-xs text-slate-300">
-                    All fields are validated before submission.
-                  </p>
                 </div>
 
                 {/* Inquiry Type Switcher */}
