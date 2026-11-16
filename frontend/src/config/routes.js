@@ -19,5 +19,12 @@ export const routes = [
     changefreq: 'weekly',
     sourceFile: 'src/App.jsx',
   },
+  {
+    path: '/download',
+    name: 'Download App',
+    priority: 0.9,
+    changefreq: 'monthly',
+    sourceFile: 'src/pages/DownloadAppPage.jsx',
+  },
 ];
 

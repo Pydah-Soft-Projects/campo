@@ -11,7 +11,7 @@ const socialIconMap = {
   globe: Globe,
 };
 
-export function Footer({ onRequestDemo, onOpenLegal }) {
+export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
   const currentYear = new Date().getFullYear();
 
   const handleLinkClick = (e, label, href) => {
@@ -20,12 +20,14 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
       onRequestDemo?.();
       return;
     }
+    if (href.startsWith('/')) {
+      e.preventDefault();
+      onNavigate?.(href);
+      return;
+    }
     if (href.startsWith('#')) {
       e.preventDefault();
-      const target = document.querySelector(href);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
+      onNavigate?.('/', href);
     }
   };
 
@@ -38,8 +40,11 @@ export function Footer({ onRequestDemo, onOpenLegal }) {
           {/* Brand Column */}
           <div className="lg:col-span-4">
             <a
-              href="#home"
-              onClick={(e) => handleLinkClick(e, 'Home', '#home')}
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate?.('/');
+              }}
               className="inline-flex items-center rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal"
             >
               <CampoLogo variant="light" />

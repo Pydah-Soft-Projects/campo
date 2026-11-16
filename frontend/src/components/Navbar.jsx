@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Smartphone } from 'lucide-react';
 import { navLinks } from '../data/campoData';
 import { CampoLogo } from './CampoLogo';
 
-export function Navbar({ onRequestDemo }) {
+export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeHref, setActiveHref] = useState('#home');
@@ -46,6 +46,10 @@ export function Navbar({ onRequestDemo }) {
   const handleNavClick = (e, href) => {
     e.preventDefault();
     setMobileOpen(false);
+    if (currentPath !== '/') {
+      onNavigate?.('/', href);
+      return;
+    }
     const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
@@ -70,8 +74,11 @@ export function Navbar({ onRequestDemo }) {
         className="container-campo flex items-center justify-between gap-4"
       >
         <a
-          href="#home"
-          onClick={(e) => handleNavClick(e, '#home')}
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate?.('/');
+          }}
           className="inline-flex items-center rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal focus-visible:ring-offset-2"
           aria-label="Campo Home"
         >
@@ -80,7 +87,7 @@ export function Navbar({ onRequestDemo }) {
 
         <div className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => {
-            const isActive = activeHref === link.href;
+            const isActive = activeHref === link.href && currentPath === '/';
             return (
               <a
                 key={link.href}
@@ -106,6 +113,22 @@ export function Navbar({ onRequestDemo }) {
         </div>
 
         <div className="hidden items-center gap-3 lg:flex">
+          <a
+            href="/download"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate?.('/download');
+            }}
+            className={`inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold transition-all duration-200 ${
+              currentPath === '/download'
+                ? 'border-campo-teal bg-teal-50 text-campo-teal-dark shadow-sm'
+                : 'border-slate-200 bg-white text-campo-navy hover:border-slate-300 hover:bg-slate-50'
+            }`}
+          >
+            <Smartphone className="h-3.5 w-3.5 text-campo-teal-dark" />
+            <span>Download App</span>
+          </a>
+
           <button
             type="button"
             onClick={handleDemoClick}
@@ -140,7 +163,7 @@ export function Navbar({ onRequestDemo }) {
           >
             <div className="container-campo flex flex-col gap-1 py-4">
               {navLinks.map((link) => {
-                const isActive = activeHref === link.href;
+                const isActive = activeHref === link.href && currentPath === '/';
                 return (
                   <a
                     key={link.href}
@@ -159,6 +182,28 @@ export function Navbar({ onRequestDemo }) {
                   </a>
                 );
               })}
+
+              <a
+                href="/download"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileOpen(false);
+                  onNavigate?.('/download');
+                }}
+                className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors ${
+                  currentPath === '/download'
+                    ? 'bg-campo-light text-campo-navy'
+                    : 'text-slate-600 hover:bg-slate-50 hover:text-campo-navy'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Smartphone className="h-4 w-4 text-campo-teal-dark" />
+                  <span>Download Mobile App</span>
+                </div>
+                <span className="rounded-md bg-teal-50 px-2 py-0.5 text-[10px] font-semibold text-campo-teal-dark">
+                  Android &amp; iOS
+                </span>
+              </a>
               <div className="mt-3 border-t border-slate-100 pt-3">
                 <button
                   type="button"

@@ -432,6 +432,7 @@ export const footerColumns = {
     { label: 'Applications', href: '#solutions' },
     { label: 'Features', href: '#features' },
     { label: 'AI Capabilities', href: '#features' },
+    { label: 'Download App', href: '/download' },
   ],
   solutions: [
     { label: 'Admissions', href: '#solutions' },
