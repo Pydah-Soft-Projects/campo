@@ -71,12 +71,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo }) {
               transition={{ duration: 0.6, ease: revealEase }}
               className="lg:col-span-7"
             >
-              <div className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-semibold text-campo-teal-dark">
-                <Smartphone className="h-3.5 w-3.5 text-campo-teal" />
-                <span>Official Student Mobile Companion</span>
-              </div>
-
-              <h1 className="mt-4 font-display text-3xl font-extrabold leading-[1.1] tracking-[-0.03em] text-campo-navy sm:text-5xl lg:text-[3.25rem]">
+              <h1 className="font-display text-3xl font-extrabold leading-[1.1] tracking-[-0.03em] text-campo-navy sm:text-5xl lg:text-[3.25rem]">
                 Your Entire Campus Life.
                 <br />
                 Right in Your Pocket<span className="text-campo-teal">.</span>
