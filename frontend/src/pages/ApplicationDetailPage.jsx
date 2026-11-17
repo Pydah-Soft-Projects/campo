@@ -181,12 +181,9 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
       {/* 2. Interactive Desktop Workspace Showcase */}
       <section className="section-padding bg-slate-50/70 border-b border-slate-200/80 relative overflow-hidden">
         <div className="container-campo relative z-10">
-          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-            <span className="text-xs font-bold uppercase tracking-wider text-campo-teal-dark">
+          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-campo-navy">
               Institutional Desktop Workspace
-            </span>
-            <h2 className="mt-1.5 font-display text-2xl sm:text-3xl font-extrabold text-campo-navy">
-              Role-Scoped Dashboard for {app.name}
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-slate-600">
               High-velocity institutional interface designed for multi-branch autonomy, bulk approvals, and live operational visibility.
