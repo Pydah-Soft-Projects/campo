@@ -190,7 +190,7 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto px-4 sm:px-10 md:px-12">
+          <div className="max-w-5xl lg:max-w-6xl xl:max-w-[1240px] mx-auto px-2 sm:px-8 md:px-12 lg:px-14">
             <LaptopMockup
               screens={app.screens || (app.previewImage ? [app.previewImage] : [])}
               alt={`${app.name} Workspace Preview`}

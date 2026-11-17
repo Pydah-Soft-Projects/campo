@@ -120,7 +120,7 @@ export function LaptopMockup({
             type="button"
             onClick={handlePrev}
             aria-label="Previous screen"
-            className="absolute -left-3 sm:-left-6 md:-left-10 lg:-left-14 top-[45%] -translate-y-1/2 z-30 flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white text-slate-700 shadow-elevated border border-slate-200 transition-all duration-200 hover:bg-slate-50 hover:text-campo-navy hover:scale-110 hover:border-campo-teal/50 active:scale-95"
+            className="absolute -left-3 sm:-left-6 md:-left-8 lg:-left-12 xl:-left-14 top-[45%] -translate-y-1/2 z-30 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-slate-700 shadow-elevated border border-slate-200 transition-all duration-200 hover:bg-slate-50 hover:text-campo-navy hover:scale-110 hover:border-campo-teal/50 active:scale-95"
             title="Previous Screen"
           >
             <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -131,7 +131,7 @@ export function LaptopMockup({
             type="button"
             onClick={handleNext}
             aria-label="Next screen"
-            className="absolute -right-3 sm:-right-6 md:-right-10 lg:-right-14 top-[45%] -translate-y-1/2 z-30 flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white text-slate-700 shadow-elevated border border-slate-200 transition-all duration-200 hover:bg-slate-50 hover:text-campo-navy hover:scale-110 hover:border-campo-teal/50 active:scale-95"
+            className="absolute -right-3 sm:-right-6 md:-right-8 lg:-right-12 xl:-right-14 top-[45%] -translate-y-1/2 z-30 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-slate-700 shadow-elevated border border-slate-200 transition-all duration-200 hover:bg-slate-50 hover:text-campo-navy hover:scale-110 hover:border-campo-teal/50 active:scale-95"
             title="Next Screen"
           >
             <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -155,84 +155,75 @@ export function LaptopMockup({
             </div>
           )}
 
-          {/* Actual Screen Display Area - 100% UNOBSTRUCTED SCREEN */}
-          <div className={`relative w-full overflow-hidden rounded-lg sm:rounded-xl bg-slate-100 text-slate-800 shadow-inner ${aspectClass}`}>
-            {/* Top Browser Chrome Navigation Bar */}
-            <div className="relative z-20 flex items-center justify-between px-3 sm:px-4 py-2 border-b border-slate-200 bg-white/95 backdrop-blur-sm">
-              <div className="flex items-center gap-2">
-                {/* Window Traffic Lights */}
-                <div className="flex items-center gap-1.5">
-                  <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57] border border-black/10" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-[#febc2e] border border-black/10" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-[#28c840] border border-black/10" />
-                </div>
-
-                {/* App / Active Screen Tab */}
-                <div className="hidden sm:flex items-center gap-1.5 ml-2 px-2.5 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[11px] text-slate-700">
-                  <CampoLogo variant="dark" size="sm" />
-                  <span className="font-semibold text-campo-navy truncate max-w-[220px] lg:max-w-[320px]">
-                    {currentScreen?.title || appTitle}
-                  </span>
-                </div>
-              </div>
-
-              {/* Right Status Indicator */}
-              <div className="flex items-center gap-2 text-slate-500 text-[11px]">
-                {hasMultiple && (
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
-                    {currentIndex + 1} / {normalizedScreens.length}
-                  </span>
-                )}
-                <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">
-                  <ShieldCheck className="h-3 w-3 text-emerald-600" />
-                  <span className="hidden sm:inline text-[10px]">Campus Cloud Live</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Photorealistic Screen Glass Sheen Overlay */}
-            {showReflection && (
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -inset-y-[60%] -left-[40%] w-[180%] rotate-25 bg-gradient-to-r from-transparent via-white/12 to-transparent z-20"
-              />
-            )}
-
+          {/* Actual Screen Display Area - 100% ACCURATE IMAGE FIT */}
+          <div className="relative w-full overflow-hidden rounded-lg sm:rounded-xl bg-slate-950 text-slate-800 shadow-inner">
             {/* Screen Content Body */}
             {currentScreen ? (
-              /* Case A: Screen image is present (No inside navigation covering the image) */
-              <div className="relative h-[calc(100%-37px)] w-full overflow-hidden bg-slate-100">
+              /* Case A: Screen image is present (Edge-to-Edge Pristine Display - Zero Cropping) */
+              <div
+                className={`relative w-full overflow-hidden bg-slate-100 flex items-center justify-center ${
+                  currentScreen.fit === 'contain' ? 'aspect-[16/9] sm:aspect-[16/8.5] py-4' : ''
+                }`}
+              >
                 <AnimatePresence initial={false} mode="wait">
                   <motion.div
                     key={currentScreen.src}
-                    initial={{ opacity: 0, x: direction > 0 ? 30 : -30 }}
+                    initial={{ opacity: 0, x: direction > 0 ? 25 : -25 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: direction > 0 ? -30 : 30 }}
-                    transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    className="h-full w-full flex items-start justify-center bg-slate-100"
+                    exit={{ opacity: 0, x: direction > 0 ? -25 : 25 }}
+                    transition={{ duration: 0.35, ease: 'easeInOut' }}
+                    className="w-full flex items-center justify-center bg-slate-100"
                   >
                     <img
                       src={currentScreen.src}
                       alt={currentScreen.alt}
-                      className={`h-full w-full transition-transform duration-500 ${
+                      className={
                         currentScreen.fit === 'contain'
-                          ? 'object-contain object-center p-2 sm:p-3'
-                          : 'object-cover object-top'
-                      }`}
+                          ? 'max-h-[480px] sm:max-h-[580px] lg:max-h-[640px] w-auto mx-auto object-contain drop-shadow-lg rounded-2xl'
+                          : 'w-full h-auto block object-contain object-top'
+                      }
                       loading="lazy"
                       decoding="async"
                     />
                   </motion.div>
                 </AnimatePresence>
+
+                {/* Photorealistic Screen Glass Sheen Overlay */}
+                {showReflection && (
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -inset-y-[60%] -left-[40%] w-[180%] rotate-25 bg-gradient-to-r from-transparent via-white/[0.08] to-transparent z-20"
+                  />
+                )}
               </div>
             ) : children ? (
               /* Case B: Custom React children passed */
-              <div className="h-[calc(100%-37px)] w-full overflow-auto bg-slate-50 text-slate-900">
+              <div className={`w-full overflow-auto bg-slate-50 text-slate-900 ${aspectClass}`}>
                 {children}
               </div>
             ) : (
               /* Case C: Clean, Modern Light-Mode Institutional Dashboard Fallback */
-              <div className="h-[calc(100%-37px)] w-full flex flex-col bg-slate-50 font-sans text-xs">
+              <div className={`w-full flex flex-col bg-slate-50 font-sans text-xs ${aspectClass}`}>
+                {/* Top Browser Chrome Navigation Bar for Fallback */}
+                <div className="relative z-20 flex items-center justify-between px-3 sm:px-4 py-2 border-b border-slate-200 bg-white/95 backdrop-blur-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57] border border-black/10" />
+                      <div className="h-2.5 w-2.5 rounded-full bg-[#febc2e] border border-black/10" />
+                      <div className="h-2.5 w-2.5 rounded-full bg-[#28c840] border border-black/10" />
+                    </div>
+                    <div className="hidden sm:flex items-center gap-1.5 ml-2 px-2.5 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[11px] text-slate-700">
+                      <CampoLogo variant="dark" size="sm" />
+                      <span className="font-semibold text-campo-navy truncate max-w-[220px] lg:max-w-[320px]">
+                        {appTitle}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium text-[11px]">
+                    <ShieldCheck className="h-3 w-3 text-emerald-600" />
+                    <span className="hidden sm:inline text-[10px]">Campus Cloud Live</span>
+                  </div>
+                </div>
                 <div className="flex-1 p-3 sm:p-5 grid grid-cols-12 gap-3 sm:gap-4 overflow-hidden bg-slate-100/60">
                   <div className="hidden md:flex md:col-span-3 flex-col justify-between rounded-xl border border-slate-200 bg-white p-3 shadow-2xs">
                     <div className="space-y-1">
