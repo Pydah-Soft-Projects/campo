@@ -92,7 +92,7 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
+        scrolled || currentPath !== '/'
           ? 'border-b border-slate-200/80 bg-white/95 py-3 shadow-[0_1px_3px_rgba(7,28,70,0.04)] backdrop-blur-md'
           : 'border-b border-transparent bg-transparent py-4'
       }`}

@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import {
-  ArrowRight,
-  CheckCircle2,
-  Users,
-  X,
-  Link2,
-} from 'lucide-react';
+import React from 'react';
+import { ArrowRight } from 'lucide-react';
 import { applications } from '../data/campoData';
-import { SectionHeading, revealEase } from './MotionPrimitives';
+import { SectionHeading } from './MotionPrimitives';
 import admissionsCardBg from '../assets/Module-Card-Bgs/Modern Admissions Campus Hero.webp';
 import hrmsCardBg from '../assets/Module-Card-Bgs/Modern HR Payroll Workspace.webp';
 import examCardBg from '../assets/Module-Card-Bgs/Exam Module Banner.webp';
@@ -38,62 +31,23 @@ const moduleImages = {
   'maintenance-management': maintenanceCardBg,
 };
 
-const modulePillConfig = {
+// Distinct design and color themes matching the reference card style
+const moduleCardThemes = {
   'admissions-crm': {
     pill: 'bg-emerald-50/95 text-emerald-800 border-emerald-200/80',
     circle: 'bg-emerald-600 text-white',
     label: 'Student & Academics',
-    cardBg: 'bg-[#FAFBFD]',
+    cardBg: 'bg-[#F2FAF6]',
     border: 'border-emerald-100',
     hoverBorder: 'hover:border-emerald-300',
     actionText: 'text-emerald-700 group-hover:text-emerald-800',
     aura: 'bg-emerald-400/20',
-  },
-  'hrms': {
-    pill: 'bg-blue-50/95 text-blue-800 border-blue-200/80',
-    circle: 'bg-blue-600 text-white',
-    label: 'Administration & Finance',
-    cardBg: 'bg-[#EFF5FC]',
-    border: 'border-blue-100',
-    hoverBorder: 'hover:border-blue-300',
-    actionText: 'text-blue-700 group-hover:text-blue-800',
-    aura: 'bg-blue-400/20',
-  },
-  'examination-management': {
-    pill: 'bg-emerald-50/95 text-emerald-800 border-emerald-200/80',
-    circle: 'bg-emerald-600 text-white',
-    label: 'Student & Academics',
-    cardBg: 'bg-[#F1F8F3]',
-    border: 'border-emerald-100',
-    hoverBorder: 'hover:border-emerald-300',
-    actionText: 'text-emerald-700 group-hover:text-emerald-800',
-    aura: 'bg-emerald-400/20',
-  },
-  'fee-management': {
-    pill: 'bg-teal-50/95 text-teal-800 border-teal-200/80',
-    circle: 'bg-teal-600 text-white',
-    label: 'Administration & Finance',
-    cardBg: 'bg-[#F0F9F7]',
-    border: 'border-teal-100',
-    hoverBorder: 'hover:border-teal-300',
-    actionText: 'text-teal-700 group-hover:text-teal-800',
-    aura: 'bg-teal-400/20',
-  },
-  'library-management': {
-    pill: 'bg-purple-50/95 text-purple-800 border-purple-200/80',
-    circle: 'bg-purple-600 text-white',
-    label: 'Library',
-    cardBg: 'bg-[#F5F0FD]',
-    border: 'border-purple-100',
-    hoverBorder: 'hover:border-purple-300',
-    actionText: 'text-purple-700 group-hover:text-purple-800',
-    aura: 'bg-purple-400/20',
   },
   'student-data': {
     pill: 'bg-cyan-50/95 text-cyan-800 border-cyan-200/80',
     circle: 'bg-cyan-600 text-white',
     label: 'Student & Academics',
-    cardBg: 'bg-[#F0FAFB]',
+    cardBg: 'bg-[#F0F9FB]',
     border: 'border-cyan-100',
     hoverBorder: 'hover:border-cyan-300',
     actionText: 'text-cyan-700 group-hover:text-cyan-800',
@@ -103,17 +57,57 @@ const modulePillConfig = {
     pill: 'bg-purple-50/95 text-purple-800 border-purple-200/80',
     circle: 'bg-purple-600 text-white',
     label: 'Student & Academics',
-    cardBg: 'bg-[#F7F4FD]',
+    cardBg: 'bg-[#F8F3FC]',
     border: 'border-purple-100',
     hoverBorder: 'hover:border-purple-300',
     actionText: 'text-purple-700 group-hover:text-purple-800',
     aura: 'bg-purple-400/20',
   },
+  'library-management': {
+    pill: 'bg-indigo-50/95 text-indigo-800 border-indigo-200/80',
+    circle: 'bg-indigo-600 text-white',
+    label: 'Student & Academics',
+    cardBg: 'bg-[#F4F4FD]',
+    border: 'border-indigo-100',
+    hoverBorder: 'hover:border-indigo-300',
+    actionText: 'text-indigo-700 group-hover:text-indigo-800',
+    aura: 'bg-indigo-400/20',
+  },
+  'fee-management': {
+    pill: 'bg-teal-50/95 text-teal-800 border-teal-200/80',
+    circle: 'bg-teal-600 text-white',
+    label: 'Administration & Finance',
+    cardBg: 'bg-[#F0FAF9]',
+    border: 'border-teal-100',
+    hoverBorder: 'hover:border-teal-300',
+    actionText: 'text-teal-700 group-hover:text-teal-800',
+    aura: 'bg-teal-400/20',
+  },
+  'examination-management': {
+    pill: 'bg-emerald-50/95 text-emerald-800 border-emerald-200/80',
+    circle: 'bg-emerald-700 text-white',
+    label: 'Student & Academics',
+    cardBg: 'bg-[#F1F9F4]',
+    border: 'border-emerald-100',
+    hoverBorder: 'hover:border-emerald-300',
+    actionText: 'text-emerald-700 group-hover:text-emerald-800',
+    aura: 'bg-emerald-500/20',
+  },
+  'hrms': {
+    pill: 'bg-blue-50/95 text-blue-800 border-blue-200/80',
+    circle: 'bg-blue-600 text-white',
+    label: 'Administration & Finance',
+    cardBg: 'bg-[#F2F7FC]',
+    border: 'border-blue-100',
+    hoverBorder: 'hover:border-blue-300',
+    actionText: 'text-blue-700 group-hover:text-blue-800',
+    aura: 'bg-blue-400/20',
+  },
   'transport-management': {
     pill: 'bg-sky-50/95 text-sky-800 border-sky-200/80',
-    circle: 'bg-sky-500 text-white',
+    circle: 'bg-sky-600 text-white',
     label: 'Campus Operations',
-    cardBg: 'bg-[#F0F6FD]',
+    cardBg: 'bg-[#F0F8FD]',
     border: 'border-sky-100',
     hoverBorder: 'hover:border-sky-300',
     actionText: 'text-sky-700 group-hover:text-sky-800',
@@ -143,7 +137,7 @@ const modulePillConfig = {
     pill: 'bg-teal-50/95 text-teal-800 border-teal-200/80',
     circle: 'bg-teal-600 text-white',
     label: 'Campus Operations',
-    cardBg: 'bg-[#F2FAF9]',
+    cardBg: 'bg-[#EFF9F7]',
     border: 'border-teal-100',
     hoverBorder: 'hover:border-teal-300',
     actionText: 'text-teal-700 group-hover:text-teal-800',
@@ -151,9 +145,9 @@ const modulePillConfig = {
   },
   'stationery-management': {
     pill: 'bg-amber-50/95 text-amber-800 border-amber-200/80',
-    circle: 'bg-amber-500 text-white',
-    label: 'Campus Operations',
-    cardBg: 'bg-[#FDF7F0]',
+    circle: 'bg-amber-600 text-white',
+    label: 'Administration & Finance',
+    cardBg: 'bg-[#FCF7ED]',
     border: 'border-amber-100',
     hoverBorder: 'hover:border-amber-300',
     actionText: 'text-amber-700 group-hover:text-amber-800',
@@ -161,12 +155,13 @@ const modulePillConfig = {
   },
 };
 
+// Premium Modern Horizontal Wide Card matching the user's reference exactly
 function ModuleCard({ app, onInspect }) {
   const Icon = app.icon;
   const moduleImg = moduleImages[app.id];
-  const config = modulePillConfig[app.id] || {
-    pill: 'bg-emerald-50/90 text-emerald-800 border-emerald-200/80',
-    circle: 'bg-emerald-600 text-white',
+  const config = moduleCardThemes[app.id] || {
+    pill: 'bg-slate-100 text-slate-800 border-slate-200',
+    circle: 'bg-slate-800 text-white',
     label: app.category,
     cardBg: 'bg-white',
     border: 'border-slate-200/90',
@@ -197,7 +192,6 @@ function ModuleCard({ app, onInspect }) {
         <div className="absolute right-4 inset-y-0 w-[38%] flex items-center justify-center pointer-events-none">
           {/* Soft Aura Glow */}
           <div className={`absolute h-24 w-24 rounded-full ${config.aura} blur-xl`} />
-          {/* Subtle placeholder icon tile ready for upcoming module images */}
           <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200/80 bg-white/80 shadow-xs backdrop-blur-xs transition-transform duration-300 group-hover:scale-105">
             {Icon && <Icon className="h-8 w-8 text-slate-400 group-hover:text-campo-teal-dark transition-colors" />}
           </div>
@@ -230,27 +224,10 @@ function ModuleCard({ app, onInspect }) {
   );
 }
 
-export function ApplicationsSection({ onRequestDemo }) {
-  const [selectedApp, setSelectedApp] = useState(null);
-
-  useEffect(() => {
-    if (!selectedApp) return undefined;
-    const onKeyDown = (e) => {
-      if (e.key === 'Escape') setSelectedApp(null);
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [selectedApp]);
-
-  const handleRequestModuleDemo = () => {
-    setSelectedApp(null);
-    if (onRequestDemo) {
-      onRequestDemo();
-      return;
-    }
-    const contactEl = document.getElementById('contact');
-    if (contactEl) {
-      contactEl.scrollIntoView({ behavior: 'smooth' });
+export function ApplicationsSection({ onRequestDemo, onNavigate }) {
+  const handleInspect = (app) => {
+    if (onNavigate) {
+      onNavigate(`/applications/${app.id}`);
     }
   };
 
@@ -318,7 +295,7 @@ export function ApplicationsSection({ onRequestDemo }) {
           index="03"
           label="Platform Modules"
           title="Unified Campus Modules Operating on One Core."
-          description="Continuous bidirectional synchronization across every institutional domain. Hover to pause and inspect any module."
+          description="Continuous bidirectional synchronization across every institutional domain. Hover to pause and click any module to view its dedicated page."
           align="center"
         />
       </div>
@@ -336,7 +313,7 @@ export function ApplicationsSection({ onRequestDemo }) {
               <ModuleCard
                 key={`r1-${app.id}-${index}`}
                 app={app}
-                onInspect={setSelectedApp}
+                onInspect={handleInspect}
               />
             ))}
           </div>
@@ -349,131 +326,12 @@ export function ApplicationsSection({ onRequestDemo }) {
               <ModuleCard
                 key={`r2-${app.id}-${index}`}
                 app={app}
-                onInspect={setSelectedApp}
+                onInspect={handleInspect}
               />
             ))}
           </div>
         </div>
       </div>
-
-      {/* Enhanced Module Detail Modal */}
-      <AnimatePresence>
-        {selectedApp && (
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="module-modal-title"
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
-          >
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedApp(null)}
-              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-            />
-
-            {/* Modal Dialog Content */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 16 }}
-              transition={{ duration: 0.28, ease: revealEase }}
-              className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-workspace z-10"
-            >
-              {/* Modal Navy Header */}
-              <div className="bg-campo-navy p-5 sm:p-6 text-white flex items-start justify-between gap-4">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-campo-teal">
-                    {selectedApp.category}
-                  </span>
-                  <h3 id="module-modal-title" className="font-display text-xl font-bold sm:text-2xl mt-0.5">
-                    {selectedApp.name}
-                  </h3>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setSelectedApp(null)}
-                  className="rounded-full bg-white/10 p-1.5 text-slate-300 hover:bg-white/20 hover:text-white transition-colors"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-
-              {/* Modal Body */}
-              <div className="p-5 sm:p-7 space-y-5 max-h-[75vh] overflow-y-auto">
-                <div>
-                  <p className="text-sm leading-relaxed text-slate-700">
-                    {selectedApp.description}
-                  </p>
-                </div>
-
-                {/* Target Roles */}
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
-                    Primary Operational Stakeholders
-                  </span>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedApp.roles?.map((role) => (
-                      <span
-                        key={role}
-                        className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-campo-navy"
-                      >
-                        <Users className="h-3 w-3 text-campo-teal-dark" />
-                        {role}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Connected Workflows */}
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
-                    Key Integrated Workflows
-                  </span>
-                  <div className="space-y-2">
-                    {selectedApp.workflows?.map((wf) => (
-                      <div key={wf} className="flex items-start gap-2.5 text-xs text-slate-700">
-                        <CheckCircle2 className="h-4 w-4 shrink-0 text-campo-teal-dark mt-0.5" />
-                        <span>{wf}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Ecosystem Connections */}
-                <div className="flex items-center justify-between border-t border-slate-100 pt-4 text-xs">
-                  <div className="flex items-center gap-2 text-slate-500">
-                    <Link2 className="h-4 w-4 text-campo-teal-dark" />
-                    <span>Synchronized with: <strong>{selectedApp.connectsTo?.join(', ')}</strong></span>
-                  </div>
-                </div>
-
-                {/* Modal CTA */}
-                <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedApp(null)}
-                    className="rounded-xl border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
-                  >
-                    Close
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleRequestModuleDemo}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-campo-navy px-5 py-2 text-xs font-semibold text-white shadow-card hover:bg-campo-secondary"
-                  >
-                    <span>Request Demo for {selectedApp.name}</span>
-                    <ArrowRight className="h-3.5 w-3.5 text-campo-teal" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

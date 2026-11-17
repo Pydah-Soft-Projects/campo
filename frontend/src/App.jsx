@@ -14,6 +14,7 @@ import { Footer } from './components/Footer';
 import { LegalModal } from './components/LegalModal';
 import { ScrollProgressBar } from './components/MotionPrimitives';
 import { DownloadAppPage } from './pages/DownloadAppPage';
+import { ApplicationDetailPage } from './pages/ApplicationDetailPage';
 
 export default function App() {
   const [inquiryIntent, setInquiryIntent] = useState('Demo Request');
@@ -74,6 +75,9 @@ export default function App() {
     }
   };
 
+  const isAppDetail = currentPath.startsWith('/applications/');
+  const currentAppId = isAppDetail ? currentPath.replace('/applications/', '').split('/')[0] : null;
+
   return (
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen overflow-x-clip bg-white text-campo-ink">
@@ -97,6 +101,12 @@ export default function App() {
               onNavigateHome={() => navigate('/')}
               onRequestDemo={() => navigateToContact('Demo Request')}
             />
+          ) : isAppDetail ? (
+            <ApplicationDetailPage
+              appId={currentAppId}
+              onNavigate={navigate}
+              onRequestDemo={() => navigateToContact('Demo Request')}
+            />
           ) : (
             <>
               <HeroSection
@@ -105,6 +115,7 @@ export default function App() {
               <ProblemSection />
               <CampoIntroduction />
               <ApplicationsSection
+                onNavigate={navigate}
                 onRequestDemo={() => navigateToContact('Demo Request')}
               />
               <IntelligenceSection />
