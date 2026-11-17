@@ -1,4 +1,3 @@
-// PM2 Ecosystem Configuration (CommonJS fallback)
 module.exports = {
   apps: [
     {
@@ -11,11 +10,9 @@ module.exports = {
       max_memory_restart: '500M',
       env: {
         NODE_ENV: 'development',
-        PORT: 5000,
       },
       env_production: {
         NODE_ENV: 'production',
-        PORT: 5000,
       },
       error_file: './logs/err.log',
       out_file: './logs/out.log',
