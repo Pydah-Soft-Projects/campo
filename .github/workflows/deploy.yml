@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
@@ -37,12 +37,14 @@ jobs:
       - name: Install frontend dependencies
         working-directory: frontend
         run: |
-          npm i
+          npm ci
 
       - name: Build frontend
         working-directory: frontend
         env:
-          VITE_CONTACT_API_URL: ${{ vars.VITE_CONTACT_API_URL }}
+          VITE_API_URL: /api
+          VITE_CRM_FRONTEND_URL: https://crm.pydah.edu.in
+          VITE_CRM_BACKEND_URL: https://crm.pydah.edu.in
         run: |
           npm run build
 
@@ -62,7 +64,7 @@ jobs:
       #################################################
       - name: Upload frontend build
         run: |
-          rsync -avz --delete \
+          rsync -avz \
             -e "ssh -i ~/.ssh/deploy_key" \
             frontend/dist/ \
             "ec2-user@${{ secrets.SERVER_IP }}:/tmp/frontend-dist/"
@@ -73,38 +75,58 @@ jobs:
       - name: Deploy to server
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
-          PROJECT_DIR: ${{ vars.PROJECT_DIR || '/home/ec2-user/campo' }}
-          FRONTEND_WEB_ROOT: ${{ vars.FRONTEND_WEB_ROOT || '/var/www/campo' }}
         run: |
           set -e
           ssh -i ~/.ssh/deploy_key \
             -o StrictHostKeyChecking=yes \
             -o BatchMode=yes \
-            "ec2-user@${SERVER_IP}" \
-            "bash -s -- '${PROJECT_DIR}' '${FRONTEND_WEB_ROOT}'" << 'ENDSSH'
+            "ec2-user@${SERVER_IP}" << 'ENDSSH'
 
           set -e
 
-          PROJECT_DIR="$1"
-          FRONTEND_WEB_ROOT="$2"
+          PROJECT_DIR="${{ vars.PROJECT_DIR || '/home/ec2-user/campo' }}"
+          FRONTEND_WEB_ROOT="${{ vars.FRONTEND_WEB_ROOT || '/var/www/campo' }}"
 
           echo "=========================================="
-          echo "Starting Campo deployment"
+          echo "Starting deployment"
           echo "=========================================="
 
-          if [ -d "${PROJECT_DIR}/.git" ]; then
-            cd "${PROJECT_DIR}"
-            echo "==> Pulling latest code from main..."
-            git fetch origin main
-            git checkout main
-            git checkout -- backend/logs/ 2>/dev/null || true
-            git pull origin main
-          else
-            echo "==> Skipping git pull (${PROJECT_DIR} not initialized as git repo)"
-          fi
+          cd "${PROJECT_DIR}"
+
+          echo "==> Pulling latest code from main..."
+          git fetch origin main
+          git checkout main
+          # Discard any local changes to log files before pulling
+          git checkout -- backend/logs/ 2>/dev/null || true
+          git pull origin main
 
           #################################################
-          # FRONTEND DEPLOYMENT
+          # BACKEND PART
+          #################################################
+          echo "==> Checking backend dependencies..."
+          cd "${PROJECT_DIR}/backend"
+
+          LOCK_HASH_FILE="${PROJECT_DIR}/backend/.npm-ci-lockhash"
+          CURRENT_HASH="$(sha256sum package-lock.json package.json 2>/dev/null | sha256sum | awk '{print $1}')"
+          PREV_HASH="$(cat "${LOCK_HASH_FILE}" 2>/dev/null || true)"
+
+          if [ ! -d node_modules ] || [ "${CURRENT_HASH}" != "${PREV_HASH}" ]; then
+            echo "==> Installing backend dependencies (lockfile changed or node_modules missing)..."
+            if [ -f package-lock.json ]; then
+              npm ci --omit=dev
+            else
+              npm install --omit=dev
+            fi
+            echo "${CURRENT_HASH}" > "${LOCK_HASH_FILE}"
+          else
+            echo "==> Backend dependencies unchanged, skipping npm ci"
+          fi
+
+          # Link backend/node_modules to root so any shared dependencies resolve cleanly
+          ln -sfn "${PROJECT_DIR}/backend/node_modules" "${PROJECT_DIR}/node_modules"
+
+          #################################################
+          # FRONTEND PART
           #################################################
           echo "==> Deploying frontend..."
           sudo mkdir -p "${FRONTEND_WEB_ROOT}"
@@ -114,38 +136,15 @@ jobs:
             "${FRONTEND_WEB_ROOT}/"
 
           #################################################
-          # BACKEND & PM2 (FUTURE-READY, SKIPPED IF ABSENT)
+          # PM2 PROCESS MANAGER
           #################################################
-          if [ -f "${PROJECT_DIR}/backend/package.json" ]; then
-            echo "==> Checking backend dependencies..."
-            cd "${PROJECT_DIR}/backend"
+          echo "==> Reloading PM2 process via ecosystem file..."
+          cd "${PROJECT_DIR}/backend"
+          mkdir -p logs
+          pm2 startOrReload ecosystem.config.js --update-env
 
-            LOCK_HASH_FILE="${PROJECT_DIR}/backend/.npm-ci-lockhash"
-            CURRENT_HASH="$(sha256sum package-lock.json package.json 2>/dev/null | sha256sum | awk '{print $1}')"
-            PREV_HASH="$(cat "${LOCK_HASH_FILE}" 2>/dev/null || true)"
-
-            if [ ! -d node_modules ] || [ "${CURRENT_HASH}" != "${PREV_HASH}" ]; then
-              echo "==> Installing backend dependencies (lockfile changed or node_modules missing)..."
-              if [ -f package-lock.json ]; then
-                npm ci --omit=dev
-              else
-                npm install --omit=dev
-              fi
-              echo "${CURRENT_HASH}" > "${LOCK_HASH_FILE}"
-            else
-              echo "==> Backend dependencies unchanged, skipping npm ci"
-            fi
-
-            if [ -f "${PROJECT_DIR}/backend/ecosystem.config.js" ]; then
-              echo "==> Reloading PM2 process via ecosystem file..."
-              mkdir -p logs
-              pm2 startOrReload ecosystem.config.js --update-env
-              echo "==> Saving PM2 process list..."
-              pm2 save
-            fi
-          else
-            echo "==> No backend/package.json detected yet, skipping backend & PM2 steps."
-          fi
+          echo "==> Saving PM2 process list..."
+          pm2 save
 
           #################################################
           # Cleanup

@@ -27,6 +27,13 @@ export const routes = [
     sourceFile: 'src/pages/DownloadAppPage.jsx',
   },
   {
+    path: '/admin/login',
+    name: 'Admin Portal Login',
+    priority: 0.3,
+    changefreq: 'yearly',
+    sourceFile: 'src/pages/AdminLoginPage.jsx',
+  },
+  {
     path: '/applications/admissions-crm',
     name: 'Admissions CRM',
     priority: 0.8,

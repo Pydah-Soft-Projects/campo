@@ -445,6 +445,7 @@ export const footerColumns = {
     { label: 'About Us', href: '#about' },
     { label: 'Contact Us', href: '#contact' },
     { label: 'Request a Demo', href: '#contact' },
+    { label: 'Admin Login', href: '/admin/login' },
   ],
 };
 

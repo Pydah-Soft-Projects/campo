@@ -15,6 +15,8 @@ import { LegalModal } from './components/LegalModal';
 import { ScrollProgressBar } from './components/MotionPrimitives';
 import { DownloadAppPage } from './pages/DownloadAppPage';
 import { ApplicationDetailPage } from './pages/ApplicationDetailPage';
+import { AdminLoginPage } from './pages/AdminLoginPage';
+import { AdminDashboardPage } from './pages/AdminDashboardPage';
 
 export default function App() {
   const [inquiryIntent, setInquiryIntent] = useState('Demo Request');
@@ -77,6 +79,24 @@ export default function App() {
 
   const isAppDetail = currentPath.startsWith('/applications/');
   const currentAppId = isAppDetail ? currentPath.replace('/applications/', '').split('/')[0] : null;
+  const isAdminLogin = currentPath === '/admin/login';
+  const isAdminDashboard = currentPath.startsWith('/admin') && !isAdminLogin;
+
+  if (isAdminLogin) {
+    return (
+      <MotionConfig reducedMotion="user">
+        <AdminLoginPage onNavigate={navigate} />
+      </MotionConfig>
+    );
+  }
+
+  if (isAdminDashboard) {
+    return (
+      <MotionConfig reducedMotion="user">
+        <AdminDashboardPage onNavigate={navigate} />
+      </MotionConfig>
+    );
+  }
 
   return (
     <MotionConfig reducedMotion="user">

@@ -1,13 +1,11 @@
+import { submitContactInquiry as apiSubmit } from './api';
+
 /**
- * Isolated contact & demo inquiry submission service.
+ * Contact & demo inquiry submission service.
  *
- * When `VITE_CONTACT_API_URL` is configured, submits JSON to the backend endpoint.
- * When no backend endpoint is configured, returns a transparent frontend-preview
- * state rather than pretending data was persisted or transmitted.
+ * Submits the inquiry directly to the Campo MongoDB backend API.
  */
 export async function submitContactInquiry(payload) {
-  const endpoint = import.meta.env.VITE_CONTACT_API_URL;
-
   const normalizedPayload = {
     fullName: payload.fullName.trim(),
     institutionName: payload.institutionName.trim(),
@@ -16,36 +14,20 @@ export async function submitContactInquiry(payload) {
     designation: payload.designation.trim(),
     inquiryType: payload.inquiryType || 'Demo Request',
     message: payload.message.trim(),
-    submittedAt: new Date().toISOString(),
   };
 
-  if (!endpoint) {
+  try {
+    const res = await apiSubmit(normalizedPayload);
     return {
-      status: 'preview',
-      delivered: false,
+      status: 'submitted',
+      delivered: true,
       payload: normalizedPayload,
-      message:
-        'Frontend Preview Mode: No backend endpoint is configured yet. Your inquiry passed validation and is ready to be connected to your API via VITE_CONTACT_API_URL.',
+      message: res.message || 'Thank you! Your institutional inquiry has been recorded in our system.',
     };
+  } catch (error) {
+    console.warn('[Contact Service] Backend submission error:', error.message);
+    throw new Error(
+      error.message || 'Unable to submit inquiry right now. Please verify your connection.'
+    );
   }
-
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(normalizedPayload),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
-  }
-
-  return {
-    status: 'submitted',
-    delivered: true,
-    payload: normalizedPayload,
-    message: 'Thank you. Your institutional inquiry has been received.',
-  };
 }
-
