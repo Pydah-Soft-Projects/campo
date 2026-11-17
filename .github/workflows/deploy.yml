@@ -141,6 +141,7 @@ jobs:
           echo "==> Reloading PM2 process via ecosystem file..."
           cd "${PROJECT_DIR}/backend"
           mkdir -p logs
+          [ ! -f .env ] && cp .env.example .env 2>/dev/null || true
           if [ -f ecosystem.config.cjs ]; then
             pm2 startOrReload ecosystem.config.cjs --update-env
           else
