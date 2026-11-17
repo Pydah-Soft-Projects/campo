@@ -15,6 +15,7 @@ import {
 import { applicationDetails } from '../data/applicationDetails';
 import { revealEase } from '../components/MotionPrimitives';
 import { CampoLogo } from '../components/CampoLogo';
+import { LaptopMockup } from '../components/mockups/LaptopMockup';
 
 export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, onRequestDemo }) {
   // Scroll to top when page opens or appId changes
@@ -177,7 +178,35 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
         </div>
       </section>
 
-      {/* 2. Key Operational Capabilities (6 Focused Cards) */}
+      {/* 2. Interactive Desktop Workspace Showcase */}
+      <section className="section-padding bg-slate-50/70 border-b border-slate-200/80 relative overflow-hidden">
+        <div className="container-campo relative z-10">
+          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+            <span className="text-xs font-bold uppercase tracking-wider text-campo-teal-dark">
+              Institutional Desktop Workspace
+            </span>
+            <h2 className="mt-1.5 font-display text-2xl sm:text-3xl font-extrabold text-campo-navy">
+              Role-Scoped Dashboard for {app.name}
+            </h2>
+            <p className="mt-2 text-xs sm:text-sm text-slate-600">
+              High-velocity institutional interface designed for multi-branch autonomy, bulk approvals, and live operational visibility.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto px-4 sm:px-10 md:px-12">
+            <LaptopMockup
+              screens={app.screens || (app.previewImage ? [app.previewImage] : [])}
+              alt={`${app.name} Workspace Preview`}
+              appTitle={`${app.name} • Institutional Console`}
+              aspectRatio="16/8.5"
+              autoScroll={true}
+              autoScrollInterval={4500}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Key Operational Capabilities (6 Focused Cards) */}
       <section id="features-section" className="section-padding bg-slate-50/60 border-b border-slate-200/80">
         <div className="container-campo">
           <div className="text-center max-w-2xl mx-auto mb-12">

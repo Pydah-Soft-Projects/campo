@@ -63,6 +63,51 @@ import stationeryBanner from '../assets/Module-Card-Bgs/Stationary module Banner
 import maintenanceBanner from '../assets/Module-Card-Bgs/Maintenance Module.webp';
 import libraryBanner from '../assets/Module-Card-Bgs/Modern Library Study Banner.webp';
 
+// Campo Application Screens - Admissions
+import admissionsDashboardScreen from '../assets/Campo Screens/Admissions/Dashboard.png';
+import admissionsPageScreen from '../assets/Campo Screens/Admissions/Admissions-page.png';
+
+// Campo Application Screens - Student Portal & SDMS
+import studentAttendanceScreen from '../assets/Campo Screens/Student-Portal/Attendance.jpeg';
+import studentTimeTableScreen from '../assets/Campo Screens/Student-Portal/Time_Table.jpeg';
+import studentScholarshipRtfScreen from '../assets/Campo Screens/Student-Portal/Scholarship-RTF.jpeg';
+import studentMobileMockupScreen from '../assets/Campo Screens/Student-Portal/Modern Student Dashboard Phone Mockup.png';
+
+// Campo Application Screens - Fees & Finance
+import feeCollectionScreen from '../assets/Campo Screens/FEES/Fee-Collection.png';
+import feeDueReportsScreen from '../assets/Campo Screens/FEES/DUE REPORTS SCREEN.png';
+import feeCollectionReportsScreen from '../assets/Campo Screens/FEES/FEE Collection Reports.png';
+import feeRtfAnalyticsScreen from '../assets/Campo Screens/FEES/RTF Analytics.png';
+
+// Campo Application Screens - Transport Logistics
+import transportFleetScreen from '../assets/Campo Screens/Transport/Fleet & Passengers.png';
+import transportRouteCreationScreen from '../assets/Campo Screens/Transport/Route Creation.png';
+import transportBusTimingsScreen from '../assets/Campo Screens/Transport/Bus-timings detail.png';
+import transportCampusInOutScreen from '../assets/Campo Screens/Transport/Campus IN-OUT Reports.png';
+
+// Campo Application Screens - Academics & CRT Examinations
+import crtDashboardScreen from '../assets/Campo Screens/CRT/Dashboard.png';
+import crtTestManagementScreen from '../assets/Campo Screens/CRT/Test Management.png';
+
+// Campo Application Screens - SRS & HRMS
+import srsDashboardScreen from '../assets/Campo Screens/SRS/Dashboard.png';
+import srsApplicationsScreen from '../assets/Campo Screens/SRS/Applications.png';
+
+// Campo Application Screens - Hostel HMS
+import hostelDashboardScreen from '../assets/Campo Screens/Hostel/Dashboard.png';
+import hostelRoomManagementScreen from '../assets/Campo Screens/Hostel/Room Management.png';
+import hostelAttendanceScreen from '../assets/Campo Screens/Hostel/Attendance.png';
+import hostelComplaintsScreen from '../assets/Campo Screens/Hostel/Complaints.png';
+import hostelPollsScreen from '../assets/Campo Screens/Hostel/POLLS & Announcements.png';
+
+// Campo Application Screens - Stationery Store
+import stationeryStockPageScreen from '../assets/Campo Screens/Stationary/Stock Page.png';
+import stationeryItemDistributionScreen from '../assets/Campo Screens/Stationary/Item-Distribution.png';
+import stationeryReportsScreen from '../assets/Campo Screens/Stationary/Reports.png';
+
+// Campo Application Screens - Library LMS
+import libraryAllBooksScreen from '../assets/Campo Screens/Library/All Books.png';
+
 export const applicationDetails = {
   // 1. Admissions CRM
   'admissions-crm': {
@@ -74,6 +119,19 @@ export const applicationDetails = {
     tagline: 'From First Inquiry to Confirmed Enrollment — Completely Connected.',
     headline: 'Accelerate campus admissions with automated enquiry registration, counsellor allocation, rank management, and instant document verification.',
     bannerImage: admissionsBanner,
+    previewImage: admissionsDashboardScreen,
+    screens: [
+      {
+        src: admissionsDashboardScreen,
+        title: 'Admissions Executive Dashboard',
+        description: 'Lead generation funnel, counsellor performance, and conversion analytics.',
+      },
+      {
+        src: admissionsPageScreen,
+        title: 'Admissions & Document Processing Portal',
+        description: 'Online application processing, document verification, and seat allocation.',
+      },
+    ],
     badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
     accentColor: 'text-emerald-600',
     overview:
@@ -205,6 +263,33 @@ export const applicationDetails = {
     tagline: 'One Student. One Record. Complete Campus Engagement.',
     headline: 'Centralize every student and parent record, generate instant smart ID cards, manage online service requests, and drive active campus club engagement.',
     bannerImage: studentDataBanner,
+    previewImage: studentAttendanceScreen,
+    screens: [
+      {
+        src: studentAttendanceScreen,
+        title: 'Student Biometric Attendance & Leave History',
+        description: 'Subject-wise attendance percentages, biometric day punches, and leave requests.',
+        fit: 'contain',
+      },
+      {
+        src: studentTimeTableScreen,
+        title: 'Real-Time Academic Timetable & Lecture Schedule',
+        description: 'Daily classroom schedule, faculty allocations, and substitute lecture updates.',
+        fit: 'contain',
+      },
+      {
+        src: studentScholarshipRtfScreen,
+        title: 'Scholarship & Government RTF Status Ledger',
+        description: 'Verified scholarship disbursements, RTF eligibility, and fee ledgers.',
+        fit: 'contain',
+      },
+      {
+        src: studentMobileMockupScreen,
+        title: 'Mobile Student Companion Portal',
+        description: 'Digital student identity, campus circular alerts, and academic progression.',
+        fit: 'contain',
+      },
+    ],
     badgeColor: 'bg-cyan-50 text-cyan-800 border-cyan-200',
     accentColor: 'text-cyan-600',
     overview:
@@ -336,6 +421,29 @@ export const applicationDetails = {
     tagline: 'End-to-End Fee Structuring, Concessions, Online Gateway & Ledger Control.',
     headline: 'Eliminate revenue leakage with flexible course fee structuring, online payments, concession approvals, scholarship tracking, and live collection analytics.',
     bannerImage: feeBanner,
+    previewImage: feeCollectionScreen,
+    screens: [
+      {
+        src: feeCollectionScreen,
+        title: 'Fee Collection & Instant Receipt Desk',
+        description: 'Multi-head fee collection desk with automated installment receipts and payment mode tracking.',
+      },
+      {
+        src: feeDueReportsScreen,
+        title: 'Student Outstanding Dues & Aging Analysis',
+        description: 'Branch-wise and semester-wise pending fee ledgers with automated follow-up scheduling.',
+      },
+      {
+        src: feeCollectionReportsScreen,
+        title: 'Daily & Monthly Collection Reconciliation Reports',
+        description: 'Consolidated collection summaries, payment gateway reconciliation, and bank audit reports.',
+      },
+      {
+        src: feeRtfAnalyticsScreen,
+        title: 'Government RTF & Scholarship Fee Analytics',
+        description: 'Real-time tracking of state welfare fee releases, pending reimbursement balances, and quotas.',
+      },
+    ],
     badgeColor: 'bg-teal-50 text-teal-800 border-teal-200',
     accentColor: 'text-teal-600',
     overview:
@@ -467,6 +575,29 @@ export const applicationDetails = {
     tagline: 'Smart Fleet Tracking, Route Optimization, Fuel Control & QR Verification.',
     headline: 'Manage campus vehicles, track fuel & maintenance expenses, optimize routes, verify student bus passes offline via QR, and track GPS in real-time.',
     bannerImage: transportBanner,
+    previewImage: transportFleetScreen,
+    screens: [
+      {
+        src: transportFleetScreen,
+        title: 'Vehicle Fleet & Passenger Capacity Overview',
+        description: 'Comprehensive institutional vehicle roster, seating capacity, driver mappings, and maintenance logs.',
+      },
+      {
+        src: transportRouteCreationScreen,
+        title: 'Smart Route Creation & Stop Optimization',
+        description: 'Map campus transit routes, define pickup stops, and optimize schedules to prevent overlapping trips.',
+      },
+      {
+        src: transportBusTimingsScreen,
+        title: 'Route Schedule & Bus Timings Detail',
+        description: 'Real-time morning and evening transit schedules, stop timings, and driver shifts.',
+      },
+      {
+        src: transportCampusInOutScreen,
+        title: 'Offline QR Verification & Campus IN/OUT Reports',
+        description: 'Bus pass verification logs, unauthorized traveler detection, and gate timestamp reports.',
+      },
+    ],
     badgeColor: 'bg-sky-50 text-sky-800 border-sky-200',
     accentColor: 'text-sky-600',
     overview:
@@ -729,6 +860,19 @@ export const applicationDetails = {
     tagline: 'Timetables, Hall Tickets, Confidential Marks & Result Publishing.',
     headline: 'Coordinate institutional examination activities, automate hall ticket eligibility, manage internal marks, process grading, and publish university transcripts.',
     bannerImage: examBanner,
+    previewImage: crtTestManagementScreen,
+    screens: [
+      {
+        src: crtTestManagementScreen,
+        title: 'Examination Registration & Hall-Ticket Management',
+        description: 'Semester exam scheduling, room-wise seating charts, and hall-ticket eligibility verification.',
+      },
+      {
+        src: crtDashboardScreen,
+        title: 'Examination Performance Analytics & Result Compilation',
+        description: 'Marks entry validation, moderation workflows, CGPA processing, and online result publication.',
+      },
+    ],
     badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
     accentColor: 'text-emerald-700',
     overview:
@@ -984,6 +1128,19 @@ export const applicationDetails = {
     tagline: 'Vacancies, Candidate Portals, Interview Scheduling & Shortlisting.',
     headline: 'Manage recruitment workflows for teaching and non-teaching positions with vacancy publishing, resume parsing, interview scheduling, and selection reports.',
     bannerImage: staffRecruitmentBanner,
+    previewImage: srsDashboardScreen,
+    screens: [
+      {
+        src: srsDashboardScreen,
+        title: 'Recruitment Pipeline & Vacancy Overview',
+        description: 'Departmental faculty vacancy tracking, applicant pipeline stages, and screening metrics.',
+      },
+      {
+        src: srsApplicationsScreen,
+        title: 'Candidate Applications & Shortlisting Vault',
+        description: 'Structured candidate profiles, verified resume documents, and panel review scorecards.',
+      },
+    ],
     badgeColor: 'bg-orange-50 text-orange-800 border-orange-200',
     accentColor: 'text-orange-600',
     overview:
@@ -1115,6 +1272,34 @@ export const applicationDetails = {
     tagline: 'Room Allocation, Mess, Electricity Billing & OTP Student Leaves.',
     headline: 'Centralized hostel infrastructure management, room allocation, mess billing, biometric night attendance, room electricity metering, and OTP-based student leaves.',
     bannerImage: hostelBanner,
+    previewImage: hostelDashboardScreen,
+    screens: [
+      {
+        src: hostelDashboardScreen,
+        title: 'Hostel Infrastructure & Occupancy Dashboard',
+        description: 'Multi-block building, floor, room, and bed inventory matrix with real-time occupancy tracking.',
+      },
+      {
+        src: hostelRoomManagementScreen,
+        title: 'Centralized Room & Bed Allocation Management',
+        description: 'Student hostel room registration, room transfers, category-wise fee setup, and vacate clearance.',
+      },
+      {
+        src: hostelAttendanceScreen,
+        title: 'Resident Daily Biometric Attendance Tracking',
+        description: 'Night curfew attendance tracking, automated absentee alerts, and OTP-based leave passes.',
+      },
+      {
+        src: hostelComplaintsScreen,
+        title: 'Hostel Facility Complaints & Maintenance Workflows',
+        description: 'Room electrical, plumbing, and carpentry maintenance requests with technician tracking.',
+      },
+      {
+        src: hostelPollsScreen,
+        title: 'Resident Opinion Polls & Mess Announcements',
+        description: 'Hostel notices, mess food menu voting, student polls, and warden circular broadcasts.',
+      },
+    ],
     badgeColor: 'bg-rose-50 text-rose-800 border-rose-200',
     accentColor: 'text-rose-600',
     overview:
@@ -1253,6 +1438,24 @@ export const applicationDetails = {
     tagline: 'Inventory Stock, Procurement, Department Pending Reports & Store Billing.',
     headline: 'Track campus stationery, lab consumables, uniform kits, purchase orders, department-wise student pending reports, and point-of-sale store fee collections.',
     bannerImage: stationeryBanner,
+    previewImage: stationeryStockPageScreen,
+    screens: [
+      {
+        src: stationeryStockPageScreen,
+        title: 'Campus Store Inventory & Stock Ledger',
+        description: 'Multi-godown stock registries, low-stock threshold triggers, and real-time inventory count.',
+      },
+      {
+        src: stationeryItemDistributionScreen,
+        title: 'Student Semester Kit & Item Distribution Counter',
+        description: 'Student and departmental distribution desk with verified barcode scan and receipt generation.',
+      },
+      {
+        src: stationeryReportsScreen,
+        title: 'Stationery Consumption & Day-End Audit Reports',
+        description: 'Institution-wide and department-wise consumption reports, pending student kit ledgers, and audit files.',
+      },
+    ],
     badgeColor: 'bg-amber-50 text-amber-800 border-amber-200',
     accentColor: 'text-amber-600',
     overview:
@@ -1501,6 +1704,14 @@ export const applicationDetails = {
     tagline: 'Book Cataloging, Barcodes, Circulation, Fines & Digital OPAC.',
     headline: 'Comprehensive campus library administration covering book inventory, automated barcode issue/return, fine collections, student/faculty access, and online reservations.',
     bannerImage: libraryBanner,
+    previewImage: libraryAllBooksScreen,
+    screens: [
+      {
+        src: libraryAllBooksScreen,
+        title: 'Central Library Book Catalog & Accession Register',
+        description: 'Universal catalog search (OPAC), author indexing, barcode issue/return, and shelf classification.',
+      },
+    ],
     badgeColor: 'bg-indigo-50 text-indigo-800 border-indigo-200',
     accentColor: 'text-indigo-600',
     overview:
