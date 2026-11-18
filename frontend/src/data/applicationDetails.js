@@ -64,49 +64,49 @@ import maintenanceBanner from '../assets/Module-Card-Bgs/Maintenance Module.webp
 import libraryBanner from '../assets/Module-Card-Bgs/Modern Library Study Banner.webp';
 
 // Campo Application Screens - Admissions
-import admissionsDashboardScreen from '../assets/Campo Screens/Admissions/Dashboard.png';
-import admissionsPageScreen from '../assets/Campo Screens/Admissions/Admissions-page.png';
+import admissionsDashboardScreen from '../assets/Campo Screens/Admissions/Dashboard.webp';
+import admissionsPageScreen from '../assets/Campo Screens/Admissions/Admissions-page.webp';
 
 // Campo Application Screens - Student Portal & SDMS
-import studentAttendanceScreen from '../assets/Campo Screens/Student-Portal/Attendance.jpeg';
-import studentTimeTableScreen from '../assets/Campo Screens/Student-Portal/Time_Table.jpeg';
-import studentScholarshipRtfScreen from '../assets/Campo Screens/Student-Portal/Scholarship-RTF.jpeg';
-import studentMobileMockupScreen from '../assets/Campo Screens/Student-Portal/Modern Student Dashboard Phone Mockup.png';
+import studentAttendanceScreen from '../assets/Campo Screens/Student-Portal/Attendance.webp';
+import studentTimeTableScreen from '../assets/Campo Screens/Student-Portal/Time_Table.webp';
+import studentScholarshipRtfScreen from '../assets/Campo Screens/Student-Portal/Scholarship-RTF.webp';
+import studentMobileMockupScreen from '../assets/Campo Screens/Student-Portal/Modern Student Dashboard Phone Mockup.webp';
 
 // Campo Application Screens - Fees & Finance
-import feeCollectionScreen from '../assets/Campo Screens/FEES/Fee-Collection.png';
-import feeDueReportsScreen from '../assets/Campo Screens/FEES/DUE REPORTS SCREEN.png';
-import feeCollectionReportsScreen from '../assets/Campo Screens/FEES/FEE Collection Reports.png';
-import feeRtfAnalyticsScreen from '../assets/Campo Screens/FEES/RTF Analytics.png';
+import feeCollectionScreen from '../assets/Campo Screens/FEES/Fee-Collection.webp';
+import feeDueReportsScreen from '../assets/Campo Screens/FEES/DUE REPORTS SCREEN.webp';
+import feeCollectionReportsScreen from '../assets/Campo Screens/FEES/FEE Collection Reports.webp';
+import feeRtfAnalyticsScreen from '../assets/Campo Screens/FEES/RTF Analytics.webp';
 
 // Campo Application Screens - Transport Logistics
-import transportFleetScreen from '../assets/Campo Screens/Transport/Fleet & Passengers.png';
-import transportRouteCreationScreen from '../assets/Campo Screens/Transport/Route Creation.png';
-import transportBusTimingsScreen from '../assets/Campo Screens/Transport/Bus-timings detail.png';
-import transportCampusInOutScreen from '../assets/Campo Screens/Transport/Campus IN-OUT Reports.png';
+import transportFleetScreen from '../assets/Campo Screens/Transport/Fleet & Passengers.webp';
+import transportRouteCreationScreen from '../assets/Campo Screens/Transport/Route Creation.webp';
+import transportBusTimingsScreen from '../assets/Campo Screens/Transport/Bus-timings detail.webp';
+import transportCampusInOutScreen from '../assets/Campo Screens/Transport/Campus IN-OUT Reports.webp';
 
 // Campo Application Screens - Academics & CRT Examinations
-import crtDashboardScreen from '../assets/Campo Screens/CRT/Dashboard.png';
-import crtTestManagementScreen from '../assets/Campo Screens/CRT/Test Management.png';
+import crtDashboardScreen from '../assets/Campo Screens/CRT/Dashboard.webp';
+import crtTestManagementScreen from '../assets/Campo Screens/CRT/Test Management.webp';
 
 // Campo Application Screens - SRS & HRMS
-import srsDashboardScreen from '../assets/Campo Screens/SRS/Dashboard.png';
-import srsApplicationsScreen from '../assets/Campo Screens/SRS/Applications.png';
+import srsDashboardScreen from '../assets/Campo Screens/SRS/Dashboard.webp';
+import srsApplicationsScreen from '../assets/Campo Screens/SRS/Applications.webp';
 
 // Campo Application Screens - Hostel HMS
-import hostelDashboardScreen from '../assets/Campo Screens/Hostel/Dashboard.png';
-import hostelRoomManagementScreen from '../assets/Campo Screens/Hostel/Room Management.png';
-import hostelAttendanceScreen from '../assets/Campo Screens/Hostel/Attendance.png';
-import hostelComplaintsScreen from '../assets/Campo Screens/Hostel/Complaints.png';
-import hostelPollsScreen from '../assets/Campo Screens/Hostel/POLLS & Announcements.png';
+import hostelDashboardScreen from '../assets/Campo Screens/Hostel/Dashboard.webp';
+import hostelRoomManagementScreen from '../assets/Campo Screens/Hostel/Room Management.webp';
+import hostelAttendanceScreen from '../assets/Campo Screens/Hostel/Attendance.webp';
+import hostelComplaintsScreen from '../assets/Campo Screens/Hostel/Complaints.webp';
+import hostelPollsScreen from '../assets/Campo Screens/Hostel/POLLS & Announcements.webp';
 
 // Campo Application Screens - Stationery Store
-import stationeryStockPageScreen from '../assets/Campo Screens/Stationary/Stock Page.png';
-import stationeryItemDistributionScreen from '../assets/Campo Screens/Stationary/Item-Distribution.png';
-import stationeryReportsScreen from '../assets/Campo Screens/Stationary/Reports.png';
+import stationeryStockPageScreen from '../assets/Campo Screens/Stationary/Stock Page.webp';
+import stationeryItemDistributionScreen from '../assets/Campo Screens/Stationary/Item-Distribution.webp';
+import stationeryReportsScreen from '../assets/Campo Screens/Stationary/Reports.webp';
 
 // Campo Application Screens - Library LMS
-import libraryAllBooksScreen from '../assets/Campo Screens/Library/All Books.png';
+import libraryAllBooksScreen from '../assets/Campo Screens/Library/All Books.webp';
 
 export const applicationDetails = {
   // 1. Admissions CRM

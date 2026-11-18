@@ -15,10 +15,10 @@ import {
   Search,
 } from 'lucide-react';
 import { revealEase } from '../MotionPrimitives';
-import admissionsImg from '../../assets/admissions-counseling.jpg';
-import studentsLabImg from '../../assets/students-classroom.jpg';
-import boardroomImg from '../../assets/executive-analytics-boardroom.jpg';
-import fleetImg from '../../assets/campus-fleet-transport.jpg';
+import admissionsImg from '../../assets/admissions-counseling.webp';
+import studentsLabImg from '../../assets/students-classroom.webp';
+import boardroomImg from '../../assets/executive-analytics-boardroom.webp';
+import fleetImg from '../../assets/campus-fleet-transport.webp';
 
 const workbenchApps = [
   {
