@@ -1,16 +1,14 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   CheckCircle2,
   Sparkles,
   ArrowRight,
-  ShieldCheck,
-  Zap,
+  ChevronLeft,
+  ChevronRight,
   Plug,
   Sliders,
   Play,
-  Layers,
-  HelpCircle,
 } from 'lucide-react';
 import {
   pricingPlans,
@@ -20,11 +18,19 @@ import {
 import { SectionHeading, revealEase } from './MotionPrimitives';
 
 export function PricingSection({ onRequestDemo }) {
-  return (
-    <section id="pricing" className="section-padding relative overflow-hidden bg-slate-50/80">
-      {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#0e2a47_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.03] pointer-events-none" />
+  const prefersReducedMotion = useReducedMotion();
+  const [activeIndex, setActiveIndex] = useState(1); // Default to Campus (Index 1 - Most Popular)
 
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev > 0 ? prev - 1 : pricingPlans.length - 1));
+  };
+
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev < pricingPlans.length - 1 ? prev + 1 : 0));
+  };
+
+  return (
+    <section id="pricing" className="section-padding relative overflow-hidden bg-white border-y border-slate-200/80">
       <div className="container-campo relative z-10">
         <SectionHeading
           index="07"
@@ -35,14 +41,14 @@ export function PricingSection({ onRequestDemo }) {
         />
 
         {/* ========================================================
-            90-DAY RISK-FREE TRIAL BANNER (From Brochure)
+            90-DAY RISK-FREE TRIAL BANNER (Clean Institutional Reassurance)
             ======================================================== */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: revealEase }}
-          className="mt-10 sm:mt-12 overflow-hidden rounded-3xl bg-gradient-to-br from-campo-navy via-slate-900 to-campo-deep p-6 sm:p-8 lg:p-10 text-white border border-white/10 shadow-workspace"
+          className="mt-8 sm:mt-10 overflow-hidden rounded-3xl bg-gradient-to-br from-campo-navy via-slate-900 to-campo-deep p-6 sm:p-8 lg:p-10 text-white border border-white/10 shadow-workspace"
         >
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
@@ -84,108 +90,247 @@ export function PricingSection({ onRequestDemo }) {
         </motion.div>
 
         {/* ========================================================
-            3 TIER PRICING CARDS
+            3D FLOWER PETAL STAGE WITH LEFT/RIGHT ARROWS
             ======================================================== */}
-        <div className="mt-10 sm:mt-12 grid gap-6 lg:grid-cols-3 items-stretch">
-          {pricingPlans.map((plan, index) => {
-            const isPopular = plan.popular;
+        <div className="relative mt-8 sm:mt-10 mx-auto w-full max-w-5xl h-[720px] sm:h-[710px] flex justify-center px-2 sm:px-12 select-none">
+          {/* Left Arrow Button */}
+          <button
+            type="button"
+            onClick={handlePrev}
+            aria-label="Previous Plan"
+            className="absolute left-0 sm:left-4 top-1/2 -translate-y-1/2 z-40 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-slate-200/90 bg-white text-campo-navy shadow-elevated transition-all duration-200 hover:scale-110 hover:border-campo-teal active:scale-95 cursor-pointer"
+          >
+            <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-campo-navy" />
+          </button>
 
-            return (
-              <motion.div
-                key={plan.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.5, delay: index * 0.1, ease: revealEase }}
-                className={`relative flex flex-col justify-between rounded-3xl p-6 sm:p-8 transition-all duration-300 ${
-                  isPopular
-                    ? 'border-2 border-campo-teal bg-white shadow-workspace lg:-translate-y-2'
-                    : 'border border-slate-200/90 bg-white shadow-card hover:border-slate-300 hover:shadow-elevated'
-                }`}
-              >
-                {/* Popular Pill */}
-                {plan.badge && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-campo-navy px-4 py-1 text-xs font-bold text-campo-teal shadow-md border border-campo-teal/40">
-                      <Sparkles className="h-3 w-3" />
-                      <span>{plan.badge}</span>
-                    </span>
-                  </div>
-                )}
+          {/* Right Arrow Button */}
+          <button
+            type="button"
+            onClick={handleNext}
+            aria-label="Next Plan"
+            className="absolute right-0 sm:right-4 top-1/2 -translate-y-1/2 z-40 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-slate-200/90 bg-white text-campo-navy shadow-elevated transition-all duration-200 hover:scale-110 hover:border-campo-teal active:scale-95 cursor-pointer"
+          >
+            <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-campo-navy" />
+          </button>
 
-                <div>
-                  {/* Plan Name & Summary */}
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-display text-2xl font-black text-campo-navy">
-                      {plan.name}
-                    </h3>
-                  </div>
+          {/* 3 Petal Cards Container - Sleeker width and increased height */}
+          <div className="relative w-full max-w-[460px] sm:max-w-[480px] h-full flex justify-center">
+            {pricingPlans.map((plan, idx) => {
+              // Mathematical cyclic offset: 0 = center active, 1 = right peek, 2 = left peek (-1)
+              const diff = (idx - activeIndex + 3) % 3;
+              const isActive = diff === 0;
+              const isRight = diff === 1;
+              const isLeft = diff === 2;
 
-                  <p className="mt-2 text-xs sm:text-sm text-slate-500 min-h-[38px] leading-relaxed">
-                    {plan.summary}
-                  </p>
+              // Flower Petal Organic Asymmetric Contours
+              const petalShape =
+                idx === 0
+                  ? 'rounded-tl-[44px] rounded-br-[44px] rounded-tr-3xl rounded-bl-3xl'
+                  : idx === 1
+                  ? 'rounded-[36px]'
+                  : 'rounded-tr-[44px] rounded-bl-[44px] rounded-tl-3xl rounded-br-3xl';
 
-                  {/* Pricing Rate */}
-                  <div className="mt-4 pt-4 border-t border-slate-100 flex items-baseline gap-1.5">
-                    <span className="font-display text-4xl sm:text-5xl font-extrabold tracking-tight text-campo-navy">
-                      ₹{plan.price}
-                    </span>
-                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                      {plan.billingPeriod}
-                    </span>
-                  </div>
+              // Visual variants based on cyclic stage position
+              let transformX = '0%';
+              let scale = 1;
+              let rotate = 0;
+              let opacity = 1;
+              let zIndex = 30;
 
-                  {/* Modules Group Breakdown */}
-                  <div className="mt-6 space-y-4 pt-6 border-t border-slate-100">
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                      Included Workflows &amp; Operations
-                    </p>
+              if (isLeft) {
+                transformX = '-48%';
+                scale = 0.88;
+                rotate = -3.5;
+                opacity = 0.55;
+                zIndex = 10;
+              } else if (isRight) {
+                transformX = '48%';
+                scale = 0.88;
+                rotate = 3.5;
+                opacity = 0.55;
+                zIndex = 10;
+              }
 
-                    <div className="space-y-3.5">
-                      {plan.categories.map((cat, cIdx) => (
-                        <div
-                          key={cIdx}
-                          className={`rounded-xl p-3 border text-xs ${
-                            cat.isAi
-                              ? 'bg-campo-teal/10 border-campo-teal/40 text-campo-navy font-medium'
-                              : 'bg-slate-50 border-slate-200/80 text-slate-700'
-                          }`}
-                        >
-                          <div className="flex items-center gap-1.5 font-bold text-slate-900 mb-1">
-                            <CheckCircle2
-                              className={`h-4 w-4 shrink-0 ${
-                                cat.isAi ? 'text-campo-teal-dark' : 'text-campo-teal'
-                              }`}
-                            />
-                            <span>{cat.name}</span>
-                          </div>
-                          <p className="text-[11px] text-slate-600 pl-5.5 leading-relaxed">
-                            {cat.modules}
-                          </p>
-                        </div>
-                      ))}
+              return (
+                <motion.div
+                  key={plan.id}
+                  onClick={() => !isActive && setActiveIndex(idx)}
+                  animate={
+                    prefersReducedMotion
+                      ? { opacity: isActive ? 1 : 0.4 }
+                      : {
+                          x: transformX,
+                          scale,
+                          rotate,
+                          opacity,
+                          zIndex,
+                        }
+                  }
+                  transition={{
+                    type: 'spring',
+                    stiffness: 220,
+                    damping: 24,
+                    mass: 0.8,
+                  }}
+                  className={`absolute top-0 w-full max-w-[340px] sm:max-w-[460px] lg:max-w-[480px] h-[670px] sm:h-[660px] flex flex-col justify-between ${petalShape} bg-white p-6 sm:p-7 transition-shadow duration-300 ${
+                    isActive
+                      ? plan.popular
+                        ? 'border-2 border-campo-teal shadow-[0_20px_50px_-15px_rgba(20,217,196,0.35)] cursor-default'
+                        : idx === 0
+                        ? 'border-2 border-emerald-400 shadow-[0_20px_45px_-15px_rgba(16,185,129,0.3)] cursor-default'
+                        : 'border-2 border-blue-400 shadow-[0_20px_45px_-15px_rgba(59,130,246,0.3)] cursor-default'
+                      : 'border border-slate-200/90 shadow-md hover:opacity-85 cursor-pointer'
+                  }`}
+                >
+                  {/* Badge */}
+                  {plan.badge && (
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30">
+                      <span
+                        className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-bold shadow-md ${
+                          plan.popular
+                            ? 'bg-campo-navy text-campo-teal border border-campo-teal/40'
+                            : 'bg-blue-900/90 text-blue-200 border border-blue-400/40'
+                        }`}
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        <span>{plan.badge}</span>
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Card Header: Plan Name, Summary & Price */}
+                  <div className="flex items-start justify-between gap-4 pt-1">
+                    <div>
+                      <h3 className="font-display text-2xl sm:text-3xl font-black text-campo-navy tracking-tight">
+                        {plan.name}
+                      </h3>
+                      <p className="mt-1.5 text-xs sm:text-sm text-slate-500 leading-relaxed max-w-[240px]">
+                        {plan.summary}
+                      </p>
+                    </div>
+
+                    <div className="text-right shrink-0">
+                      <div className="flex items-baseline justify-end gap-0.5">
+                        <span className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-campo-navy">
+                          ₹{plan.price}
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mt-1">
+                        {plan.billingPeriod}
+                      </span>
                     </div>
                   </div>
-                </div>
 
-                {/* Card CTA */}
-                <div className="mt-8 pt-6 border-t border-slate-100">
-                  <button
-                    type="button"
-                    onClick={() => onRequestDemo?.(`${plan.name} Plan`)}
-                    className={`w-full inline-flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-xs sm:text-sm font-bold transition-all shadow-xs ${
-                      isPopular
-                        ? 'bg-campo-navy text-white hover:bg-slate-800 hover:shadow-card'
-                        : 'bg-slate-100 text-campo-navy hover:bg-slate-200 hover:text-slate-900'
-                    }`}
-                  >
-                    <span>{plan.buttonText}</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                </div>
-              </motion.div>
-            );
-          })}
+                  {/* ACTIVE CARD: Workflows & Operations using complete height */}
+                  {isActive ? (
+                    <div className="flex flex-col justify-between flex-1 mt-4 pt-3.5 border-t border-slate-100">
+                      <div className="flex-1 flex flex-col justify-between">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                            Included Workflows &amp; Operations
+                          </p>
+                          <span className="text-[11px] font-semibold text-campo-teal-dark bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-100">
+                            {plan.categories.length} Areas Included
+                          </span>
+                        </div>
+
+                        {/* Full-width Category Cards - Distributed to use the complete height without truncation */}
+                        <div className="flex-1 flex flex-col justify-around gap-2 my-1">
+                          {plan.categories.map((cat, cIdx) => {
+                            const isAi = cat.isAi;
+                            return (
+                              <div
+                                key={cIdx}
+                                className={`rounded-xl p-2.5 sm:p-3 border transition-all ${
+                                  isAi
+                                    ? 'bg-gradient-to-r from-teal-500/10 via-emerald-500/10 to-teal-500/10 border-campo-teal/60 text-campo-navy shadow-xs ring-1 ring-campo-teal/20'
+                                    : 'bg-slate-50/90 border-slate-200/80 text-slate-700 hover:bg-slate-100/80'
+                                }`}
+                              >
+                                <div className="flex items-center gap-2 font-bold text-slate-900 text-xs sm:text-[13px]">
+                                  <CheckCircle2
+                                    className={`h-4 w-4 shrink-0 ${
+                                      isAi
+                                        ? 'text-campo-teal-dark'
+                                        : 'text-campo-teal'
+                                    }`}
+                                  />
+                                  <span>{cat.name}</span>
+                                </div>
+                                <p className="text-[10.5px] sm:text-[11px] text-slate-500 pl-6 mt-0.5 leading-relaxed">
+                                  {cat.modules}
+                                </p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Card CTA with generous click target */}
+                      <div className="pt-3.5 border-t border-slate-100">
+                        <button
+                          type="button"
+                          onClick={() => onRequestDemo?.(`${plan.name} Plan`)}
+                          className={`w-full inline-flex items-center justify-center gap-2 rounded-xl py-3.5 px-5 text-sm font-bold transition-all shadow-xs cursor-pointer ${
+                            plan.popular
+                              ? 'bg-campo-navy text-white hover:bg-slate-800 hover:shadow-card'
+                              : 'bg-slate-100 text-campo-navy hover:bg-slate-200 hover:text-slate-900'
+                          }`}
+                        >
+                          <span>{plan.buttonText}</span>
+                          <ArrowRight className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    /* PEEKING CARD: Clean Minimized Backside View using complete height */
+                    <div className="flex flex-col justify-between flex-1 mt-5 pt-4 border-t border-slate-100">
+                      <div className="space-y-3 flex-1">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                          Included Operations ({plan.categories.length})
+                        </p>
+                        <div className="space-y-2.5">
+                          {plan.categories.map((cat, cIdx) => (
+                            <div key={cIdx} className="flex items-center gap-2 text-xs text-slate-600">
+                              <CheckCircle2 className="h-3.5 w-3.5 text-campo-teal shrink-0" />
+                              <span className="font-medium truncate">{cat.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-400">
+                        <span className="font-medium text-slate-500">
+                          {plan.categories.length} Operations
+                        </span>
+                        <span className="font-bold text-campo-teal flex items-center gap-1.5 group-hover:underline">
+                          <span>Click to view</span>
+                          <ArrowRight className="h-4 w-4" />
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Petal Dots Indicator */}
+        <div className="flex items-center justify-center gap-2 mt-6">
+          {pricingPlans.map((plan, idx) => (
+            <button
+              key={plan.id}
+              type="button"
+              onClick={() => setActiveIndex(idx)}
+              aria-label={`Go to ${plan.name} plan`}
+              className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                activeIndex === idx
+                  ? 'w-8 bg-campo-teal'
+                  : 'w-2 bg-slate-300 hover:bg-slate-400'
+              }`}
+            />
+          ))}
         </div>
 
         {/* ========================================================
