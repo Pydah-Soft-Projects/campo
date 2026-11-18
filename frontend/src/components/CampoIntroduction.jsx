@@ -7,12 +7,13 @@ import admissionsImg from '../assets/admissions-counseling.webp';
 import studentsLabImg from '../assets/students-classroom.webp';
 import boardroomImg from '../assets/executive-analytics-boardroom.webp';
 import fleetImg from '../assets/campus-fleet-transport.webp';
+import studentMobileImg from '../assets/student-mobile-campus.webp';
 
 const pillarImages = {
-  'admissions-identity': admissionsImg,
-  'academics-learning': studentsLabImg,
-  'finance-hr': boardroomImg,
-  'campus-services': fleetImg,
+  'academics-operation': studentsLabImg,
+  'administrative-operations': boardroomImg,
+  'campus-operations': fleetImg,
+  'student-management-engagement': studentMobileImg,
 };
 
 export function CampoIntroduction() {
@@ -188,6 +189,13 @@ export function CampoIntroduction() {
                           </div>
                         </div>
 
+                        {selectedPillar.alertQuote && (
+                          <div className="mb-2.5 inline-flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-1.5 text-[11px] font-semibold text-amber-900 border border-amber-200/80">
+                            <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
+                            <span>{selectedPillar.alertQuote}</span>
+                          </div>
+                        )}
+
                         <p className="text-xs sm:text-sm leading-relaxed text-slate-600">
                           {selectedPillar.description}
                         </p>
@@ -195,16 +203,16 @@ export function CampoIntroduction() {
                         {/* Synchronized Applications */}
                         <div className="mt-4 sm:mt-5">
                           <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">
-                            Synchronized Applications
+                            Connected Portals &amp; Workflows
                           </p>
                           <div className="mt-2.5 flex flex-wrap gap-2 sm:gap-2.5">
                             {selectedPillar.modules.map((mod) => (
                               <span
                                 key={mod}
-                                className="inline-flex items-center gap-1.5 sm:gap-2 rounded-xl border border-slate-200 bg-white px-2.5 sm:px-3.5 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold text-campo-navy shadow-xs"
+                                className="inline-flex items-center gap-1.5 sm:gap-2 rounded-xl border border-slate-200 bg-white px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-campo-navy shadow-xs hover:border-campo-teal/60 transition-colors"
                               >
-                                <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-campo-teal-dark" />
-                                {mod}
+                                <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-campo-teal-dark shrink-0" />
+                                <span>{mod}</span>
                               </span>
                             ))}
                           </div>

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { CampoLogo } from './CampoLogo';
 import { SectionHeading, revealEase } from './MotionPrimitives';
+import { campusImpactMetrics } from '../data/campoData';
 import leadershipImg from '../assets/institutional-leadership.webp';
 import libraryImg from '../assets/campus-library.webp';
 import convocationImg from '../assets/campus-convocation-success.webp';
@@ -25,6 +26,40 @@ export function WhyCampo() {
           description="Built directly with campus directors, teachers, and administrators who wanted an ERP that feels natural, fast, and reliable every single day."
           align="center"
         />
+
+        {/* Real results, measured on campus (From Official Brochure) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.5, ease: revealEase }}
+          className="mt-8 sm:mt-10 rounded-3xl border border-slate-200 bg-slate-50/70 p-5 sm:p-7 shadow-xs"
+        >
+          <div className="text-center mb-5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-campo-teal-dark">
+              Demonstrated Impact
+            </span>
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-campo-navy mt-0.5">
+              Real results, measured on campus.
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {campusImpactMetrics.map((item, idx) => (
+              <div
+                key={idx}
+                className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-4 text-center shadow-xs hover:border-campo-teal/50 hover:shadow-card transition-all"
+              >
+                <div className="font-display text-2xl sm:text-3xl font-black text-campo-teal-dark tracking-tight">
+                  {item.value}
+                </div>
+                <p className="mt-1 text-xs font-semibold text-slate-700 leading-snug">
+                  {item.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Split-Screen Composition with Authentic Campus Photography */}
         <div className="mt-12 grid items-stretch gap-8 lg:grid-cols-12 lg:gap-10">

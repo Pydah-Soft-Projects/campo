@@ -8,6 +8,7 @@ import { ApplicationsSection } from './components/ApplicationsSection';
 import { IntelligenceSection } from './components/IntelligenceSection';
 import { HowItWorks } from './components/HowItWorks';
 import { WhyCampo } from './components/WhyCampo';
+import { PricingSection } from './components/PricingSection';
 import { CTASection } from './components/CTASection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
@@ -141,6 +142,9 @@ export default function App() {
               <IntelligenceSection />
               <HowItWorks />
               <WhyCampo />
+              <PricingSection
+                onRequestDemo={(plan) => navigateToContact(plan ? `Pricing Inquiry: ${plan}` : 'Demo Request')}
+              />
               <CTASection
                 onRequestDemo={() => navigateToContact('Demo Request')}
                 onContactUs={() => navigateToContact('General Inquiry')}

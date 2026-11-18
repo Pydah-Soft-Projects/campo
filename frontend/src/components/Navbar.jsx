@@ -23,6 +23,7 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
 
     const sections = [
       { id: 'contact', href: '#contact' },
+      { id: 'pricing', href: '#pricing' },
       { id: 'about', href: '#about' },
       { id: 'features', href: '#features' },
       { id: 'solutions', href: '#solutions' },

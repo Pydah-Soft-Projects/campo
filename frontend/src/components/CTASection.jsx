@@ -29,15 +29,21 @@ export function CTASection({ onRequestDemo, onContactUs }) {
                   <span aria-hidden="true" className="h-4 w-px bg-white/20" />
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-campo-teal backdrop-blur-xs">
                     <Sparkles className="h-3 w-3" />
-                    Intelligent Campus Governance
+                    AI-Powered Campus Operating System
+                  </span>
+                </div>
+
+                <div className="mb-2 inline-block">
+                  <span className="text-xs font-bold uppercase tracking-wider text-campo-teal">
+                    The AI notices first. You decide what happens next.
                   </span>
                 </div>
 
                 <h2 className="font-display text-2xl font-extrabold leading-[1.15] tracking-tight text-white sm:text-4xl lg:text-5xl">
-                  Your Institution Deserves a Truly Connected Future.
+                  See Campo on your campus.
                 </h2>
                 <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-200">
-                  Discover how Campo brings your admissions, academic records, fee ledgers, and campus workforce into one unified institutional operating system.
+                  Campo reads what is already happening across your campus and flags what is out of place, so you stop being last to know. Book a short demo, or start free with full access for 90 days.
                 </p>
               </div>
 
@@ -47,7 +53,7 @@ export function CTASection({ onRequestDemo, onContactUs }) {
                   onClick={onRequestDemo}
                   className="group inline-flex items-center justify-center gap-2 rounded-xl bg-campo-teal px-7 py-3.5 text-sm font-bold text-campo-deep shadow-card transition-all duration-200 hover:bg-[#19d6c6] hover:shadow-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-white sm:text-base"
                 >
-                  Request a Demo
+                  Book a Demo
                   <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </button>
 
@@ -56,7 +62,7 @@ export function CTASection({ onRequestDemo, onContactUs }) {
                   onClick={onContactUs}
                   className="group inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/20 sm:text-base"
                 >
-                  Contact Us
+                  Start Free
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </button>
               </div>

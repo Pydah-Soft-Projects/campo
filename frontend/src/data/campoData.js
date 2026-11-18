@@ -34,6 +34,7 @@ export const navLinks = [
   { label: 'Home', href: '#home' },
   { label: 'Platform', href: '#platform' },
   { label: 'Solutions', href: '#solutions' },
+  { label: 'Pricing', href: '#pricing' },
   { label: 'Features', href: '#features' },
   { label: 'About Us', href: '#about' },
   { label: 'Contact', href: '#contact' },
@@ -113,36 +114,60 @@ export const ecosystemHighlights = [
 
 export const ecosystemPillars = [
   {
-    id: 'admissions-identity',
-    label: 'Admissions & Student Identity',
-    modules: ['Admissions CRM', 'Student Data Management'],
-    sharedData: 'Unified Student ID, Applicant Journey, Verified Documents',
+    id: 'academics-operation',
+    label: 'Academics Operations',
+    modules: [
+      'Academics',
+      'Examination',
+      'Library',
+      'CRT & Placement Training',
+    ],
+    sharedData: 'Lesson Plans, Faculty Substitutions, Hall Tickets, Placement Batches',
+    alertQuote: 'Low attendance found when it is too late? Exam clashes at the last minute?',
     description:
-      'Converts enquiries seamlessly into verified institutional student profiles without duplicate data entry.',
+      'Campo alerts you to a slipping section, an absent teacher, timetable clashes, and missing marks early—so classes run on time and results go out without last-minute delays.',
   },
   {
-    id: 'academics-learning',
-    label: 'Academics & Library Resources',
-    modules: ['Academic Management', 'Library Management', 'Examination Management'],
-    sharedData: 'Course Rosters, Timetables, Library Circulation, Exam Eligibility',
+    id: 'administrative-operations',
+    label: 'Administrative Operations',
+    modules: [
+      'Admission Management',
+      'Fee Management',
+      'Staff Recruitment',
+      'HRMS & Payroll',
+    ],
+    sharedData: 'Enquiry Leads, Fee Dues, Staff Records, Payroll Ledgers',
+    alertQuote: 'Fee dues piling up and nobody chasing? Enquiries lost and staff records scattered?',
     description:
-      'Keeps curriculum schedules, library accessions and circulation, and examination processes synchronized.',
+      'Campo keeps every fee due in one place and sends reminders automatically. Assigns each enquiry to a counsellor and manages employee leave, vacancies, and payroll in one record.',
   },
   {
-    id: 'finance-hr',
-    label: 'Finance & People Operations',
-    modules: ['Fee Management', 'HRMS', 'Staff Recruitment System'],
-    sharedData: 'Fee Ledgers, Concessions, Staff Records, Leave & Hiring Pipelines',
+    id: 'campus-operations',
+    label: 'Campus Operations',
+    modules: [
+      'Hostels Management',
+      'Transport Management',
+      'Stationary Store Management',
+      'Inventory Management',
+      'Maintenance Management',
+    ],
+    sharedData: 'Bus Fleet & GPS, Hostel Curfew, Store Stock, Maintenance Tickets',
+    alertQuote: 'Fuel, food and stock costs keep rising? Repairs reported late as complaints?',
     description:
-      'Aligns institutional financial tracking with employee lifecycle, attendance, and faculty recruitment.',
+      'Campo tracks every bus route, meal count, and stock level so waste drops. Logs each facility maintenance request and tracks it until it is verified and closed.',
   },
   {
-    id: 'campus-services',
-    label: 'Campus Services & Maintenance',
-    modules: ['Campus Transport', 'Hostel', 'Stationery', 'Maintenance'],
-    sharedData: 'Routes & Fleet, Hostel Residents, Inventory Stock, Facility Complaints',
+    id: 'student-management-engagement',
+    label: 'Student Management & Engagement',
+    modules: [
+      'Student Management',
+      'Student Clubs',
+      'Student & Parent Mobile app',
+    ],
+    sharedData: 'Verified Student ID, Club Rosters, Multi-Channel Broadcasts, Bus Live Map',
+    alertQuote: 'Parents keep calling to ask where the bus is? Circulars do not reach everyone?',
     description:
-      'Brings daily campus logistics, facility complaints, and maintenance tracking into the exact same connected ecosystem.',
+      'Campo shows the live bus location in the parent app along with fees, attendance, and results. Sends each official notice by SMS, WhatsApp, and app together with delivery confirmation.',
   },
 ];
 
@@ -430,8 +455,8 @@ export const footerColumns = {
   platform: [
     { label: 'Overview', href: '#platform' },
     { label: 'Applications', href: '#solutions' },
+    { label: 'Pricing Plans', href: '#pricing' },
     { label: 'Features', href: '#features' },
-    { label: 'AI Capabilities', href: '#features' },
     { label: 'Download App', href: '/download' },
   ],
   solutions: [
@@ -448,4 +473,136 @@ export const footerColumns = {
     { label: 'Admin Login', href: '/admin/login' },
   ],
 };
+
+// =========================================================================
+// PRICING CONFIGURATION (From Campo 2026 Brochure)
+// =========================================================================
+export const pricingPlans = [
+  {
+    id: 'core',
+    name: 'Core',
+    price: '200',
+    billingPeriod: 'per student, per year',
+    popular: false,
+    badge: null,
+    summary: 'Students, classes, admissions and staff in one place.',
+    buttonText: 'Start Core Plan',
+    categories: [
+      {
+        name: 'Academics Operations',
+        modules: 'Academics, Examinations, Library',
+      },
+      {
+        name: 'Administrative Operations',
+        modules: 'Admissions, Fees, Lab Management, HRMS and Payroll',
+      },
+      {
+        name: 'Student Management and Engagement',
+        modules: 'Student Management, Student Clubs, Communications, Student and Parent App',
+      },
+    ],
+  },
+  {
+    id: 'campus',
+    name: 'Campus',
+    price: '300',
+    billingPeriod: 'per student, per year',
+    popular: true,
+    badge: 'Most campuses choose this',
+    summary: 'Adds buses, hostels, store and upkeep.',
+    buttonText: 'Start Campus Plan',
+    categories: [
+      {
+        name: 'Academics Operations',
+        modules: 'Academics, Examinations, Library',
+      },
+      {
+        name: 'Administrative Operations',
+        modules: 'Admissions, Fees, Lab Management, HRMS and Payroll',
+      },
+      {
+        name: 'Student Management and Engagement',
+        modules: 'Student Management, Student Clubs, Communications, Student and Parent App',
+      },
+      {
+        name: 'Campus Operations',
+        modules: 'Hostel, Transport, Stationery Store, Maintenance',
+      },
+    ],
+  },
+  {
+    id: 'campus-ai',
+    name: 'Campus AI',
+    price: '400',
+    billingPeriod: 'per student, per year',
+    popular: false,
+    badge: 'Enterprise Intelligence',
+    summary: 'Adds placement, recruitment, inventory and AI alerts.',
+    buttonText: 'Start Campus AI Plan',
+    categories: [
+      {
+        name: 'Academics Operations',
+        modules: 'Academics, Examinations, Library, CRT and Placement Hub',
+      },
+      {
+        name: 'Administrative Operations',
+        modules: 'Admissions, Fees, Lab Management, Staff Recruitment, HRMS and Payroll',
+      },
+      {
+        name: 'Student Management and Engagement',
+        modules: 'Student Management, Student Clubs, Communications, Student and Parent App',
+      },
+      {
+        name: 'Campus Operations',
+        modules: 'Hostel, Transport, Stationery Store, Inventory, Maintenance',
+      },
+      {
+        name: 'Intelligent AI Alerts',
+        modules: 'AI alerts across every area',
+        isAi: true,
+      },
+    ],
+  },
+];
+
+export const integrationHighlights = {
+  title: 'Connecting your tools costs nothing.',
+  description:
+    'Biometric devices, WhatsApp, bulk SMS and payment gateways are set up and supported by us, with no integration charge.',
+  tools: [
+    'Biometric Devices',
+    'WhatsApp Business API',
+    'Bulk SMS Gateways',
+    'Online Payment Gateways',
+    'Zero Integration Charges',
+  ],
+};
+
+export const pickPlugPlaySteps = [
+  {
+    tag: 'Pick',
+    title: 'Pick',
+    description: 'Any one feature, or as many as you like.',
+  },
+  {
+    tag: 'Plug',
+    title: 'Plug',
+    description: 'It connects with the software and APIs you already use.',
+  },
+  {
+    tag: 'Play',
+    title: 'Play',
+    description: 'Ask us for a quote, and add more modules whenever you’re ready.',
+  },
+];
+
+export const campusImpactMetrics = [
+  { value: '500K+', label: 'Messages delivered to parents & students' },
+  { value: '15K+', label: 'Students & parents actively using it' },
+  { value: '12%', label: 'Mileage saving on campus transport' },
+  { value: '15%', label: 'Food saving in campus hostels' },
+  { value: '50%', label: 'Lower processing fee than others' },
+  { value: '8%', label: 'Increase in admission enrolment' },
+];
+
 

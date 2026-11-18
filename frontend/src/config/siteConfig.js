@@ -10,11 +10,11 @@ export const siteConfig = {
       'An integrated institutional management platform uniting admissions, academics, finance, administration, campus operations, and permission-scoped intelligence.',
   },
   contact: {
-    email: 'contact@campo-institution.example',
-    phone: '+[Country] [Institution Contact Number]',
-    address: '[Campus / Corporate Office Address Placeholder]',
-    website: 'https://campo-institution.example',
-    note: 'Contact details above are configurable placeholders in src/config/siteConfig.js.',
+    email: 'hello@campo.co.in',
+    phone: '+91 98483 05284',
+    address: 'Pydahsoft Pvt Ltd, Kakinada Yanam Road, Kakinada District, Andhra Pradesh, India',
+    website: 'https://www.campo.co.in',
+    note: 'Official contact details from Pydahsoft Pvt Ltd.',
   },
   social: [
     { id: 'linkedin', label: 'LinkedIn', href: '#contact' },
