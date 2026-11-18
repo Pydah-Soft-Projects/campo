@@ -171,7 +171,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
       {/* ========================================================
           HERO SECTION: APPLE-INSPIRED 3D PRODUCT PRESENTATION
           ======================================================== */}
-      <section className="relative min-h-[calc(100vh-76px)] flex items-center overflow-hidden bg-gradient-to-b from-[#F0FDF9]/80 via-slate-50 to-white py-8 sm:py-14 lg:py-16">
+      <section className="relative min-h-[calc(100vh-76px)] flex items-center overflow-hidden bg-gradient-to-b from-[#F0FDF9]/80 via-slate-50 to-white pt-24 pb-14 sm:pt-28 sm:pb-16 lg:py-16">
         {/* Subtle Mint Gradient & Ambient Floating Orbs */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           {/* Subtle Dot Grid Canvas */}
@@ -238,8 +238,8 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                     {['Your', 'Entire', 'Campus', 'Life.'].map((word, i) => (
                       <motion.span
                         key={word}
-                        initial={{ opacity: 0, y: '100%', filter: 'blur(3px)' }}
-                        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{
                           duration: 0.55,
                           delay: i * 0.07,
@@ -256,8 +256,8 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                     {['Right', 'in', 'Your'].map((word, i) => (
                       <motion.span
                         key={word}
-                        initial={{ opacity: 0, y: '100%', filter: 'blur(3px)' }}
-                        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{
                           duration: 0.55,
                           delay: (i + 4) * 0.07,
@@ -269,8 +269,8 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                       </motion.span>
                     ))}
                     <motion.span
-                      initial={{ opacity: 0, y: '100%', filter: 'blur(3px)' }}
-                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
                       transition={{
                         duration: 0.55,
                         delay: 7 * 0.07,
@@ -286,8 +286,8 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
 
               {/* Description Fade-Up */}
               <motion.p
-                initial={prefersReducedMotion ? undefined : { opacity: 0, y: 18, filter: 'blur(2px)' }}
-                animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0, filter: 'blur(0px)' }}
+                initial={prefersReducedMotion ? undefined : { opacity: 0, y: 14 }}
+                animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.45, ease: revealEase }}
                 className="mt-3 sm:mt-4 max-w-xl text-xs sm:text-base leading-relaxed text-slate-600"
               >
@@ -374,7 +374,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                 initial={prefersReducedMotion ? undefined : { opacity: 0 }}
                 animate={prefersReducedMotion ? undefined : { opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.65 }}
-                className="mt-5 sm:mt-6 flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] sm:text-xs font-medium text-slate-500 border-t border-slate-100 pt-3.5 sm:pt-4"
+                className="mt-6 sm:mt-7 flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] sm:text-xs font-medium text-slate-500 border-t border-slate-100 pt-4 mb-3 sm:mb-0"
               >
                 <motion.span
                   whileHover={prefersReducedMotion ? undefined : { scale: 1.04, y: -1 }}
@@ -424,7 +424,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
       {/* ========================================================
           3-STEP SETUP GUIDE (SCROLL REVEAL ANIMATIONS)
           ======================================================== */}
-      <section className="section-padding bg-slate-50/70 border-t border-slate-200/80">
+      <section className="section-padding bg-slate-50/70 border-t border-slate-200/80 pt-16 sm:pt-20">
         <div className="container-campo">
           <SectionHeading
             index="01"
@@ -434,7 +434,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
             align="center"
           />
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+          <div className="mt-6 sm:mt-10 grid gap-3.5 sm:gap-6 sm:grid-cols-3">
             {setupSteps.map((step, idx) => (
               <motion.div
                 key={step.number}
@@ -443,7 +443,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.45, delay: idx * 0.1, ease: revealEase }}
                 whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.015 }}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-6 shadow-card transition-all duration-300 hover:border-slate-300 hover:shadow-elevated"
+                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-6 shadow-card transition-all duration-300 hover:border-slate-300 hover:shadow-elevated"
               >
                 {/* Left Teal Accent Line on Hover (matches ecosystem pillar style) */}
                 <span
@@ -453,50 +453,26 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
 
                 <div>
                   {/* Header Row: Title on Left, Large Typographic Number on Right */}
-                  <div className="flex items-start justify-between gap-4">
-                    <h3 className="font-display text-base sm:text-lg font-bold text-campo-navy transition-colors group-hover:text-campo-secondary">
+                  <div className="flex items-start justify-between gap-3 sm:gap-4">
+                    <h3 className="font-display text-sm sm:text-base lg:text-lg font-bold text-campo-navy transition-colors group-hover:text-campo-secondary">
                       {step.title}
                     </h3>
-                    <span className="shrink-0 font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-none text-slate-400/80 transition-colors duration-300 group-hover:text-campo-teal">
+                    <span className="shrink-0 font-display text-xl sm:text-3xl lg:text-4xl font-extrabold leading-none text-slate-400/80 transition-colors duration-300 group-hover:text-campo-teal">
                       {step.number}
                     </span>
                   </div>
 
-                  <p className="mt-3 text-xs sm:text-[13px] leading-relaxed text-slate-600">
+                  <p className="mt-2 sm:mt-3 text-[11px] sm:text-xs lg:text-[13px] leading-relaxed text-slate-600">
                     {step.description}
                   </p>
                 </div>
               </motion.div>
             ))}
           </div>
-
-          {/* Need Institutional Demo Banner */}
-          <div className="mt-14 rounded-3xl bg-campo-navy p-6 sm:p-10 text-white flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-campo-teal">
-                For College Leadership &amp; Administrators
-              </span>
-              <h3 className="mt-1 font-display text-xl sm:text-2xl font-bold">
-                Want to deploy the Campo Student App for your campus?
-              </h3>
-              <p className="mt-1 text-xs sm:text-sm text-slate-300">
-                We provide complete onboarding, student data synchronization, and campus branding.
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={onRequestDemo}
-              className="w-full sm:w-auto inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-campo-teal px-6 py-3 text-sm font-bold text-campo-deep shadow-card hover:bg-[#19d6c6] transition-all"
-            >
-              <span>Schedule Institutional Demo</span>
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
         </div>
       </section>
 
-      {/* Institutional Demo CTA Card (Moved from below pricing) */}
+      {/* Institutional Demo CTA Card */}
       <CTASection
         onRequestDemo={onRequestDemo}
         onContactUs={onContactUs || onRequestDemo}

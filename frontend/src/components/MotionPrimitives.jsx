@@ -134,6 +134,8 @@ export function SectionHeading({
   title,
   description,
   align = 'left',
+  titleClassName = '',
+  descriptionClassName = '',
 }) {
   const isCenter = align === 'center';
 
@@ -144,20 +146,20 @@ export function SectionHeading({
     >
       {(index || label) && (
         <div
-          className={`mb-3 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark ${
+          className={`mb-2.5 sm:mb-3 flex items-center gap-2 sm:gap-2.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark ${
             isCenter ? 'justify-center' : ''
           }`}
         >
           {index && <span className="font-mono text-campo-navy/45">{index}</span>}
-          {index && label && <span className="h-px w-5 bg-slate-300" />}
+          {index && label && <span className="h-px w-4 sm:w-5 bg-slate-300" />}
           {label && <span>{label}</span>}
         </div>
       )}
-      <h2 className="font-display text-[1.65rem] font-bold leading-[1.2] tracking-tight text-campo-navy sm:text-4xl lg:text-[2.6rem] lg:leading-[1.14]">
+      <h2 className={`font-display text-xl sm:text-3xl lg:text-[2.6rem] font-bold leading-[1.2] lg:leading-[1.14] tracking-tight text-campo-navy ${titleClassName}`}>
         {title}
       </h2>
       {description && (
-        <p className="mt-3 text-sm leading-relaxed text-campo-muted sm:mt-4 sm:text-lg">
+        <p className={`mt-2.5 sm:mt-4 text-xs sm:text-base leading-relaxed text-campo-muted ${descriptionClassName}`}>
           {description}
         </p>
       )}

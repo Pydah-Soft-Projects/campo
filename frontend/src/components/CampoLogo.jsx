@@ -1,6 +1,6 @@
 import React from 'react';
-import campoLogoDarkText from '../assets/campo-logo-dark-text.png';
-import campoLogoLightText from '../assets/campo-logo-transparent.png';
+import campoLogoDarkText from '../assets/campo-logo-dark-text-crisp.png';
+import campoLogoLightText from '../assets/campo-logo-transparent-crisp.png';
 
 /**
  * Renders the official Campo brand logo directly without container boxes.
@@ -19,6 +19,8 @@ export function CampoLogo({
     <img
       src={src}
       alt="Campo"
+      width={432}
+      height={128}
       className={`${sizeClass} w-auto select-none object-contain ${className}`}
       draggable={false}
     />
