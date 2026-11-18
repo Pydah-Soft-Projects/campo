@@ -259,16 +259,20 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
       {/* 2. Interactive Desktop Workspace Showcase */}
       <section className="section-padding bg-slate-50/70 border-b border-slate-200/80 relative overflow-hidden">
         <div className="container-campo relative z-10">
-          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
             <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-campo-navy">
-              Institutional Desktop Workspace
+              {app.id === 'student-data'
+                ? 'Student Portal & Mobile Companion'
+                : 'Institutional Desktop Workspace'}
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-slate-600">
-              High-velocity institutional interface designed for multi-branch autonomy, bulk approvals, and live operational visibility.
+              {app.id === 'student-data'
+                ? 'Unified student portal interface designed for real-time attendance, timetables, and fee transparency.'
+                : 'High-velocity institutional interface designed for multi-branch autonomy, bulk approvals, and live operational visibility.'}
             </p>
           </div>
 
-          <div className="max-w-5xl lg:max-w-6xl xl:max-w-[1240px] mx-auto px-2 sm:px-8 md:px-12 lg:px-14">
+          <div className="max-w-4xl lg:max-w-5xl mx-auto px-2 sm:px-6">
             <LaptopMockup
               screens={app.screens || (app.previewImage ? [app.previewImage] : [])}
               alt={`${app.name} Workspace Preview`}

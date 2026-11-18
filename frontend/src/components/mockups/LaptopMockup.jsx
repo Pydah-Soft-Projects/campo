@@ -62,6 +62,7 @@ export function LaptopMockup({
       title: item.title || `Screen ${index + 1}`,
       description: item.description,
       alt: item.alt || item.title || `${alt} ${index + 1}`,
+      fit: item.fit,
     };
   });
 
@@ -161,8 +162,8 @@ export function LaptopMockup({
             {currentScreen ? (
               /* Case A: Screen image is present (Edge-to-Edge Pristine Display - Zero Cropping) */
               <div
-                className={`relative w-full overflow-hidden bg-slate-100 flex items-center justify-center ${
-                  currentScreen.fit === 'contain' ? 'aspect-[16/9] sm:aspect-[16/8.5] py-4' : ''
+                className={`relative w-full overflow-hidden bg-slate-100 flex items-center justify-center ${aspectClass} ${
+                  currentScreen.fit === 'contain' ? 'p-2.5 sm:p-4 md:p-5' : ''
                 }`}
               >
                 <AnimatePresence initial={false} mode="wait">
@@ -172,15 +173,15 @@ export function LaptopMockup({
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: direction > 0 ? -25 : 25 }}
                     transition={{ duration: 0.35, ease: 'easeInOut' }}
-                    className="w-full flex items-center justify-center bg-slate-100"
+                    className="w-full h-full flex items-center justify-center"
                   >
                     <img
                       src={currentScreen.src}
                       alt={currentScreen.alt}
                       className={
                         currentScreen.fit === 'contain'
-                          ? 'max-h-[480px] sm:max-h-[580px] lg:max-h-[640px] w-auto mx-auto object-contain drop-shadow-lg rounded-2xl'
-                          : 'w-full h-auto block object-contain object-top'
+                          ? 'h-full max-h-full w-auto object-contain mx-auto drop-shadow-xl rounded-xl'
+                          : 'w-full h-full object-cover object-top'
                       }
                       loading="lazy"
                       decoding="async"
