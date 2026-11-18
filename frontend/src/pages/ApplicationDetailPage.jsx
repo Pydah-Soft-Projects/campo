@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowRight,
   CheckCircle2,
@@ -17,7 +17,85 @@ import { revealEase } from '../components/MotionPrimitives';
 import { CampoLogo } from '../components/CampoLogo';
 import { LaptopMockup } from '../components/mockups/LaptopMockup';
 
+// Staggered container variants for rock-solid repeatable scroll animations
+const staggerGridVariants = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const capabilityCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 35,
+    scale: 0.96,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.48,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const workflowStepVariants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+    scale: 0.96,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const itemSlideLeftVariants = {
+  hidden: {
+    opacity: 0,
+    x: -25,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const itemSlideRightVariants = {
+  hidden: {
+    opacity: 0,
+    x: 25,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
 export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, onRequestDemo }) {
+  const prefersReducedMotion = useReducedMotion();
+
   // Scroll to top when page opens or appId changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -206,7 +284,13 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
       {/* 3. Key Operational Capabilities (6 Focused Cards) */}
       <section id="features-section" className="section-padding bg-slate-50/60 border-b border-slate-200/80">
         <div className="container-campo">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.5, ease: revealEase }}
+            className="text-center max-w-2xl mx-auto mb-12"
+          >
             <span className="text-xs font-bold uppercase tracking-wider text-campo-teal-dark">
               Core System Capabilities
             </span>
@@ -216,21 +300,29 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
             <p className="mt-2 text-xs sm:text-sm text-slate-600">
               Each capability is built to eliminate manual clerical overhead and provide instant verification.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div
+            variants={staggerGridVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.15 }}
+            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          >
             {app.capabilities.map((cap) => {
               const Icon = cap.icon;
               return (
-                <div
-                  key={cap.title}
-                  className="group flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-6 shadow-card transition-all duration-300 hover:border-campo-teal/60 hover:shadow-elevated hover:-translate-y-1"
+                <motion.div
+                  key={`${app.id}-${cap.title}`}
+                  variants={capabilityCardVariants}
+                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                  className="group flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-6 shadow-card transition-[border-color,box-shadow] duration-200 hover:border-campo-teal/70 hover:shadow-elevated"
                 >
                   <div>
-                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-campo-navy transition-all duration-300 group-hover:border-campo-teal/50 group-hover:bg-campo-teal/10 group-hover:text-campo-teal-dark">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-campo-navy transition-[border-color,background-color,color] duration-200 group-hover:border-campo-teal/50 group-hover:bg-campo-teal/10 group-hover:text-campo-teal-dark">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <h3 className="mt-4 font-display text-base font-bold text-campo-navy">
+                    <h3 className="mt-4 font-display text-base font-bold text-campo-navy transition-colors duration-200 group-hover:text-campo-secondary">
                       {cap.title}
                     </h3>
                     <p className="mt-2 text-xs sm:text-[13px] leading-relaxed text-slate-600">
@@ -242,30 +334,44 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
                     <CheckCircle2 className="h-3.5 w-3.5" />
                     <span>{cap.benefit}</span>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* 3. Sequential Workflow Process */}
       <section className="section-padding bg-white border-b border-slate-200/80">
         <div className="container-campo">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.5, ease: revealEase }}
+            className="text-center max-w-2xl mx-auto mb-12"
+          >
             <span className="text-xs font-bold uppercase tracking-wider text-campo-teal-dark">
               Standardized Workflow
             </span>
             <h2 className="mt-1.5 font-display text-2xl sm:text-3xl font-extrabold text-campo-navy">
               How {app.name} Operates From Start to Finish
             </h2>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <motion.div
+            variants={staggerGridVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.15 }}
+            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          >
             {app.workflowSteps.map((ws) => (
-              <div
-                key={ws.step}
-                className="relative rounded-2xl border border-slate-200 bg-slate-50/70 p-5 shadow-2xs hover:border-campo-teal/40 transition-colors"
+              <motion.div
+                key={`${app.id}-${ws.step}`}
+                variants={workflowStepVariants}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="relative rounded-2xl border border-slate-200 bg-slate-50/70 p-5 shadow-2xs transition-[border-color,box-shadow] duration-200 hover:border-campo-teal/40"
               >
                 <span className="font-mono text-2xl font-black text-campo-teal block mb-2">
                   {ws.step}
@@ -276,9 +382,9 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
                 <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">
                   {ws.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -297,11 +403,18 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
                 </h3>
               </div>
 
-              <div className="space-y-3">
+              <motion.div
+                variants={staggerGridVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.15 }}
+                className="space-y-3"
+              >
                 {app.stakeholders.map((sh) => (
-                  <div
-                    key={sh.role}
-                    className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs"
+                  <motion.div
+                    key={`${app.id}-${sh.role}`}
+                    variants={itemSlideLeftVariants}
+                    className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs transition-[border-color,box-shadow] duration-200 hover:border-campo-teal/40 hover:shadow-xs"
                   >
                     <div className="flex items-center gap-2">
                       <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-campo-navy text-campo-teal">
@@ -314,9 +427,9 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
                     <p className="mt-2 text-xs text-slate-600 leading-relaxed">
                       {sh.responsibility}
                     </p>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
 
             {/* Right: Connected Modules */}
@@ -330,11 +443,18 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
                 </h3>
               </div>
 
-              <div className="space-y-3">
+              <motion.div
+                variants={staggerGridVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.15 }}
+                className="space-y-3"
+              >
                 {app.connectedModules.map((cm) => (
-                  <div
-                    key={cm.name}
-                    className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs"
+                  <motion.div
+                    key={`${app.id}-${cm.name}`}
+                    variants={itemSlideRightVariants}
+                    className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs transition-[border-color,box-shadow] duration-200 hover:border-campo-teal/40 hover:shadow-xs"
                   >
                     <div className="flex items-center gap-2">
                       <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -347,9 +467,9 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
                     <p className="mt-2 text-xs text-slate-600 leading-relaxed">
                       {cm.desc}
                     </p>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
