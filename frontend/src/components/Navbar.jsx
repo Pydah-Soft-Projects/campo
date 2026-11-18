@@ -90,6 +90,17 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
     onRequestDemo?.();
   };
 
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
@@ -182,69 +193,82 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
 
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            id="mobile-navigation"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-t border-slate-200 bg-white shadow-elevated lg:hidden"
-          >
-            <div className="container-campo flex flex-col gap-1 py-4">
-              {navLinks.map((link) => {
-                const isActive = activeHref === link.href && currentPath === '/';
-                return (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors ${
-                      isActive
-                        ? 'bg-campo-light text-campo-navy'
-                        : 'text-slate-600 hover:bg-slate-50 hover:text-campo-navy'
-                    }`}
-                  >
-                    <span>{link.label}</span>
-                    {isActive && (
-                      <span className="h-1.5 w-1.5 rounded-full bg-campo-teal-dark" />
-                    )}
-                  </a>
-                );
-              })}
+          <>
+            {/* Backdrop Overlay for Mobile Drawer */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMobileOpen(false)}
+              className="fixed inset-0 top-[60px] z-40 bg-slate-900/40 backdrop-blur-xs lg:hidden"
+              aria-hidden="true"
+            />
 
-              <a
-                href="/download"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setMobileOpen(false);
-                  onNavigate?.('/download');
-                }}
-                className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors ${
-                  currentPath === '/download'
-                    ? 'bg-campo-light text-campo-navy'
-                    : 'text-slate-600 hover:bg-slate-50 hover:text-campo-navy'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <Smartphone className="h-4 w-4 text-campo-teal-dark" />
-                  <span>Download Mobile App</span>
-                </div>
-                <span className="rounded-md bg-teal-50 px-2 py-0.5 text-[10px] font-semibold text-campo-teal-dark">
-                  Android &amp; iOS
-                </span>
-              </a>
-              <div className="mt-3 border-t border-slate-100 pt-3">
-                <button
-                  type="button"
-                  onClick={handleDemoClick}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-campo-navy px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-campo-secondary"
+            <motion.div
+              id="mobile-navigation"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-50 max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-slate-200 bg-white shadow-elevated lg:hidden"
+            >
+              <div className="container-campo flex flex-col gap-1 py-4">
+                {navLinks.map((link) => {
+                  const isActive = activeHref === link.href && currentPath === '/';
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={(e) => handleNavClick(e, link.href)}
+                      className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors active:scale-[0.99] ${
+                        isActive
+                          ? 'bg-campo-light text-campo-navy'
+                          : 'text-slate-600 hover:bg-slate-50 hover:text-campo-navy'
+                      }`}
+                    >
+                      <span>{link.label}</span>
+                      {isActive && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-campo-teal-dark" />
+                      )}
+                    </a>
+                  );
+                })}
+
+                <a
+                  href="/download"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileOpen(false);
+                    onNavigate?.('/download');
+                  }}
+                  className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors active:scale-[0.99] ${
+                    currentPath === '/download'
+                      ? 'bg-campo-light text-campo-navy'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-campo-navy'
+                  }`}
                 >
-                  Request a Demo
-                  <ArrowUpRight className="h-4 w-4 text-campo-teal" />
-                </button>
+                  <div className="flex items-center gap-2.5">
+                    <Smartphone className="h-4 w-4 text-campo-teal-dark" />
+                    <span>Download Mobile App</span>
+                  </div>
+                  <span className="rounded-md bg-teal-50 px-2 py-0.5 text-[10px] font-semibold text-campo-teal-dark">
+                    Android &amp; iOS
+                  </span>
+                </a>
+                <div className="mt-3 border-t border-slate-100 pt-3">
+                  <button
+                    type="button"
+                    onClick={handleDemoClick}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-campo-navy px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-campo-secondary active:scale-[0.99]"
+                  >
+                    Request a Demo
+                    <ArrowUpRight className="h-4 w-4 text-campo-teal" />
+                  </button>
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

@@ -42,7 +42,7 @@ export function HeroSection({ onRequestDemo }) {
     <section
       ref={sectionRef}
       id="home"
-      className="relative flex min-h-[640px] items-center overflow-hidden bg-gradient-to-b from-[#F8FAFC] via-white to-white pb-14 pt-24 sm:min-h-[700px] sm:pb-24 sm:pt-32 lg:min-h-[min(100vh,940px)] lg:py-20"
+      className="relative flex min-h-[520px] items-center overflow-hidden bg-gradient-to-b from-[#F8FAFC] via-white to-white pb-14 pt-28 sm:min-h-[700px] sm:pb-24 sm:pt-32 lg:min-h-[min(100vh,940px)] lg:py-20"
     >
       {/* Subtle Ambient Background Gradients */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -85,7 +85,7 @@ export function HeroSection({ onRequestDemo }) {
               <button
                 type="button"
                 onClick={onRequestDemo}
-                className="whitespace-nowrap inline-flex items-center justify-center gap-2 h-12 sm:h-13 px-6 sm:px-7 rounded-xl bg-campo-navy text-sm sm:text-base font-bold text-white shadow-card transition-all duration-200 hover:bg-campo-secondary hover:shadow-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal"
+                className="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 h-12 sm:h-13 px-6 sm:px-7 rounded-xl bg-campo-navy text-sm sm:text-base font-bold text-white shadow-card transition-all duration-200 hover:bg-campo-secondary hover:shadow-elevated active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal"
               >
                 <span>Request a Demo</span>
                 <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -94,7 +94,7 @@ export function HeroSection({ onRequestDemo }) {
               <button
                 type="button"
                 onClick={handleExploreClick}
-                className="whitespace-nowrap inline-flex items-center justify-center gap-2 h-12 sm:h-13 px-6 sm:px-7 rounded-xl border border-slate-300 bg-white text-sm sm:text-base font-bold text-campo-navy transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal shadow-xs"
+                className="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 h-12 sm:h-13 px-6 sm:px-7 rounded-xl border border-slate-300 bg-white text-sm sm:text-base font-bold text-campo-navy transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal shadow-xs"
               >
                 <span>Explore Platform Modules</span>
                 <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -144,46 +144,46 @@ export function HeroSection({ onRequestDemo }) {
             </div>
 
             {/* Trust Badges */}
-            <div className="mt-5 grid grid-cols-3 gap-2 text-xs">
-              <div className="flex items-center gap-1.5 font-semibold text-slate-700">
+            <div className="mt-5 grid grid-cols-3 gap-1.5 sm:gap-2 text-xs">
+              <div className="flex items-center gap-1 sm:gap-1.5 font-semibold text-slate-700">
                 <Layers className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[11px] truncate">Unified Platform</span>
+                <span className="text-[10px] sm:text-[11px] truncate">Unified Platform</span>
               </div>
-              <div className="flex items-center gap-1.5 font-semibold text-slate-700">
+              <div className="flex items-center gap-1 sm:gap-1.5 font-semibold text-slate-700">
                 <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[11px] truncate">Role-Governed</span>
+                <span className="text-[10px] sm:text-[11px] truncate">Role-Governed</span>
               </div>
-              <div className="flex items-center gap-1.5 font-semibold text-slate-700">
+              <div className="flex items-center gap-1 sm:gap-1.5 font-semibold text-slate-700">
                 <Sparkles className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[11px] truncate">Audit-Ready Core</span>
+                <span className="text-[10px] sm:text-[11px] truncate">Audit-Ready Core</span>
               </div>
             </div>
           </motion.div>
 
-          {/* Right Column: Layered Live Product Showcase Mockup with Clean Floating Badges */}
+          {/* Right Column: Layered Live Product Showcase Mockup with Clean Floating Badges (Hidden on mobile view) */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: revealEase }}
-            className="relative lg:col-span-7 xl:col-span-7"
+            className="hidden lg:block relative lg:col-span-7 xl:col-span-7"
           >
             {/* Top Floating Pill: Positioned Elegantly Above the Mockup (No cutoff or overlap) */}
-            <div className="mb-2.5 flex items-center justify-end">
+            <div className="mb-2.5 flex items-center justify-center sm:justify-end">
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35, ease: revealEase }}
-                className="inline-flex items-center gap-2.5 rounded-xl border border-slate-200/90 bg-white/95 px-3.5 py-1.5 shadow-elevated backdrop-blur-md"
+                className="inline-flex items-center gap-2 sm:gap-2.5 rounded-xl border border-slate-200/90 bg-white/95 px-3 py-1.5 sm:px-3.5 shadow-elevated backdrop-blur-md max-w-full"
               >
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-50 text-campo-teal-dark">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-50 text-campo-teal-dark shrink-0">
                   <CheckCircle2 className="h-4 w-4" />
                 </div>
-                <div className="text-left text-xs">
-                  <div className="flex items-center gap-1.5 font-bold text-campo-navy">
+                <div className="text-left text-xs min-w-0">
+                  <div className="flex items-center gap-1.5 font-bold text-campo-navy truncate">
                     <span>94.6% Live Attendance</span>
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
                   </div>
-                  <span className="text-[10px] text-slate-500">Biometric Sync Across 14 Lecture Halls</span>
+                  <span className="text-[10px] text-slate-500 block truncate">Biometric Sync Across 14 Halls</span>
                 </div>
               </motion.div>
             </div>
@@ -194,19 +194,19 @@ export function HeroSection({ onRequestDemo }) {
             </div>
 
             {/* Bottom Floating Pill: Positioned Cleanly Below the Mockup (No overlap with sidebar or bottom bar) */}
-            <div className="mt-2.5 flex items-center justify-start">
+            <div className="mt-2.5 flex items-center justify-center sm:justify-start">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.45, ease: revealEase }}
-                className="inline-flex items-center gap-2.5 rounded-xl border border-slate-200/90 bg-white/95 px-3.5 py-1.5 shadow-elevated backdrop-blur-md"
+                className="inline-flex items-center gap-2 sm:gap-2.5 rounded-xl border border-slate-200/90 bg-white/95 px-3 py-1.5 sm:px-3.5 shadow-elevated backdrop-blur-md max-w-full"
               >
-                <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-campo-navy text-campo-teal">
+                <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-campo-navy text-campo-teal shrink-0">
                   <TrendingUp className="h-4 w-4" />
                 </div>
-                <div className="text-left text-xs">
-                  <p className="font-bold text-campo-navy">₹14.82 Cr Term Fees Realized</p>
-                  <p className="text-[10px] text-emerald-600 font-bold">92.4% Online Reconciliation Rate</p>
+                <div className="text-left text-xs min-w-0">
+                  <p className="font-bold text-campo-navy truncate">₹14.82 Cr Term Fees Realized</p>
+                  <p className="text-[10px] text-emerald-600 font-bold truncate">92.4% Online Reconciliation Rate</p>
                 </div>
               </motion.div>
             </div>

@@ -120,7 +120,7 @@ export function LaptopMockup({
             type="button"
             onClick={handlePrev}
             aria-label="Previous screen"
-            className="absolute -left-3 sm:-left-6 md:-left-8 lg:-left-12 xl:-left-14 top-[45%] -translate-y-1/2 z-30 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-slate-700 shadow-elevated border border-slate-200 transition-all duration-200 hover:bg-slate-50 hover:text-campo-navy hover:scale-110 hover:border-campo-teal/50 active:scale-95"
+            className="hidden sm:flex absolute -left-3 sm:-left-6 md:-left-8 lg:-left-12 xl:-left-14 top-[45%] -translate-y-1/2 z-30 h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-slate-700 shadow-elevated border border-slate-200 transition-all duration-200 hover:bg-slate-50 hover:text-campo-navy hover:scale-110 hover:border-campo-teal/50 active:scale-95"
             title="Previous Screen"
           >
             <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -131,7 +131,7 @@ export function LaptopMockup({
             type="button"
             onClick={handleNext}
             aria-label="Next screen"
-            className="absolute -right-3 sm:-right-6 md:-right-8 lg:-right-12 xl:-right-14 top-[45%] -translate-y-1/2 z-30 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-slate-700 shadow-elevated border border-slate-200 transition-all duration-200 hover:bg-slate-50 hover:text-campo-navy hover:scale-110 hover:border-campo-teal/50 active:scale-95"
+            className="hidden sm:flex absolute -right-3 sm:-right-6 md:-right-8 lg:-right-12 xl:-right-14 top-[45%] -translate-y-1/2 z-30 h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-slate-700 shadow-elevated border border-slate-200 transition-all duration-200 hover:bg-slate-50 hover:text-campo-navy hover:scale-110 hover:border-campo-teal/50 active:scale-95"
             title="Next Screen"
           >
             <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -330,7 +330,7 @@ export function LaptopMockup({
       {/* ========================================================
           3. LAPTOP BASE / LOWER CHASSIS (SILVER ALUMINUM LIP)
           ======================================================== */}
-      <div className="relative mx-auto w-[105%] -ml-[2.5%] sm:w-[107%] sm:-ml-[3.5%] h-3 sm:h-4 rounded-b-xl sm:rounded-b-2xl bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 border-t border-white shadow-[0_15px_30px_-5px_rgba(15,23,42,0.18)]">
+      <div className="relative mx-auto w-full sm:w-[107%] sm:-ml-[3.5%] h-3 sm:h-4 rounded-b-xl sm:rounded-b-2xl bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 border-t border-white shadow-[0_15px_30px_-5px_rgba(15,23,42,0.18)]">
         {/* Front Thumb Notch */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-14 sm:w-20 h-1 sm:h-1.5 rounded-b-md bg-slate-400/80 shadow-inner" />
         {/* Subtle Chamfer Highlight */}
@@ -349,7 +349,7 @@ export function LaptopMockup({
           5. OUTSIDE BOTTOM CONTROLS & AUTO-SCROLL INDICATOR
           ======================================================== */}
       {hasMultiple && (
-        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 px-1 sm:px-2">
           {/* Left: Active Screen Title & Counter */}
           <div className="flex items-center gap-2.5">
             <span className="flex h-2 w-2 rounded-full bg-campo-teal animate-pulse" />

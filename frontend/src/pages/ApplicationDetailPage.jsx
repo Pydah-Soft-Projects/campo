@@ -36,7 +36,7 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
       {/* ========================================================
           HERO SECTION: EXPANDED CARD IMAGE BACKGROUND HERO (68-76vh)
           ======================================================== */}
-      <section className="relative min-h-[66vh] sm:min-h-[70vh] lg:min-h-[76vh] flex flex-col justify-between overflow-hidden bg-slate-950 text-white pt-28 pb-10 sm:pb-14">
+      <section className="relative min-h-[66vh] sm:min-h-[70vh] lg:min-h-[76vh] flex flex-col justify-between overflow-hidden bg-slate-950 text-white pt-24 sm:pt-28 pb-8 sm:pb-14">
         {/* Background Image: The Exact High-Resolution Card Banner Image */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <img
@@ -50,8 +50,8 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
         </div>
 
         {/* Top Breadcrumb Navigation Pill */}
-        <div className="container-campo relative z-10 w-full mb-10 sm:mb-14">
-          <nav aria-label="Breadcrumb" className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-slate-900/60 px-4 py-2 text-xs text-slate-300 backdrop-blur-md shadow-xs">
+        <div className="container-campo relative z-10 w-full mb-6 sm:mb-14">
+          <nav aria-label="Breadcrumb" className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-slate-900/60 px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs text-slate-300 backdrop-blur-md shadow-xs">
             <span
               className="hover:text-white cursor-pointer transition-colors font-medium"
               onClick={() => onNavigate('/')}
@@ -66,7 +66,7 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
               Modules
             </span>
             <ChevronRight className="h-3 w-3 text-slate-400" />
-            <span className="text-campo-teal font-bold">{app.name}</span>
+            <span className="text-campo-teal font-bold truncate max-w-[140px] sm:max-w-none">{app.name}</span>
           </nav>
         </div>
 
@@ -79,21 +79,21 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
             className="max-w-3xl pt-2 sm:pt-4"
           >
             {/* Application Title */}
-            <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1]">
+            <h1 className="font-display text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1]">
               {app.name}
             </h1>
 
             {/* Tagline */}
-            <p className="mt-3.5 text-base sm:text-lg lg:text-xl font-medium text-slate-200 leading-snug">
+            <p className="mt-2.5 sm:mt-3.5 text-sm sm:text-lg lg:text-xl font-medium text-slate-200 leading-snug">
               {app.tagline}
             </p>
 
             {/* CTAs inside Hero */}
-            <div className="mt-6 flex flex-wrap items-center gap-3.5">
+            <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5">
               <button
                 type="button"
                 onClick={onRequestDemo}
-                className="inline-flex items-center gap-2 rounded-xl bg-campo-teal px-6 py-3 text-sm font-bold text-campo-deep shadow-elevated transition-all hover:bg-[#19d6c6] hover:shadow-card hover:-translate-y-0.5"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-campo-teal px-6 py-3 text-sm font-bold text-campo-deep shadow-elevated transition-all hover:bg-[#19d6c6] hover:shadow-card active:scale-[0.99]"
               >
                 <span>Request Live Demo for {app.shortName}</span>
                 <ArrowRight className="h-4 w-4" />
@@ -101,7 +101,7 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
 
               <a
                 href="#features-section"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md transition-all hover:bg-white/20 hover:border-white/40"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md transition-all hover:bg-white/20 hover:border-white/40 active:scale-[0.99]"
               >
                 <span>Explore Capabilities</span>
               </a>
@@ -374,7 +374,7 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
             <button
               type="button"
               onClick={() => onNavigate(`/applications/${nextApp.id}`)}
-              className="inline-flex items-center gap-2 rounded-xl bg-campo-teal px-6 py-3 text-xs sm:text-sm font-bold text-campo-deep shadow-card hover:bg-[#19d6c6] shrink-0"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-campo-teal px-6 py-3 text-xs sm:text-sm font-bold text-campo-deep shadow-card hover:bg-[#19d6c6] shrink-0"
             >
               <span>View {nextApp.name}</span>
               <ArrowRight className="h-4 w-4" />
@@ -398,11 +398,11 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
             Schedule a personalized walkthrough tailored to your college intake, course structure, and departmental rules.
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
             <button
               type="button"
               onClick={onRequestDemo}
-              className="inline-flex items-center gap-2 rounded-xl bg-campo-navy px-7 py-3.5 text-sm font-bold text-white shadow-card hover:bg-campo-secondary transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-campo-navy px-7 py-3.5 text-sm font-bold text-white shadow-card hover:bg-campo-secondary transition-all"
             >
               <span>Schedule Live Campus Walkthrough</span>
               <ArrowRight className="h-4 w-4 text-campo-teal" />
@@ -410,7 +410,7 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
             <button
               type="button"
               onClick={() => onNavigate('/', '#solutions')}
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-all"
             >
               <span>View All 12 Modules</span>
             </button>

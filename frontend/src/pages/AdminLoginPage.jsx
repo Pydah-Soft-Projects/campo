@@ -37,16 +37,16 @@ export function AdminLoginPage({ onNavigate }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background Decorative Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#0e2a47_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.03] pointer-events-none" />
 
       {/* Back to Home Link */}
-      <div className="absolute top-6 left-6 z-10">
+      <div className="sm:absolute top-6 left-6 z-10 mb-6 sm:mb-0">
         <button
           type="button"
           onClick={() => onNavigate?.('/')}
-          className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-campo-navy transition-colors bg-white/80 backdrop-blur-sm px-3.5 py-1.5 rounded-lg border border-slate-200/80 shadow-sm"
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-600 hover:text-campo-navy transition-colors bg-white/80 backdrop-blur-sm px-3.5 py-1.5 rounded-lg border border-slate-200/80 shadow-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Campo Portal
@@ -101,7 +101,7 @@ export function AdminLoginPage({ onNavigate }) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@campo.co.in"
-                  className="block w-full pl-9 pr-3 py-2.5 sm:text-sm border border-slate-200 rounded-lg text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-campo-teal focus:border-campo-teal transition-colors"
+                  className="block w-full pl-9 pr-3 py-2.5 text-base sm:text-sm border border-slate-200 rounded-lg text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-campo-teal focus:border-campo-teal transition-colors"
                 />
               </div>
             </div>
@@ -126,7 +126,7 @@ export function AdminLoginPage({ onNavigate }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="block w-full pl-9 pr-3 py-2.5 sm:text-sm border border-slate-200 rounded-lg text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-campo-teal focus:border-campo-teal transition-colors"
+                  className="block w-full pl-9 pr-3 py-2.5 text-base sm:text-sm border border-slate-200 rounded-lg text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-campo-teal focus:border-campo-teal transition-colors"
                 />
               </div>
             </div>

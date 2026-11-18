@@ -51,7 +51,7 @@ export function CTASection({ onRequestDemo, onContactUs }) {
                 <button
                   type="button"
                   onClick={onRequestDemo}
-                  className="group inline-flex items-center justify-center gap-2 rounded-xl bg-campo-teal px-7 py-3.5 text-sm font-bold text-campo-deep shadow-card transition-all duration-200 hover:bg-[#19d6c6] hover:shadow-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-white sm:text-base"
+                  className="w-full sm:w-auto group inline-flex items-center justify-center gap-2 rounded-xl bg-campo-teal px-7 py-3.5 text-sm font-bold text-campo-deep shadow-card transition-all duration-200 hover:bg-[#19d6c6] hover:shadow-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-white sm:text-base"
                 >
                   Book a Demo
                   <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -60,7 +60,7 @@ export function CTASection({ onRequestDemo, onContactUs }) {
                 <button
                   type="button"
                   onClick={onContactUs}
-                  className="group inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/20 sm:text-base"
+                  className="w-full sm:w-auto group inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/20 sm:text-base"
                 >
                   Start Free
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />

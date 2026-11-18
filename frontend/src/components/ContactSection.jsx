@@ -158,7 +158,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
   ];
 
   const inputBaseClass =
-    'mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm text-campo-ink placeholder:text-slate-400 transition-all duration-200 focus:outline-none focus:ring-2';
+    'mt-1 sm:mt-1.5 w-full rounded-xl border bg-white px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-campo-ink placeholder:text-slate-400 transition-all duration-200 focus:outline-none focus:ring-2';
 
   const getFieldClass = (fieldName) =>
     `${inputBaseClass} ${
@@ -173,34 +173,34 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
       className="section-padding relative overflow-hidden border-t border-slate-200/80 bg-slate-50/60"
     >
       <div className="container-campo relative z-10">
-        <div className="grid items-stretch gap-10 lg:grid-cols-12 lg:gap-12">
+        <div className="grid items-stretch gap-4 sm:gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left Column: Heading, Advisor Image in Middle, Supporting Details Below */}
           <Reveal className="flex flex-col justify-between lg:col-span-5">
             <div>
-              <div className="mb-3 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark">
+              <div className="mb-2 sm:mb-3 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark">
                 <span className="font-mono text-campo-navy/45">07</span>
                 <span className="h-px w-5 bg-slate-300" />
                 <span>Institutional Inquiries</span>
               </div>
 
-              <h2 className="font-display text-2xl sm:text-3xl lg:text-[2.25rem] font-bold leading-[1.18] tracking-tight text-campo-navy">
+              <h2 className="font-display text-xl sm:text-3xl lg:text-[2.25rem] font-bold leading-[1.2] sm:leading-[1.18] tracking-tight text-campo-navy">
                 Let&apos;s Build a More Connected Campus.
               </h2>
             </div>
 
-            {/* Employee Advisor Cutout Image in Middle Pointing Directly Toward Form */}
-            <div className="relative my-3 flex justify-center lg:justify-start">
+            {/* Employee Advisor Cutout Image in Middle Pointing Directly Toward Form (Hidden on mobile) */}
+            <div className="hidden lg:flex relative my-2 sm:my-3 justify-center lg:justify-start">
               <img
                 src={advisorImg}
                 alt="Campo Campus Solutions Specialist"
                 loading="lazy"
                 decoding="async"
-                className="h-[340px] sm:h-[380px] lg:h-[400px] w-auto object-contain filter drop-shadow-[0_18px_28px_rgba(7,28,70,0.14)] transition-transform duration-500 hover:scale-[1.02]"
+                className="h-[220px] sm:h-[320px] lg:h-[400px] w-auto object-contain filter drop-shadow-[0_18px_28px_rgba(7,28,70,0.14)] transition-transform duration-500 hover:scale-[1.02]"
               />
             </div>
 
-            {/* Below the Image: Subtitle Copy + Trust Value Badges */}
-            <div className="space-y-3">
+            {/* Below the Image: Subtitle Copy + Trust Value Badges (Hidden on mobile) */}
+            <div className="hidden lg:block space-y-3">
               <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
                 Speak directly with our campus solutions team for a personalized platform walkthrough and tailored migration roadmap.
               </p>
@@ -220,29 +220,29 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
 
           {/* Right Column: Institutional Inquiry & Demo Form */}
           <Reveal delay={0.08} className="lg:col-span-7">
-            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-workspace">
-              <div className="flex flex-col justify-between gap-4 bg-campo-navy px-5 py-4 text-white sm:flex-row sm:items-center sm:px-8 sm:py-5">
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-workspace sm:rounded-3xl">
+              <div className="flex flex-col justify-between gap-3 bg-campo-navy px-4 py-3.5 text-white sm:flex-row sm:items-center sm:px-8 sm:py-5">
                 <div>
-                  <div className="mb-1 flex items-center gap-2">
+                  <div className="mb-0.5 flex items-center gap-2 sm:mb-1">
                     <CampoLogo variant="light" size="sm" />
-                    <span className="h-3 w-px bg-white/20" />
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-campo-teal">
+                    <span className="h-2.5 w-px bg-white/20 sm:h-3" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-campo-teal sm:text-[11px]">
                       Direct Executive Channel
                     </span>
                   </div>
-                  <h3 className="font-display text-base font-bold text-white sm:text-lg">
+                  <h3 className="font-display text-sm font-bold text-white sm:text-lg">
                     Institutional Inquiry Form
                   </h3>
                 </div>
 
                 {/* Inquiry Type Switcher */}
-                <div className="relative z-10 inline-flex w-full rounded-xl border border-white/15 bg-white/10 p-1 backdrop-blur-sm sm:w-auto">
+                <div className="relative z-10 inline-flex w-full rounded-lg border border-white/15 bg-white/10 p-0.5 backdrop-blur-sm sm:w-auto sm:rounded-xl sm:p-1">
                   {['Demo Request', 'General Inquiry'].map((intent) => (
                     <button
                       key={intent}
                       type="button"
                       onClick={() => setSelectedIntent(intent)}
-                      className={`flex-1 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all sm:flex-initial ${
+                      className={`flex-1 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all sm:flex-initial sm:rounded-lg sm:px-3 sm:py-1.5 sm:text-xs ${
                         selectedIntent === intent
                           ? 'bg-campo-teal text-campo-deep shadow-sm'
                           : 'text-slate-200 hover:text-white'
@@ -254,13 +254,13 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                 </div>
               </div>
 
-              <div className="p-5 sm:p-8 lg:p-10">
-                <form onSubmit={handleSubmit} noValidate className="space-y-5">
-                <div className="grid gap-5 sm:grid-cols-2">
+              <div className="p-3.5 sm:p-8 lg:p-10">
+                <form onSubmit={handleSubmit} noValidate className="space-y-3 sm:space-y-5">
+                <div className="grid gap-3 sm:grid-cols-2 sm:gap-5">
                   <div>
                     <label
                       htmlFor="fullName"
-                      className="block text-xs font-semibold uppercase tracking-wider text-campo-ink"
+                      className="block text-[11px] font-semibold uppercase tracking-wider text-campo-ink sm:text-xs"
                     >
                       Full Name <span className="text-red-500">*</span>
                     </label>
@@ -275,8 +275,8 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                       className={getFieldClass('fullName')}
                     />
                     {errors.fullName && (
-                      <p className="mt-1.5 flex items-center gap-1 text-xs text-red-600">
-                        <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                      <p className="mt-1 flex items-center gap-1 text-[11px] text-red-600 sm:text-xs">
+                        <AlertCircle className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
                         {errors.fullName}
                       </p>
                     )}
@@ -285,7 +285,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                   <div>
                     <label
                       htmlFor="institutionName"
-                      className="block text-xs font-semibold uppercase tracking-wider text-campo-ink"
+                      className="block text-[11px] font-semibold uppercase tracking-wider text-campo-ink sm:text-xs"
                     >
                       Institution Name <span className="text-red-500">*</span>
                     </label>
@@ -300,19 +300,19 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                       className={getFieldClass('institutionName')}
                     />
                     {errors.institutionName && (
-                      <p className="mt-1.5 flex items-center gap-1 text-xs text-red-600">
-                        <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                      <p className="mt-1 flex items-center gap-1 text-[11px] text-red-600 sm:text-xs">
+                        <AlertCircle className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
                         {errors.institutionName}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
+                <div className="grid gap-3 sm:grid-cols-2 sm:gap-5">
                   <div>
                     <label
                       htmlFor="email"
-                      className="block text-xs font-semibold uppercase tracking-wider text-campo-ink"
+                      className="block text-[11px] font-semibold uppercase tracking-wider text-campo-ink sm:text-xs"
                     >
                       Official Email <span className="text-red-500">*</span>
                     </label>
@@ -327,8 +327,8 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                       className={getFieldClass('email')}
                     />
                     {errors.email && (
-                      <p className="mt-1.5 flex items-center gap-1 text-xs text-red-600">
-                        <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                      <p className="mt-1 flex items-center gap-1 text-[11px] text-red-600 sm:text-xs">
+                        <AlertCircle className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
                         {errors.email}
                       </p>
                     )}
@@ -337,7 +337,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                   <div>
                     <label
                       htmlFor="phone"
-                      className="block text-xs font-semibold uppercase tracking-wider text-campo-ink"
+                      className="block text-[11px] font-semibold uppercase tracking-wider text-campo-ink sm:text-xs"
                     >
                       Phone Number <span className="text-red-500">*</span>
                     </label>
@@ -352,8 +352,8 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                       className={getFieldClass('phone')}
                     />
                     {errors.phone && (
-                      <p className="mt-1.5 flex items-center gap-1 text-xs text-red-600">
-                        <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                      <p className="mt-1 flex items-center gap-1 text-[11px] text-red-600 sm:text-xs">
+                        <AlertCircle className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
                         {errors.phone}
                       </p>
                     )}
@@ -363,7 +363,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                 <div>
                   <label
                     htmlFor="designation"
-                    className="block text-xs font-semibold uppercase tracking-wider text-campo-ink"
+                    className="block text-[11px] font-semibold uppercase tracking-wider text-campo-ink sm:text-xs"
                   >
                     Designation <span className="text-red-500">*</span>
                   </label>
@@ -374,12 +374,12 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                     value={formData.designation}
                     onChange={handleChange}
                     aria-invalid={Boolean(errors.designation)}
-                    placeholder="Director, Chairman, Registrar, Principal, or Administrator"
+                    placeholder="Director, Chairman, Registrar, or Principal"
                     className={getFieldClass('designation')}
                   />
                   {errors.designation && (
-                    <p className="mt-1.5 flex items-center gap-1 text-xs text-red-600">
-                      <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                    <p className="mt-1 flex items-center gap-1 text-[11px] text-red-600 sm:text-xs">
+                      <AlertCircle className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
                       {errors.designation}
                     </p>
                   )}
@@ -388,14 +388,14 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                 <div>
                   <label
                     htmlFor="message"
-                    className="block text-xs font-semibold uppercase tracking-wider text-campo-ink"
+                    className="block text-[11px] font-semibold uppercase tracking-wider text-campo-ink sm:text-xs"
                   >
                     Message <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     id="message"
                     name="message"
-                    rows={4}
+                    rows={3}
                     value={formData.message}
                     onChange={handleChange}
                     aria-invalid={Boolean(errors.message)}
@@ -403,8 +403,8 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                     className={getFieldClass('message')}
                   />
                   {errors.message && (
-                    <p className="mt-1.5 flex items-center gap-1 text-xs text-red-600">
-                      <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                    <p className="mt-1 flex items-center gap-1 text-[11px] text-red-600 sm:text-xs">
+                      <AlertCircle className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
                       {errors.message}
                     </p>
                   )}
@@ -413,9 +413,9 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                 {submitError && (
                   <div
                     role="alert"
-                    className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800"
+                    className="flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 p-3 sm:p-4 text-xs sm:text-sm text-red-800"
                   >
-                    <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-600 sm:h-5 sm:w-5" />
                     <div>{submitError}</div>
                   </div>
                 )}
@@ -423,7 +423,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                 {submissionResult && (
                   <div
                     role="status"
-                    className={`rounded-2xl border p-4 text-sm ${
+                    className={`rounded-xl border p-3.5 text-xs sm:rounded-2xl sm:p-4 sm:text-sm ${
                       submissionResult.delivered
                         ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
                         : 'border-campo-teal/40 bg-campo-teal/10 text-campo-navy'
@@ -431,17 +431,17 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                   >
                     <div className="flex items-start gap-3">
                       {submissionResult.delivered ? (
-                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600 sm:h-5 sm:w-5" />
                       ) : (
-                        <Info className="mt-0.5 h-5 w-5 shrink-0 text-campo-teal-dark" />
+                        <Info className="mt-0.5 h-4 w-4 shrink-0 text-campo-teal-dark sm:h-5 sm:w-5" />
                       )}
                       <div className="flex-1">
-                        <p className="font-semibold">
+                        <p className="font-semibold text-xs sm:text-sm">
                           {submissionResult.delivered
                             ? 'Inquiry Submitted'
                             : 'Validated & Ready for Backend Integration'}
                         </p>
-                        <p className="mt-1 text-xs leading-relaxed opacity-90">
+                        <p className="mt-1 text-[11px] sm:text-xs leading-relaxed opacity-90">
                           {submissionResult.message}
                         </p>
 
@@ -471,11 +471,11 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                   </div>
                 )}
 
-                <div className="pt-1">
+                <div className="pt-0.5 sm:pt-1">
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-campo-navy px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-campo-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-campo-navy px-5 py-2.5 sm:px-6 sm:py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-campo-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
                   >
                     <Send className="h-4 w-4" />
                     {submitting

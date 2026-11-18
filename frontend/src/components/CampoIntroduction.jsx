@@ -27,8 +27,9 @@ export function CampoIntroduction() {
     offset: ['start start', 'end end'],
   });
 
-  // Automatically advance to the next tab as user scrolls down
+  // Automatically advance to the next tab as user scrolls down (on desktop where container is pinned)
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) return;
     setScrollProgress(latest);
     const numTabs = ecosystemPillars.length;
     // Clamp to 0..0.999 so 1.0 doesn't exceed array bounds
@@ -40,17 +41,18 @@ export function CampoIntroduction() {
     }
   });
 
-  // Clicking a tab scrolls smoothly to its segment
+  // Clicking a tab scrolls smoothly to its segment on desktop, or immediately switches on mobile
   const handlePillarClick = (index, pillarId) => {
     setSelectedPillarId(pillarId);
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const containerTop = scrollTop + rect.top;
-    const totalScrollable = containerRef.current.offsetHeight - window.innerHeight;
-    const targetProgress = (index + 0.15) / ecosystemPillars.length;
-    const targetY = containerTop + targetProgress * totalScrollable;
-    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024 && containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const containerTop = scrollTop + rect.top;
+      const totalScrollable = containerRef.current.offsetHeight - window.innerHeight;
+      const targetProgress = (index + 0.15) / ecosystemPillars.length;
+      const targetY = containerTop + targetProgress * totalScrollable;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
+    }
   };
 
   const selectedPillar =
@@ -63,10 +65,10 @@ export function CampoIntroduction() {
     <section
       id="platform"
       ref={containerRef}
-      className="relative h-[320vh] sm:h-[360vh] bg-white"
+      className="relative bg-white py-10 sm:py-14 lg:h-[360vh] lg:py-0"
     >
-      {/* Sticky Viewport Frame: Pins while scrolling through all 4 tabs */}
-      <div className="sticky top-0 min-h-screen flex flex-col justify-center py-6 sm:py-8 lg:py-10 overflow-hidden">
+      {/* Viewport Frame: Natural document flow on mobile/tablet, Sticky pinned on Desktop */}
+      <div className="relative lg:sticky lg:top-0 lg:min-h-screen flex flex-col justify-center lg:py-10 lg:overflow-hidden">
         <div className="container-campo relative z-10 w-full my-auto">
           <SectionHeading
             index="02"
@@ -170,7 +172,7 @@ export function CampoIntroduction() {
                     >
                       <div>
                         {/* Authentic Pillar Photo Showcase Banner */}
-                        <div className="relative h-48 sm:h-60 lg:h-[290px] xl:h-[320px] w-full overflow-hidden rounded-2xl border border-slate-200/90 shadow-card mb-4 sm:mb-5">
+                        <div className="relative h-44 sm:h-56 lg:h-[290px] xl:h-[320px] w-full overflow-hidden rounded-2xl border border-slate-200/90 shadow-card mb-4 sm:mb-5">
                           <img
                             src={currentImage}
                             alt={selectedPillar.label}

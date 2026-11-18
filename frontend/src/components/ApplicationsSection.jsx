@@ -173,7 +173,7 @@ function ModuleCard({ app, onInspect }) {
   return (
     <article
       onClick={() => onInspect(app)}
-      className={`group relative flex h-[205px] sm:h-[215px] w-[370px] sm:w-[410px] shrink-0 overflow-hidden rounded-3xl border ${config.border} ${config.cardBg} shadow-card transition-all duration-300 hover:-translate-y-1 ${config.hoverBorder} hover:shadow-elevated cursor-pointer select-none`}
+      className={`group relative flex h-[190px] sm:h-[215px] w-[285px] sm:w-[410px] shrink-0 overflow-hidden rounded-3xl border ${config.border} ${config.cardBg} shadow-card transition-all duration-300 hover:-translate-y-1 ${config.hoverBorder} hover:shadow-elevated cursor-pointer select-none`}
     >
       {/* Background Graphic / Image Area */}
       {moduleImg ? (
@@ -186,7 +186,7 @@ function ModuleCard({ app, onInspect }) {
             className="absolute inset-0 h-full w-full object-cover object-right pointer-events-none"
           />
           {/* Subtle light gradient: light at top-left, gentle at bottom-left so artwork shows through */}
-          <div className="absolute inset-y-0 left-0 w-[65%] sm:w-[68%] bg-gradient-to-br from-white/70 via-white/30 to-transparent pointer-events-none z-[1]" />
+          <div className="absolute inset-y-0 left-0 w-[68%] sm:w-[68%] bg-gradient-to-br from-white/80 via-white/40 to-transparent pointer-events-none z-[1]" />
         </>
       ) : (
         <div className="absolute right-4 inset-y-0 w-[38%] flex items-center justify-center pointer-events-none">
@@ -199,7 +199,7 @@ function ModuleCard({ app, onInspect }) {
       )}
 
       {/* Left Content Column */}
-      <div className="relative z-10 flex h-full w-[68%] sm:w-[70%] flex-col justify-between p-4 sm:p-4.5">
+      <div className="relative z-10 flex h-full w-[70%] sm:w-[70%] flex-col justify-between p-3.5 sm:p-4.5">
         {/* Top: Module Title & Sub text directly under it */}
         <div>
           <div className="-ml-1 inline-block rounded-lg border border-white/70 bg-white/75 px-2 py-0.5 shadow-2xs backdrop-blur-md">
@@ -303,8 +303,8 @@ export function ApplicationsSection({ onRequestDemo, onNavigate }) {
       {/* Two-Row Continuous Bidirectional Marquee */}
       <div className="relative w-full overflow-hidden space-y-4 sm:space-y-5 py-2">
         {/* Soft Gradient Fade Masks on Screen Edges */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-36 bg-gradient-to-r from-slate-50/95 via-slate-50/80 to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-36 bg-gradient-to-l from-slate-50/95 via-slate-50/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-6 sm:w-24 lg:w-36 bg-gradient-to-r from-slate-50/95 via-slate-50/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-6 sm:w-24 lg:w-36 bg-gradient-to-l from-slate-50/95 via-slate-50/80 to-transparent z-10" />
 
         {/* Row 1: Right-to-Left Continuous Marquee */}
         <div className="flex overflow-hidden">

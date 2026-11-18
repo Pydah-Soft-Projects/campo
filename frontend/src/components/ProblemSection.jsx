@@ -57,7 +57,7 @@ export function ProblemSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.6, ease: revealEase }}
-            className="relative overflow-hidden rounded-3xl border border-slate-200 lg:col-span-6 shadow-workspace min-h-[460px] sm:min-h-[500px] flex flex-col justify-end"
+            className="relative overflow-hidden rounded-3xl border border-slate-200 lg:col-span-6 shadow-workspace min-h-[340px] sm:min-h-[460px] lg:min-h-[500px] flex flex-col justify-end"
           >
             {/* Full-Bleed Photograph */}
             <img
@@ -68,19 +68,19 @@ export function ProblemSection() {
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
             />
             {/* Gradient Overlay - Subtle so photo shows through clearly */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
             {/* Bottom Glassmorphism Narrative Card with Slight Transparent Blur */}
-            <div className="relative z-10 p-4 sm:p-6">
-              <div className="rounded-2xl border border-white/20 bg-slate-950/35 p-5 backdrop-blur-md text-white shadow-elevated">
-                <p className="font-display text-sm sm:text-base font-semibold leading-relaxed text-white">
-                  <span className="mr-2 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-emerald-500/25 text-emerald-400 align-middle">
-                    <Quote className="h-3.5 w-3.5 fill-emerald-400" />
+            <div className="relative z-10 p-3 sm:p-6">
+              <div className="rounded-2xl border border-white/20 bg-slate-950/45 p-4 sm:p-5 backdrop-blur-md text-white shadow-elevated">
+                <p className="font-display text-xs sm:text-base font-semibold leading-relaxed text-white">
+                  <span className="mr-2 inline-flex h-5 w-5 sm:h-6 sm:w-6 shrink-0 items-center justify-center rounded-lg bg-emerald-500/25 text-emerald-400 align-middle">
+                    <Quote className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-emerald-400" />
                   </span>
                   "When admissions, fees, and academics operate on isolated systems, campus leadership spends more time fixing data errors than governing."
                 </p>
 
-                <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-white/10 pt-3 text-[11px] sm:text-xs text-slate-200">
+                <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-3 sm:gap-4 border-t border-white/10 pt-3 text-[11px] sm:text-xs text-slate-200">
                   <div className="flex items-center gap-1.5">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
                     <span>Duplicate Data</span>
@@ -98,8 +98,8 @@ export function ProblemSection() {
             </div>
           </motion.div>
 
-          {/* Right Column: 2x2 Friction Points Grid matching reference */}
-          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5">
+          {/* Right Column: 2x2 Friction Points Grid (Two rows side-by-side on mobile) */}
+          <div className="lg:col-span-6 grid grid-cols-2 gap-2.5 sm:gap-4 lg:gap-5">
             {frictionPoints.map((point, idx) => {
               const Icon = point.icon;
               return (
@@ -109,17 +109,17 @@ export function ProblemSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.15 }}
                   transition={{ duration: 0.45, delay: idx * 0.08, ease: revealEase }}
-                  className="group flex flex-col justify-start rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-card"
+                  className="group flex flex-col justify-start rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-white p-3.5 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-card"
                 >
                   <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-2xl ${point.iconBg} transition-transform duration-300 group-hover:scale-105`}
+                    className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl ${point.iconBg} transition-transform duration-300 group-hover:scale-105`}
                   >
-                    <Icon className="h-6 w-6" />
+                    <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
                   </div>
-                  <h3 className="mt-5 font-display text-base font-bold leading-snug text-campo-navy">
+                  <h3 className="mt-3 sm:mt-5 font-display text-xs sm:text-base font-bold leading-snug text-campo-navy">
                     {point.title}
                   </h3>
-                  <p className="mt-2 text-xs sm:text-[13px] leading-relaxed text-slate-600">
+                  <p className="mt-1.5 sm:mt-2 text-[11px] sm:text-[13px] leading-relaxed text-slate-600">
                     {point.impact}
                   </p>
                 </motion.div>
