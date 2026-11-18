@@ -76,20 +76,20 @@ export function DashboardMockup({ compact = false }) {
   return (
     <div className="w-full overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-workspace">
       {/* Top Browser Window Header */}
-      <div className="flex items-center justify-between border-b border-slate-200/80 bg-slate-100/95 px-3.5 py-2 sm:px-5">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between border-b border-slate-200/80 bg-slate-100/95 px-2.5 py-2 sm:px-5">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#FF5F56] shadow-xs" />
           <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#FFBD2E] shadow-xs" />
           <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#27C93F] shadow-xs" />
         </div>
 
         {/* URL Bar */}
-        <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1 text-[10px] sm:text-[11px] font-medium text-slate-600 shadow-xs max-w-[260px] sm:max-w-xs w-full justify-center">
-          <Lock className="h-3 w-3 text-campo-teal-dark shrink-0" />
-          <span className="truncate">https://portal.campo.co.in/institution/executive</span>
+        <div className="flex items-center gap-1.5 sm:gap-2 rounded-lg border border-slate-200 bg-white px-2 sm:px-3 py-1 text-[9px] sm:text-[11px] font-medium text-slate-600 shadow-xs max-w-[190px] sm:max-w-xs w-full justify-center">
+          <Lock className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-campo-teal-dark shrink-0" />
+          <span className="truncate">portal.campo.co.in/institution/executive</span>
         </div>
 
-        <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-campo-teal-dark">
+        <div className="flex items-center gap-1.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-campo-teal-dark">
           <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
           <span className="hidden sm:inline">Active Core</span>
         </div>
@@ -150,32 +150,32 @@ export function DashboardMockup({ compact = false }) {
         </div>
 
         {/* Right Content Area */}
-        <div className="col-span-12 md:col-span-9 bg-[#FAFBFD] p-3 sm:p-4 flex flex-col justify-between">
+        <div className="col-span-12 md:col-span-9 bg-[#FAFBFD] p-2.5 sm:p-4 flex flex-col justify-between">
           <div>
             {/* Header within ERP */}
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-2.5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2 border-b border-slate-200/80 pb-2.5">
               <div>
-                <h4 className="font-display text-xs sm:text-sm font-bold text-campo-navy flex items-center gap-1.5">
+                <h4 className="font-display text-xs sm:text-sm font-bold text-campo-navy flex items-center gap-1.5 flex-wrap">
                   <span>Autonomous Campus Command Hub</span>
                   <span className="rounded bg-teal-50 px-1.5 py-0.5 text-[9px] font-bold text-campo-teal-dark border border-teal-200/60">
                     AY 2026-27
                   </span>
                 </h4>
-                <p className="text-[10px] text-slate-500">
+                <p className="text-[9px] sm:text-[10px] text-slate-500">
                   Engineering, Management &amp; Autonomous Campus Wings
                 </p>
               </div>
 
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[9px] font-bold text-emerald-700">
+              <span className="inline-flex items-center gap-1.5 self-start sm:self-auto rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[9px] font-bold text-emerald-700">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 All Modules Synced
               </span>
             </div>
 
             {/* 4 KPI Metric Tiles with Standardized Uniform Heights and Lively Load Effects */}
-            <div className="mt-2.5 grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-2">
+            <div className="mt-2.5 grid grid-cols-2 gap-1.5 sm:grid-cols-4 sm:gap-2">
               {/* Tile 1: Enrolled */}
-              <div className="flex flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-2.5 shadow-2xs h-[78px] hover:border-campo-teal/40 transition-colors">
+              <div className="flex flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-2 sm:p-2.5 shadow-2xs min-h-[74px] sm:h-[78px] hover:border-campo-teal/40 transition-colors">
                 <div className="flex items-center justify-between text-slate-400">
                   <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 truncate">Enrolled</span>
                   <Users className="h-3 w-3 text-campo-navy shrink-0" />
@@ -206,7 +206,7 @@ export function DashboardMockup({ compact = false }) {
               </div>
 
               {/* Tile 2: Attendance */}
-              <div className="flex flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-2.5 shadow-2xs h-[78px] hover:border-campo-teal/40 transition-colors">
+              <div className="flex flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-2 sm:p-2.5 shadow-2xs min-h-[74px] sm:h-[78px] hover:border-campo-teal/40 transition-colors">
                 <div className="flex items-center justify-between text-slate-400">
                   <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 truncate">Attendance</span>
                   <CheckCircle2 className="h-3 w-3 text-campo-teal-dark shrink-0" />
@@ -217,7 +217,7 @@ export function DashboardMockup({ compact = false }) {
                 <div className="flex items-center justify-between text-[9px]">
                   <span className="font-medium text-slate-500">Live Biometrics</span>
                   {/* Animated Mini Sparkline SVG */}
-                  <svg className="w-12 h-3.5" viewBox="0 0 50 15" fill="none">
+                  <svg className="w-10 sm:w-12 h-3.5" viewBox="0 0 50 15" fill="none">
                     <motion.path
                       d="M1 9L14 4L26 8L38 3L49 5"
                       stroke="#10B981"
@@ -234,7 +234,7 @@ export function DashboardMockup({ compact = false }) {
               </div>
 
               {/* Tile 3: Fee Collection */}
-              <div className="flex flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-2.5 shadow-2xs h-[78px] hover:border-campo-teal/40 transition-colors">
+              <div className="flex flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-2 sm:p-2.5 shadow-2xs min-h-[74px] sm:h-[78px] hover:border-campo-teal/40 transition-colors">
                 <div className="flex items-center justify-between text-slate-400">
                   <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 truncate">Fees Realized</span>
                   <Wallet className="h-3 w-3 text-campo-navy shrink-0" />
@@ -247,7 +247,7 @@ export function DashboardMockup({ compact = false }) {
                     <AnimatedNumber value={92.4} suffix="% Term" decimals={1} duration={1.4} delay={0.4} />
                   </span>
                   {/* Animated Mini Sparkline SVG */}
-                  <svg className="w-12 h-3.5" viewBox="0 0 50 15" fill="none">
+                  <svg className="w-10 sm:w-12 h-3.5" viewBox="0 0 50 15" fill="none">
                     <motion.path
                       d="M1 13L13 11L25 6L37 4L49 1"
                       stroke="#071C46"
@@ -264,7 +264,7 @@ export function DashboardMockup({ compact = false }) {
               </div>
 
               {/* Tile 4: Faculty Active */}
-              <div className="flex flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-2.5 shadow-2xs h-[78px] hover:border-campo-teal/40 transition-colors">
+              <div className="flex flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-2 sm:p-2.5 shadow-2xs min-h-[74px] sm:h-[78px] hover:border-campo-teal/40 transition-colors">
                 <div className="flex items-center justify-between text-slate-400">
                   <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 truncate">Staff On-Duty</span>
                   <Building2 className="h-3 w-3 text-campo-teal-dark shrink-0" />
@@ -277,7 +277,7 @@ export function DashboardMockup({ compact = false }) {
                     <AnimatedNumber value={98.3} suffix="% Active" decimals={1} duration={1.4} delay={0.5} />
                   </span>
                   {/* Animated Mini Sparkline SVG */}
-                  <svg className="w-12 h-3.5" viewBox="0 0 50 15" fill="none">
+                  <svg className="w-10 sm:w-12 h-3.5" viewBox="0 0 50 15" fill="none">
                     <motion.path
                       d="M1 8L15 8L28 5L40 5L49 2"
                       stroke="#00C5B5"
@@ -298,14 +298,14 @@ export function DashboardMockup({ compact = false }) {
             <div className="mt-2.5 grid gap-2.5 sm:grid-cols-12">
               {/* Graph 1: Weekly Campus Attendance & Fee Inflow Area Chart */}
               <div className="rounded-xl border border-slate-200/90 bg-white p-3 shadow-2xs sm:col-span-7">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-2 gap-1 sm:gap-0">
                   <div>
                     <span className="font-display text-[11px] font-bold text-campo-navy block">
                       Weekly Attendance &amp; Fee Flow
                     </span>
                     <span className="text-[9px] text-slate-400">7-Day Biometric &amp; Gateway Reconciliation</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[9px]">
+                  <div className="flex items-center gap-2 text-[9px] self-start sm:self-auto">
                     <span className="flex items-center gap-1 text-campo-navy font-semibold">
                       <span className="h-2 w-2 rounded-full bg-campo-navy" /> Fees
                     </span>
@@ -517,12 +517,12 @@ export function DashboardMockup({ compact = false }) {
           </div>
 
           {/* Bottom Clean Status Strip */}
-          <div className="mt-2.5 flex items-center justify-between border-t border-slate-200/80 pt-2 text-[10px] text-slate-500">
+          <div className="mt-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-t border-slate-200/80 pt-2 text-[9px] sm:text-[10px] text-slate-500">
             <span className="flex items-center gap-1.5 font-medium truncate">
               <ShieldCheck className="h-3 w-3 text-campo-teal-dark shrink-0" />
               Institutional Core Directory • 99.98% Service Uptime
             </span>
-            <span className="font-bold text-campo-navy shrink-0">Campo Platform</span>
+            <span className="font-bold text-campo-navy shrink-0 hidden sm:inline">Campo Platform</span>
           </div>
         </div>
       </div>

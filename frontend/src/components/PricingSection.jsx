@@ -45,13 +45,13 @@ export function PricingSection({ onRequestDemo }) {
           className="mt-10 sm:mt-12 overflow-hidden rounded-3xl bg-gradient-to-br from-campo-navy via-slate-900 to-campo-deep p-6 sm:p-8 lg:p-10 text-white border border-white/10 shadow-workspace"
         >
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
               {/* Badge 90 DAYS */}
-              <div className="flex h-20 w-20 sm:h-24 sm:w-24 shrink-0 flex-col items-center justify-center rounded-2xl bg-campo-teal text-campo-deep shadow-elevated">
-                <span className="font-display text-3xl sm:text-4xl font-black leading-none">
+              <div className="flex h-16 w-16 sm:h-24 sm:w-24 shrink-0 flex-col items-center justify-center rounded-2xl bg-campo-teal text-campo-deep shadow-elevated">
+                <span className="font-display text-2xl sm:text-4xl font-black leading-none">
                   90
                 </span>
-                <span className="text-[11px] sm:text-xs font-bold uppercase tracking-widest mt-0.5">
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest mt-0.5">
                   Days
                 </span>
               </div>

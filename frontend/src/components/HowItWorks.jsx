@@ -72,14 +72,14 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{
-                duration: 0.65,
-                delay: index * 0.45,
+                duration: 0.6,
+                delay: Math.min(index * 0.15, 0.3),
                 ease: revealEase,
               }}
               className="group flex flex-col items-center justify-between w-full"
             >
-              {/* Upper Main Card - Uniform Exact Size across all 3 cards */}
-              <div className="w-full h-[530px] sm:h-[565px] flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-card transition-all duration-300 group-hover:-translate-y-1 group-hover:border-campo-teal/60 group-hover:shadow-elevated">
+              {/* Upper Main Card - Uniform Size across all 3 cards */}
+              <div className="w-full min-h-[490px] sm:min-h-[530px] md:h-[565px] flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-card transition-all duration-300 group-hover:-translate-y-1 group-hover:border-campo-teal/60 group-hover:shadow-elevated">
                 <div>
                   {/* Clean Authentic Photograph (Identical Height) */}
                   <div className="relative h-44 sm:h-48 w-full overflow-hidden rounded-2xl border border-slate-200 shadow-2xs mb-4">
@@ -93,15 +93,15 @@ export function HowItWorks() {
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
                   </div>
 
-                  {/* Title with exact fixed height for multi-line parity */}
-                  <div className="h-[48px] sm:h-[54px] flex items-start">
+                  {/* Title with flexible height for small screen multi-line wrapping */}
+                  <div className="min-h-[44px] sm:h-[54px] flex items-start">
                     <h3 className="font-display text-base sm:text-lg font-bold leading-snug text-campo-navy">
                       {item.title}
                     </h3>
                   </div>
 
-                  {/* Description with exact fixed height for equal card balancing */}
-                  <div className="mt-2 h-[64px] sm:h-[72px]">
+                  {/* Description with flexible height for mobile screens */}
+                  <div className="mt-2 min-h-[56px] sm:h-[72px]">
                     <p className="text-xs sm:text-[13px] leading-relaxed text-slate-600">
                       {item.description}
                     </p>
@@ -116,8 +116,8 @@ export function HowItWorks() {
                   <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-300/80 to-transparent pointer-events-none" />
                 </div>
 
-                {/* Bullet Points with exact fixed height container */}
-                <div className="h-[105px] sm:h-[112px] border-t border-slate-100/80 pt-3 flex flex-col justify-start">
+                {/* Bullet Points with exact height container */}
+                <div className="min-h-[85px] sm:h-[112px] border-t border-slate-100/80 pt-3 flex flex-col justify-start">
                   <ul className="space-y-2.5">
                     {item.points.map((pt) => (
                       <li key={pt} className="flex items-start gap-2 text-xs text-slate-700">

@@ -224,7 +224,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo }) {
             <button
               type="button"
               onClick={onRequestDemo}
-              className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-campo-teal px-6 py-3 text-sm font-bold text-campo-deep shadow-card hover:bg-[#19d6c6]"
+              className="w-full sm:w-auto inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-campo-teal px-6 py-3 text-sm font-bold text-campo-deep shadow-card hover:bg-[#19d6c6] transition-all"
             >
               <span>Schedule Institutional Demo</span>
               <ArrowRight className="h-4 w-4" />

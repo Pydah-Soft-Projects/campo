@@ -44,13 +44,13 @@ export function WhyCampo() {
             </h3>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {campusImpactMetrics.map((item, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-4 text-center shadow-xs hover:border-campo-teal/50 hover:shadow-card transition-all"
+                className="rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-4 text-center shadow-xs hover:border-campo-teal/50 hover:shadow-card transition-all"
               >
-                <div className="font-display text-2xl sm:text-3xl font-black text-campo-teal-dark tracking-tight">
+                <div className="font-display text-xl sm:text-3xl font-black text-campo-teal-dark tracking-tight">
                   {item.value}
                 </div>
                 <p className="mt-1 text-xs font-semibold text-slate-700 leading-snug">
@@ -62,7 +62,7 @@ export function WhyCampo() {
         </motion.div>
 
         {/* Split-Screen Composition with Authentic Campus Photography */}
-        <div className="mt-12 grid items-stretch gap-8 lg:grid-cols-12 lg:gap-10">
+        <div className="mt-10 sm:mt-12 grid items-stretch gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-10">
           {/* Left Column: Leadership Feature Card with Quote */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -71,7 +71,7 @@ export function WhyCampo() {
             transition={{ duration: 0.6, ease: revealEase }}
             className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 text-white shadow-workspace lg:col-span-5 flex flex-col justify-between"
           >
-            <div className="relative min-h-[280px] sm:min-h-[320px] w-full overflow-hidden">
+            <div className="relative min-h-[250px] sm:min-h-[320px] w-full overflow-hidden">
               <img
                 src={leadershipImg}
                 alt="University academic leadership team"
