@@ -9,7 +9,6 @@ import { IntelligenceSection } from './components/IntelligenceSection';
 import { HowItWorks } from './components/HowItWorks';
 import { WhyCampo } from './components/WhyCampo';
 import { PricingSection } from './components/PricingSection';
-import { CTASection } from './components/CTASection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { LegalModal } from './components/LegalModal';
@@ -121,6 +120,7 @@ export default function App() {
             <DownloadAppPage
               onNavigateHome={() => navigate('/')}
               onRequestDemo={() => navigateToContact('Demo Request')}
+              onContactUs={() => navigateToContact('General Inquiry')}
             />
           ) : isAppDetail ? (
             <ApplicationDetailPage
@@ -144,10 +144,6 @@ export default function App() {
               <WhyCampo />
               <PricingSection
                 onRequestDemo={(plan) => navigateToContact(plan ? `Pricing Inquiry: ${plan}` : 'Demo Request')}
-              />
-              <CTASection
-                onRequestDemo={() => navigateToContact('Demo Request')}
-                onContactUs={() => navigateToContact('General Inquiry')}
               />
               <ContactSection inquiryIntent={inquiryIntent} />
             </>

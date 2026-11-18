@@ -1,5 +1,11 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useReducedMotion,
+} from 'framer-motion';
 import {
   Layers,
   DatabaseZap,
@@ -7,7 +13,7 @@ import {
   Clock,
   Quote,
 } from 'lucide-react';
-import { SectionHeading, revealEase } from './MotionPrimitives';
+import { SectionHeading } from './MotionPrimitives';
 import campusHeroImg from '../assets/campus-hero.webp';
 
 const frictionPoints = [
@@ -38,8 +44,64 @@ const frictionPoints = [
 ];
 
 export function ProblemSection() {
+  const sectionRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  // Scroll-linked animation driven directly by scroll position into viewport
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'center 50%'],
+  });
+
+  // Silky-smooth spring physics for organic momentum on wheel/touch scroll
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 70,
+    damping: 20,
+    mass: 0.4,
+    restDelta: 0.001,
+  });
+
+  // Shared opacity and scale progression as cards travel inward
+  const cardOpacity = useTransform(smoothProgress, [0.05, 0.45], [0, 1]);
+  const cardScale = useTransform(smoothProgress, [0.05, 0.78], [0.88, 1]);
+
+  // Card 0 (Top-Left): Flies in from the outer top-left screen side
+  const card0X = useTransform(smoothProgress, [0.05, 0.78], [-280, 0]);
+  const card0Y = useTransform(smoothProgress, [0.05, 0.78], [-160, 0]);
+  const card0Rot = useTransform(smoothProgress, [0.05, 0.78], [-6, 0]);
+
+  // Card 1 (Top-Right): Flies in from the outer top-right screen side
+  const card1X = useTransform(smoothProgress, [0.05, 0.78], [280, 0]);
+  const card1Y = useTransform(smoothProgress, [0.05, 0.78], [-160, 0]);
+  const card1Rot = useTransform(smoothProgress, [0.05, 0.78], [6, 0]);
+
+  // Card 2 (Bottom-Left): Flies in from the outer bottom-left screen side
+  const card2X = useTransform(smoothProgress, [0.05, 0.78], [-280, 0]);
+  const card2Y = useTransform(smoothProgress, [0.05, 0.78], [160, 0]);
+  const card2Rot = useTransform(smoothProgress, [0.05, 0.78], [5, 0]);
+
+  // Card 3 (Bottom-Right): Flies in from the outer bottom-right screen side
+  const card3X = useTransform(smoothProgress, [0.05, 0.78], [280, 0]);
+  const card3Y = useTransform(smoothProgress, [0.05, 0.78], [160, 0]);
+  const card3Rot = useTransform(smoothProgress, [0.05, 0.78], [-5, 0]);
+
+  // Left column campus photo entrance: Glides in smoothly from the left
+  const photoX = useTransform(smoothProgress, [0.05, 0.78], [-140, 0]);
+  const photoOpacity = useTransform(smoothProgress, [0.05, 0.42], [0, 1]);
+  const photoScale = useTransform(smoothProgress, [0.05, 0.78], [0.94, 1]);
+
+  const cardTransforms = [
+    { x: card0X, y: card0Y, rotate: card0Rot },
+    { x: card1X, y: card1Y, rotate: card1Rot },
+    { x: card2X, y: card2Y, rotate: card2Rot },
+    { x: card3X, y: card3Y, rotate: card3Rot },
+  ];
+
   return (
-    <section className="section-padding relative overflow-hidden bg-white border-y border-slate-200/80">
+    <section
+      ref={sectionRef}
+      className="section-padding relative overflow-hidden bg-white border-y border-slate-200/80"
+    >
       <div className="container-campo relative z-10">
         <SectionHeading
           index="01"
@@ -53,11 +115,16 @@ export function ProblemSection() {
         <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-12 lg:gap-8">
           {/* Left Column: Full-Height Expansive Campus Photo with Quote Card */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, ease: revealEase }}
-            className="relative overflow-hidden rounded-3xl border border-slate-200 lg:col-span-6 shadow-workspace min-h-[340px] sm:min-h-[460px] lg:min-h-[500px] flex flex-col justify-end"
+            style={
+              prefersReducedMotion
+                ? undefined
+                : {
+                  x: photoX,
+                  opacity: photoOpacity,
+                  scale: photoScale,
+                }
+            }
+            className="relative overflow-hidden rounded-3xl border border-slate-200 lg:col-span-6 shadow-workspace min-h-[460px] sm:min-h-[500px] flex flex-col justify-end will-change-transform"
           >
             {/* Full-Bleed Photograph */}
             <img
@@ -98,30 +165,49 @@ export function ProblemSection() {
             </div>
           </motion.div>
 
-          {/* Right Column: 2x2 Friction Points Grid (Two rows side-by-side on mobile) */}
-          <div className="lg:col-span-6 grid grid-cols-2 gap-2.5 sm:gap-4 lg:gap-5">
+          {/* Right Column: 2x2 Friction Points Grid Converging From Screen Four Sides While Scrolling */}
+          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5">
             {frictionPoints.map((point, idx) => {
               const Icon = point.icon;
+              const transformStyle = cardTransforms[idx] || cardTransforms[0];
+
               return (
                 <motion.div
                   key={point.title}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.15 }}
-                  transition={{ duration: 0.45, delay: idx * 0.08, ease: revealEase }}
-                  className="group flex flex-col justify-start rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-white p-3.5 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-card"
+                  style={
+                    prefersReducedMotion
+                      ? undefined
+                      : {
+                        x: transformStyle.x,
+                        y: transformStyle.y,
+                        rotate: transformStyle.rotate,
+                        opacity: cardOpacity,
+                        scale: cardScale,
+                      }
+                  }
+                  className="h-full will-change-transform"
                 >
-                  <div
-                    className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl ${point.iconBg} transition-transform duration-300 group-hover:scale-105`}
+                  <motion.div
+                    whileHover={
+                      prefersReducedMotion
+                        ? undefined
+                        : { y: -6, scale: 1.02 }
+                    }
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    className="group flex h-full flex-col justify-start rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm transition-shadow duration-300 hover:border-slate-300 hover:shadow-card"
                   >
-                    <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
-                  </div>
-                  <h3 className="mt-3 sm:mt-5 font-display text-xs sm:text-base font-bold leading-snug text-campo-navy">
-                    {point.title}
-                  </h3>
-                  <p className="mt-1.5 sm:mt-2 text-[11px] sm:text-[13px] leading-relaxed text-slate-600">
-                    {point.impact}
-                  </p>
+                    <div
+                      className={`flex h-12 w-12 items-center justify-center rounded-2xl ${point.iconBg} transition-transform duration-300 group-hover:scale-105`}
+                    >
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="mt-5 font-display text-base font-bold leading-snug text-campo-navy">
+                      {point.title}
+                    </h3>
+                    <p className="mt-2 text-xs sm:text-[13px] leading-relaxed text-slate-600">
+                      {point.impact}
+                    </p>
+                  </motion.div>
                 </motion.div>
               );
             })}

@@ -62,69 +62,114 @@ export function HeroSection({ onRequestDemo }) {
             className="lg:col-span-5 xl:col-span-5"
           >
             {/* Main Display Headline */}
-            <h1 className="font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] text-campo-navy sm:text-5xl lg:text-[3.25rem] xl:text-[3.65rem]">
+            <motion.h1
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: revealEase }}
+              className="font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] text-campo-navy sm:text-5xl lg:text-[3.25rem] xl:text-[3.65rem]"
+            >
               One Institution.
               <br />
               One Connected
               <br />
               Ecosystem<span className="text-campo-teal">.</span>
-            </h1>
+            </motion.h1>
 
             {/* Signature Accent Line */}
-            <div className="mt-4 h-1 w-12 origin-left rounded-full bg-campo-teal sm:mt-5" />
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: revealEase }}
+              className="mt-4 h-1 w-12 origin-left rounded-full bg-campo-teal sm:mt-5"
+            />
 
             {/* Supporting Copy */}
-            <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-slate-600 sm:mt-5 sm:text-[17px]">
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.28, ease: revealEase }}
+              className="mt-4 max-w-lg text-[15px] leading-relaxed text-slate-600 sm:mt-5 sm:text-[17px]"
+            >
               Everything your campus needs—connected, role-governed, and working together.
               Campo brings admissions, academic schedules, fee ledgers, examinations, and campus
               operations into one unified institutional workspace.
-            </p>
+            </motion.p>
 
             {/* Action Buttons: Perfectly Aligned, Single-Line, Robust Padding */}
-            <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-              <button
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.38, ease: revealEase }}
+              className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4"
+            >
+              <motion.button
                 type="button"
                 onClick={onRequestDemo}
-                className="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 h-12 sm:h-13 px-6 sm:px-7 rounded-xl bg-campo-navy text-sm sm:text-base font-bold text-white shadow-card transition-all duration-200 hover:bg-campo-secondary hover:shadow-elevated active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal"
+                whileHover={{ y: -2, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                className="group whitespace-nowrap inline-flex items-center justify-center gap-2 h-12 sm:h-13 px-6 sm:px-7 rounded-xl bg-campo-navy text-sm sm:text-base font-bold text-white shadow-card transition-all duration-200 hover:bg-campo-secondary hover:shadow-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal"
               >
                 <span>Request a Demo</span>
-                <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
-              </button>
+                <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
+              </motion.button>
 
-              <button
+              <motion.button
                 type="button"
                 onClick={handleExploreClick}
-                className="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 h-12 sm:h-13 px-6 sm:px-7 rounded-xl border border-slate-300 bg-white text-sm sm:text-base font-bold text-campo-navy transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal shadow-xs"
+                whileHover={{ y: -2, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                className="group whitespace-nowrap inline-flex items-center justify-center gap-2 h-12 sm:h-13 px-6 sm:px-7 rounded-xl border border-slate-300 bg-white text-sm sm:text-base font-bold text-campo-navy transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal shadow-xs"
               >
                 <span>Explore Platform Modules</span>
-                <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
-              </button>
-            </div>
+                <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
+              </motion.button>
+            </motion.div>
 
             {/* Real Institutional Proof Avatar Stack */}
-            <div className="mt-8 flex items-center gap-3.5 border-t border-slate-200/80 pt-5 sm:mt-9 sm:pt-6">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.48, ease: revealEase }}
+              className="mt-8 flex items-center gap-3.5 border-t border-slate-200/80 pt-5 sm:mt-9 sm:pt-6"
+            >
               <div className="flex -space-x-2.5 overflow-hidden">
-                <img
+                <motion.img
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.52 }}
                   src={studentMobileImg}
                   alt="Student user"
                   loading="eager"
                   className="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover"
                 />
-                <img
+                <motion.img
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.58 }}
                   src={leadershipImg}
                   alt="Campus Dean"
                   loading="eager"
                   className="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover"
                 />
-                <img
+                <motion.img
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.64 }}
                   src={studentsLabImg}
                   alt="Students in lab"
                   loading="eager"
                   className="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover"
                 />
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-campo-navy text-[10px] font-bold text-campo-teal ring-2 ring-white">
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.7 }}
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-campo-navy text-[10px] font-bold text-campo-teal ring-2 ring-white"
+                >
                   20+
-                </div>
+                </motion.div>
               </div>
               <div className="text-xs">
                 <div className="flex items-center gap-1.5 font-bold text-campo-navy">
@@ -141,23 +186,40 @@ export function HeroSection({ onRequestDemo }) {
                   Trusted by Autonomous Colleges &amp; Multi-Campus Trusts
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Trust Badges */}
-            <div className="mt-5 grid grid-cols-3 gap-1.5 sm:gap-2 text-xs">
-              <div className="flex items-center gap-1 sm:gap-1.5 font-semibold text-slate-700">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.58, ease: revealEase }}
+              className="mt-5 grid grid-cols-3 gap-2 text-xs"
+            >
+              <motion.div
+                whileHover={{ y: -2, scale: 1.03 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 20 }}
+                className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-default"
+              >
                 <Layers className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[10px] sm:text-[11px] truncate">Unified Platform</span>
-              </div>
-              <div className="flex items-center gap-1 sm:gap-1.5 font-semibold text-slate-700">
+                <span className="text-[11px] truncate">Unified Platform</span>
+              </motion.div>
+              <motion.div
+                whileHover={{ y: -2, scale: 1.03 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 20 }}
+                className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-default"
+              >
                 <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[10px] sm:text-[11px] truncate">Role-Governed</span>
-              </div>
-              <div className="flex items-center gap-1 sm:gap-1.5 font-semibold text-slate-700">
+                <span className="text-[11px] truncate">Role-Governed</span>
+              </motion.div>
+              <motion.div
+                whileHover={{ y: -2, scale: 1.03 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 20 }}
+                className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-default"
+              >
                 <Sparkles className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[10px] sm:text-[11px] truncate">Audit-Ready Core</span>
-              </div>
-            </div>
+                <span className="text-[11px] truncate">Audit-Ready Core</span>
+              </motion.div>
+            </motion.div>
           </motion.div>
 
           {/* Right Column: Layered Live Product Showcase Mockup with Clean Floating Badges (Hidden on mobile view) */}
