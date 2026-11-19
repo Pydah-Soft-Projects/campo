@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   motion,
+  AnimatePresence,
   useMotionValue,
   useSpring,
   useTransform,
@@ -12,6 +13,8 @@ import {
   Download,
   Sparkles,
   ArrowRight,
+  GraduationCap,
+  Users,
 } from 'lucide-react';
 import { downloadConfig } from '../config/downloadConfig';
 import { SectionHeading, revealEase } from '../components/MotionPrimitives';
@@ -64,14 +67,14 @@ function InteractiveSmartphoneWrapper({ children, prefersReducedMotion }) {
   const mouseXSpring = useSpring(x, { stiffness: 65, damping: 20, mass: 0.6, restDelta: 0.0001 });
   const mouseYSpring = useSpring(y, { stiffness: 65, damping: 20, mass: 0.6, restDelta: 0.0001 });
 
-  // Pronounced 3D rotations to vividly showcase the titanium side edges, buttons, and depth
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['10deg', '-10deg']);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-15deg', '15deg']);
-  const rotateZ = useTransform(mouseXSpring, [-0.5, 0.5], ['-2.5deg', '2.5deg']);
+  // Symmetrical 3D rotations centered at 0deg (upright & aligned at rest, smooth tilt on hover)
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['9deg', '-9deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-12deg', '12deg']);
+  const rotateZ = useTransform(mouseXSpring, [-0.5, 0.5], ['-2deg', '2deg']);
 
   // Dynamic shadow displacement tracking 3D perspective
-  const shadowX = useTransform(mouseXSpring, [-0.5, 0.5], ['-28px', '28px']);
-  const shadowScale = useTransform(mouseYSpring, [-0.5, 0.5], [0.88, 1.05]);
+  const shadowX = useTransform(mouseXSpring, [-0.5, 0.5], ['-24px', '24px']);
+  const shadowScale = useTransform(mouseYSpring, [-0.5, 0.5], [0.92, 1.08]);
 
   const handleMouseMove = (e) => {
     if (prefersReducedMotion || !containerRef.current) return;
@@ -130,7 +133,7 @@ function InteractiveSmartphoneWrapper({ children, prefersReducedMotion }) {
             ease: 'easeInOut',
           },
         }}
-        className="relative w-full flex items-center justify-center transform-gpu [backface-visibility:hidden] antialiased"
+        className="relative w-full flex items-center justify-center transform-gpu [transform-style:preserve-3d] antialiased"
       >
         {children}
       </motion.div>
@@ -165,13 +168,14 @@ function InteractiveSmartphoneWrapper({ children, prefersReducedMotion }) {
 
 export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) {
   const prefersReducedMotion = useReducedMotion();
+  const [activeSide, setActiveSide] = useState('student'); // 'student' | 'parent'
 
   return (
     <div className="relative min-h-screen bg-white">
       {/* ========================================================
           HERO SECTION: APPLE-INSPIRED 3D PRODUCT PRESENTATION
           ======================================================== */}
-      <section className="relative min-h-[calc(100vh-76px)] flex items-center overflow-hidden bg-gradient-to-b from-[#F0FDF9]/80 via-slate-50 to-white pt-24 pb-14 sm:pt-28 sm:pb-16 lg:py-16">
+      <section className="relative min-h-[calc(100vh-76px)] flex items-center overflow-hidden bg-gradient-to-b from-[#F0FDF9]/80 via-slate-50 to-white pt-28 pb-16 sm:pt-32 sm:pb-20 lg:pt-36 lg:pb-24">
         {/* Subtle Mint Gradient & Ambient Floating Orbs */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           {/* Subtle Dot Grid Canvas */}
@@ -217,7 +221,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
         </div>
 
         <div className="container-campo relative z-10 w-full">
-          <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-12">
             {/* Left Column: Download CTAs & App Info (Word-by-Word Staggered Entrance) */}
             <motion.div
               initial={prefersReducedMotion ? undefined : { opacity: 0, x: -35 }}
@@ -294,6 +298,55 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                 Experience real-time academic transparency. Pay semester fees with instant receipts, track biometric attendance, check daily lecture timetables, and carry your verified digital campus ID.
               </motion.p>
 
+              {/* App Persona Switcher: Student App vs Parent App with Animated Sliding Pill */}
+              <motion.div
+                initial={prefersReducedMotion ? undefined : { opacity: 0, y: 14 }}
+                animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5, ease: revealEase }}
+                className="mt-6 flex flex-wrap items-center gap-3"
+              >
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Select App Experience:
+                </span>
+                <div className="relative inline-flex rounded-full bg-slate-900/90 p-1 border border-white/10 shadow-md">
+                  <button
+                    type="button"
+                    onClick={() => setActiveSide('student')}
+                    className={`relative z-10 flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold transition-colors duration-200 cursor-pointer ${
+                      activeSide === 'student' ? 'text-campo-deep' : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    {activeSide === 'student' && (
+                      <motion.span
+                        layoutId="activeAppPill"
+                        transition={{ type: 'spring', stiffness: 450, damping: 30 }}
+                        className="absolute inset-0 rounded-full bg-campo-teal shadow-xs -z-10"
+                      />
+                    )}
+                    <GraduationCap className="h-3.5 w-3.5" />
+                    <span>Student App</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setActiveSide('parent')}
+                    className={`relative z-10 flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold transition-colors duration-200 cursor-pointer ${
+                      activeSide === 'parent' ? 'text-campo-deep' : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    {activeSide === 'parent' && (
+                      <motion.span
+                        layoutId="activeAppPill"
+                        transition={{ type: 'spring', stiffness: 450, damping: 30 }}
+                        className="absolute inset-0 rounded-full bg-campo-teal shadow-xs -z-10"
+                      />
+                    )}
+                    <Users className="h-3.5 w-3.5" />
+                    <span>Parent App</span>
+                  </button>
+                </div>
+              </motion.div>
+
               {/* Download Action Cards with Stagger & Animated Teal Border on Hover */}
               <motion.div
                 initial={prefersReducedMotion ? undefined : { opacity: 0, y: 22 }}
@@ -318,10 +371,10 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                   </div>
 
                   <h3 className="mt-3 sm:mt-3.5 font-display text-sm sm:text-base font-bold text-campo-navy">
-                    {downloadConfig.android.name}
+                    {activeSide === 'student' ? 'Campo Student App' : 'Campo Parent App'}
                   </h3>
                   <p className="mt-0.5 sm:mt-1 text-[11px] sm:text-xs text-slate-500">
-                    Version {downloadConfig.android.version} • {downloadConfig.android.fileSize}
+                    Version {downloadConfig.android.version} • {activeSide === 'student' ? downloadConfig.android.fileSize : '22 MB'}
                   </p>
 
                   <motion.a
@@ -332,7 +385,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                     className="mt-3.5 sm:mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-campo-navy px-4 py-2 sm:py-2.5 text-xs font-semibold text-white shadow-card transition-all hover:bg-campo-secondary"
                   >
                     <Download className="h-4 w-4 text-campo-teal transition-transform duration-200 group-hover:translate-y-0.5" />
-                    <span>Download APK ({downloadConfig.android.fileSize})</span>
+                    <span>Download APK ({activeSide === 'student' ? downloadConfig.android.fileSize : '22 MB'})</span>
                   </motion.a>
                 </motion.div>
 
@@ -352,7 +405,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                   </div>
 
                   <h3 className="mt-3 sm:mt-3.5 font-display text-sm sm:text-base font-bold text-campo-navy">
-                    {downloadConfig.ios.name}
+                    {activeSide === 'student' ? 'Campo Student App' : 'Campo Parent App'}
                   </h3>
                   <p className="mt-0.5 sm:mt-1 text-[11px] sm:text-xs text-slate-500">
                     Requires {downloadConfig.ios.minOs} • App Store
@@ -400,19 +453,61 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
               </motion.div>
             </motion.div>
 
-            {/* Right Column: Premium Device Mockup with 3D Entrance & Tilt - HIDDEN on Mobile (< lg) Screens */}
+            {/* Right Column: Premium Device Mockup with 3D Entrance & Tilt - Interactive Student & Parent App Preview */}
             <motion.div
               initial={prefersReducedMotion ? undefined : { opacity: 0, scale: 0.92, y: 30 }}
               animate={prefersReducedMotion ? undefined : { opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.2, ease: revealEase }}
-              className="hidden lg:flex lg:col-span-5 flex-col items-center justify-center w-full relative pt-6 sm:pt-8 lg:pt-11"
+              className="flex lg:col-span-5 flex-col items-center justify-center w-full relative pt-2 sm:pt-4 lg:pt-3 mt-8 lg:mt-0"
             >
-              {/* Smartphone Display with 3D Parallax */}
-              <div className="relative w-full max-w-[298px] sm:max-w-[318px] lg:max-w-[335px]">
-                {/* Interactive 3D Smartphone Device Mockup */}
+              {/* Smartphone Display with 3D Parallax & 180° Seamless Flip Rotation */}
+              <div className="relative w-full max-w-[295px] sm:max-w-[315px] lg:max-w-[330px]">
+                {/* Interactive 3D Smartphone Device Mockup with 180° Flip */}
                 <InteractiveSmartphoneWrapper prefersReducedMotion={prefersReducedMotion}>
-                  <div className="w-full transform-gpu antialiased">
-                    <MobileAppMockup />
+                  <div className="relative w-full [perspective:1000px] select-none">
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.div
+                        key={activeSide}
+                        initial={
+                          prefersReducedMotion
+                            ? undefined
+                            : {
+                              rotateY: activeSide === 'parent' ? -90 : 90,
+                              scale: 0.93,
+                              opacity: 0,
+                            }
+                        }
+                        animate={
+                          prefersReducedMotion
+                            ? undefined
+                            : {
+                              rotateY: 0,
+                              scale: 1,
+                              opacity: 1,
+                            }
+                        }
+                        exit={
+                          prefersReducedMotion
+                            ? undefined
+                            : {
+                              rotateY: activeSide === 'student' ? 90 : -90,
+                              scale: 0.93,
+                              opacity: 0,
+                            }
+                        }
+                        transition={{
+                          duration: 0.32,
+                          ease: [0.34, 1.25, 0.64, 1],
+                        }}
+                        style={{ transformStyle: 'preserve-3d' }}
+                        className="w-full transform-gpu antialiased [transform-style:preserve-3d]"
+                      >
+                        <MobileAppMockup
+                          activeSide={activeSide}
+                          onSideChange={setActiveSide}
+                        />
+                      </motion.div>
+                    </AnimatePresence>
                   </div>
                 </InteractiveSmartphoneWrapper>
               </div>

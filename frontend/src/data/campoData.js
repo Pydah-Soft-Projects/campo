@@ -34,9 +34,9 @@ export const navLinks = [
   { label: 'Home', href: '#home' },
   { label: 'Platform', href: '#platform' },
   { label: 'Solutions', href: '#solutions' },
-  { label: 'Pricing', href: '#pricing' },
   { label: 'Features', href: '#features' },
   { label: 'About Us', href: '#about' },
+  { label: 'Pricing', href: '#pricing' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -455,8 +455,8 @@ export const footerColumns = {
   platform: [
     { label: 'Overview', href: '#platform' },
     { label: 'Applications', href: '#solutions' },
-    { label: 'Pricing Plans', href: '#pricing' },
     { label: 'Features', href: '#features' },
+    { label: 'Pricing Plans', href: '#pricing' },
     { label: 'Download App', href: '/download' },
   ],
   solutions: [
@@ -484,7 +484,7 @@ export const pricingPlans = [
     price: '200',
     billingPeriod: 'per student, per year',
     popular: false,
-    badge: null,
+    badge: 'Core Foundation',
     summary: 'Students, classes, admissions and staff in one place.',
     buttonText: 'Start Core Plan',
     categories: [

@@ -38,6 +38,22 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  const scrollToHashElement = (hash) => {
+    if (!hash) return;
+    const el = document.querySelector(hash);
+    if (el) {
+      const navHeight = 68;
+      const targetRect = el.getBoundingClientRect();
+      const offsetPosition = targetRect.top + window.pageYOffset - navHeight;
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: 'smooth',
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const navigate = (path, hash) => {
     const normalizedPath = (path || '/').replace(/\/+$/, '') || '/';
     if (normalizedPath !== currentPath) {
@@ -45,21 +61,13 @@ export default function App() {
       setCurrentPath(normalizedPath);
       if (hash) {
         setTimeout(() => {
-          const el = document.querySelector(hash);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
-          } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }
+          scrollToHashElement(hash);
         }, 120);
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } else if (hash) {
-      const el = document.querySelector(hash);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
+      scrollToHashElement(hash);
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -71,10 +79,7 @@ export default function App() {
       navigate('/', '#contact');
       return;
     }
-    const contactEl = document.getElementById('contact');
-    if (contactEl) {
-      contactEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToHashElement('#contact');
   };
 
   const isAppDetail = currentPath.startsWith('/applications/');

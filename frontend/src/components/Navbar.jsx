@@ -73,19 +73,41 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
-    setMobileOpen(false);
+    const wasMobileOpen = mobileOpen;
+    document.body.style.overflow = '';
+    if (wasMobileOpen) {
+      setMobileOpen(false);
+    }
     setActiveHref(href);
+
     if (currentPath !== '/') {
       onNavigate?.('/', href);
       return;
     }
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+
+    const performScroll = () => {
+      document.body.style.overflow = '';
+      const target = document.querySelector(href);
+      if (target) {
+        const navHeight = 68;
+        const targetRect = target.getBoundingClientRect();
+        const offsetPosition = targetRect.top + window.pageYOffset - navHeight;
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: 'smooth',
+        });
+      }
+    };
+
+    if (wasMobileOpen) {
+      setTimeout(performScroll, 60);
+    } else {
+      performScroll();
     }
   };
 
   const handleDemoClick = () => {
+    document.body.style.overflow = '';
     setMobileOpen(false);
     onRequestDemo?.();
   };
@@ -104,9 +126,9 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled || currentPath !== '/'
-          ? 'border-b border-slate-200/80 bg-white/95 py-3 shadow-[0_1px_3px_rgba(7,28,70,0.04)] backdrop-blur-md'
-          : 'border-b border-transparent bg-transparent py-4'
+        scrolled || currentPath !== '/' || mobileOpen
+          ? 'border-b border-slate-200/80 bg-white py-2.5 sm:py-3 shadow-[0_1px_3px_rgba(7,28,70,0.04)] backdrop-blur-md'
+          : 'border-b border-transparent bg-transparent py-3.5 sm:py-4'
       }`}
     >
       <nav
@@ -199,9 +221,12 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 top-[60px] z-40 bg-slate-900/40 backdrop-blur-xs lg:hidden"
+              transition={{ duration: 0.18 }}
+              onClick={() => {
+                document.body.style.overflow = '';
+                setMobileOpen(false);
+              }}
+              className="fixed inset-0 top-[56px] z-40 bg-slate-900/35 backdrop-blur-xs lg:hidden"
               aria-hidden="true"
             />
 
@@ -210,10 +235,10 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-              className="relative z-50 max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-slate-200 bg-white shadow-elevated lg:hidden"
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-50 overflow-hidden border-t border-slate-200/90 bg-white shadow-elevated lg:hidden"
             >
-              <div className="container-campo flex flex-col gap-1 py-4">
+              <div className="container-campo flex flex-col gap-0.5 py-2.5 px-3">
                 {navLinks.map((link) => {
                   const isActive = activeHref === link.href && currentPath === '/';
                   return (
@@ -221,9 +246,9 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
                       key={link.href}
                       href={link.href}
                       onClick={(e) => handleNavClick(e, link.href)}
-                      className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors active:scale-[0.99] ${
+                      className={`flex items-center justify-between rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors active:scale-[0.99] ${
                         isActive
-                          ? 'bg-campo-light text-campo-navy'
+                          ? 'bg-campo-light/80 text-campo-navy font-semibold'
                           : 'text-slate-600 hover:bg-slate-50 hover:text-campo-navy'
                       }`}
                     >
@@ -239,31 +264,33 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
                   href="/download"
                   onClick={(e) => {
                     e.preventDefault();
+                    document.body.style.overflow = '';
                     setMobileOpen(false);
                     onNavigate?.('/download');
                   }}
-                  className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors active:scale-[0.99] ${
+                  className={`mt-0.5 flex items-center justify-between rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors active:scale-[0.99] ${
                     currentPath === '/download'
-                      ? 'bg-campo-light text-campo-navy'
+                      ? 'bg-campo-light/80 text-campo-navy font-semibold'
                       : 'text-slate-600 hover:bg-slate-50 hover:text-campo-navy'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <Smartphone className="h-4 w-4 text-campo-teal-dark" />
+                  <div className="flex items-center gap-2">
+                    <Smartphone className="h-3.5 w-3.5 text-campo-teal-dark" />
                     <span>Download Mobile App</span>
                   </div>
-                  <span className="rounded-md bg-teal-50 px-2 py-0.5 text-[10px] font-semibold text-campo-teal-dark">
+                  <span className="rounded bg-teal-50 px-1.5 py-0.5 text-[9px] font-semibold text-campo-teal-dark">
                     Android &amp; iOS
                   </span>
                 </a>
-                <div className="mt-3 border-t border-slate-100 pt-3">
+
+                <div className="mt-1.5 border-t border-slate-100 pt-1.5">
                   <button
                     type="button"
                     onClick={handleDemoClick}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-campo-navy px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-campo-secondary active:scale-[0.99]"
+                    className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-campo-navy px-3.5 py-2 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-campo-secondary active:scale-[0.99]"
                   >
-                    Request a Demo
-                    <ArrowUpRight className="h-4 w-4 text-campo-teal" />
+                    <span>Request a Demo</span>
+                    <ArrowUpRight className="h-3.5 w-3.5 text-campo-teal" />
                   </button>
                 </div>
               </div>
