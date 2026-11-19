@@ -132,9 +132,9 @@ export function HeroSection({ onRequestDemo }) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.48, ease: revealEase }}
-              className="mt-8 flex items-center gap-3.5 border-t border-slate-200/80 pt-5 sm:mt-9 sm:pt-6"
+              className="mt-8 flex items-center gap-3 border-t border-slate-200/80 pt-5 sm:mt-9 sm:gap-3.5 sm:pt-6"
             >
-              <div className="flex -space-x-2.5 overflow-hidden">
+              <div className="flex -space-x-2.5 shrink-0">
                 <motion.img
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -142,7 +142,7 @@ export function HeroSection({ onRequestDemo }) {
                   src={studentMobileImg}
                   alt="Student user"
                   loading="eager"
-                  className="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover"
+                  className="inline-block h-8.5 w-8.5 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
                 />
                 <motion.img
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -151,7 +151,7 @@ export function HeroSection({ onRequestDemo }) {
                   src={leadershipImg}
                   alt="Campus Dean"
                   loading="eager"
-                  className="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover"
+                  className="inline-block h-8.5 w-8.5 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
                 />
                 <motion.img
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -160,29 +160,29 @@ export function HeroSection({ onRequestDemo }) {
                   src={studentsLabImg}
                   alt="Students in lab"
                   loading="eager"
-                  className="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover"
+                  className="inline-block h-8.5 w-8.5 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
                 />
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.4, delay: 0.7 }}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-campo-navy text-[10px] font-bold text-campo-teal ring-2 ring-white"
+                  className="flex h-8.5 w-8.5 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-campo-navy text-[10px] font-bold text-campo-teal ring-2 ring-white shrink-0"
                 >
                   20+
                 </motion.div>
               </div>
-              <div className="text-xs">
+              <div className="text-xs min-w-0 flex-1">
                 <div className="flex items-center gap-1.5 font-bold text-campo-navy">
-                  <div className="flex text-amber-400">
+                  <div className="flex text-amber-400 shrink-0">
                     <Star className="h-3.5 w-3.5 fill-current" />
                     <Star className="h-3.5 w-3.5 fill-current" />
                     <Star className="h-3.5 w-3.5 fill-current" />
                     <Star className="h-3.5 w-3.5 fill-current" />
                     <StarHalf className="h-3.5 w-3.5 fill-current" />
                   </div>
-                  <span>4.5 / 5 Rating</span>
+                  <span className="whitespace-nowrap">4.5 / 5 Rating</span>
                 </div>
-                <p className="text-[11px] text-slate-500 font-medium">
+                <p className="text-[11px] text-slate-500 font-medium leading-snug mt-0.5">
                   Trusted by Autonomous Colleges &amp; Multi-Campus Trusts
                 </p>
               </div>
@@ -193,7 +193,7 @@ export function HeroSection({ onRequestDemo }) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.58, ease: revealEase }}
-              className="mt-5 grid grid-cols-3 gap-2 text-xs"
+              className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-5 text-xs"
             >
               <motion.div
                 whileHover={{ y: -2, scale: 1.03 }}
@@ -201,7 +201,7 @@ export function HeroSection({ onRequestDemo }) {
                 className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-default"
               >
                 <Layers className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[11px] truncate">Unified Platform</span>
+                <span className="text-[11px] sm:text-xs whitespace-nowrap">Unified Platform</span>
               </motion.div>
               <motion.div
                 whileHover={{ y: -2, scale: 1.03 }}
@@ -209,7 +209,7 @@ export function HeroSection({ onRequestDemo }) {
                 className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-default"
               >
                 <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[11px] truncate">Role-Governed</span>
+                <span className="text-[11px] sm:text-xs whitespace-nowrap">Role-Governed</span>
               </motion.div>
               <motion.div
                 whileHover={{ y: -2, scale: 1.03 }}
@@ -217,7 +217,7 @@ export function HeroSection({ onRequestDemo }) {
                 className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-default"
               >
                 <Sparkles className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[11px] truncate">Audit-Ready Core</span>
+                <span className="text-[11px] sm:text-xs whitespace-nowrap">Audit-Ready Core</span>
               </motion.div>
             </motion.div>
           </motion.div>

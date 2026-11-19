@@ -371,7 +371,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                   </div>
 
                   <h3 className="mt-3 sm:mt-3.5 font-display text-sm sm:text-base font-bold text-campo-navy">
-                    {activeSide === 'student' ? 'Campo Student App' : 'Campo Parent App'}
+                    {activeSide === 'student' ? 'Campo Buddy' : 'Campo Parent App'}
                   </h3>
                   <p className="mt-0.5 sm:mt-1 text-[11px] sm:text-xs text-slate-500">
                     Version {downloadConfig.android.version} • {activeSide === 'student' ? downloadConfig.android.fileSize : '22 MB'}
@@ -405,7 +405,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                   </div>
 
                   <h3 className="mt-3 sm:mt-3.5 font-display text-sm sm:text-base font-bold text-campo-navy">
-                    {activeSide === 'student' ? 'Campo Student App' : 'Campo Parent App'}
+                    {activeSide === 'student' ? 'Campo Buddy' : 'Campo Parent App'}
                   </h3>
                   <p className="mt-0.5 sm:mt-1 text-[11px] sm:text-xs text-slate-500">
                     Requires {downloadConfig.ios.minOs} • App Store

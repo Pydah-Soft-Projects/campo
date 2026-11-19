@@ -65,10 +65,10 @@ export function CampoIntroduction() {
     <section
       id="platform"
       ref={containerRef}
-      className="relative bg-white py-10 sm:py-14 lg:h-[360vh] lg:py-0"
+      className="relative w-full bg-white border-y border-slate-200/80 py-10 sm:py-14 lg:h-[360vh] lg:py-0"
     >
       {/* Viewport Frame: Natural document flow on mobile/tablet, Sticky pinned on Desktop */}
-      <div className="relative lg:sticky lg:top-0 lg:min-h-screen flex flex-col justify-center lg:py-10 lg:overflow-hidden">
+      <div className="relative w-full lg:sticky lg:top-0 lg:min-h-screen flex flex-col justify-center lg:py-10 lg:overflow-hidden">
         <div className="container-campo relative z-10 w-full my-auto">
           <SectionHeading
             index="02"
@@ -79,19 +79,19 @@ export function CampoIntroduction() {
           />
 
           {/* Interactive Architecture Studio with Image Integration */}
-          <div className="mt-6 sm:mt-8 lg:mt-10">
-            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-campo-surface p-4 sm:p-6 lg:p-8 shadow-workspace">
-              <div className="grid items-stretch gap-5 lg:grid-cols-12 lg:gap-8">
+          <div className="mt-6 sm:mt-8 lg:mt-10 w-full">
+            <div className="w-full overflow-hidden rounded-3xl border border-slate-200 bg-campo-surface p-4 sm:p-6 lg:p-8 shadow-workspace">
+              <div className="w-full grid items-stretch gap-5 lg:grid-cols-12 lg:gap-8">
                 {/* Left: 4 Institutional Pillars Selector with Scroll Progress */}
-                <div className="flex flex-col justify-between lg:col-span-5">
-                  <div>
+                <div className="w-full flex flex-col justify-between lg:col-span-5">
+                  <div className="w-full">
                     <div className="mb-3 sm:mb-4">
                       <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
                         Institutional Ecosystem Pillars
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2 sm:gap-2.5 lg:flex lg:flex-col lg:space-y-3.5">
+                    <div className="w-full grid grid-cols-2 gap-2 sm:gap-2.5 lg:flex lg:flex-col lg:space-y-3.5">
                       {ecosystemPillars.map((pillar, index) => {
                         const isSelected = pillar.id === selectedPillarId;
 
@@ -108,7 +108,7 @@ export function CampoIntroduction() {
                             key={pillar.id}
                             type="button"
                             onClick={() => handlePillarClick(index, pillar.id)}
-                            className={`group relative flex w-full items-center justify-between overflow-hidden rounded-2xl border px-3.5 py-3 sm:px-5 sm:py-4 lg:px-6 lg:py-5 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal min-h-[68px] sm:min-h-[78px] lg:min-h-[96px] ${
+                            className={`group relative flex w-full items-center justify-between overflow-hidden rounded-2xl border px-3.5 py-3 sm:px-5 sm:py-4 lg:px-6 lg:py-5 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal min-h-[68px] sm:min-h-[78px] lg:h-[96px] ${
                               isSelected
                                 ? 'border-campo-navy bg-campo-navy text-white shadow-elevated'
                                 : 'border-slate-200/80 bg-white hover:border-slate-300 hover:bg-slate-50'
@@ -160,7 +160,7 @@ export function CampoIntroduction() {
                 </div>
 
                 {/* Right: Clean Connected Pillar Showcase with Height-Matched Photo Banner */}
-                <div className="flex lg:col-span-7">
+                <div className="w-full flex lg:col-span-7">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={selectedPillar.id}
@@ -180,15 +180,13 @@ export function CampoIntroduction() {
                             decoding="async"
                             className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />
-                          <div className="absolute bottom-4 sm:bottom-5 left-4 sm:left-6 right-4 sm:right-6 text-white">
-                            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-campo-teal block mb-1">
-                              Pillar 0{ecosystemPillars.findIndex((p) => p.id === selectedPillar.id) + 1} of 04
-                            </span>
-                            <h4 className="font-display text-lg sm:text-xl lg:text-2xl font-bold text-white">
-                              {selectedPillar.label}
-                            </h4>
-                          </div>
+                        </div>
+
+                        {/* Pillar Title */}
+                        <div className="mb-2.5 sm:mb-3">
+                          <h4 className="font-display text-lg sm:text-xl lg:text-2xl font-bold text-campo-navy">
+                            {selectedPillar.label}
+                          </h4>
                         </div>
 
                         {selectedPillar.alertQuote && (
