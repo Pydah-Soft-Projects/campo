@@ -16,6 +16,7 @@ import { applicationDetails } from '../data/applicationDetails';
 import { revealEase } from '../components/MotionPrimitives';
 import { CampoLogo } from '../components/CampoLogo';
 import { LaptopMockup } from '../components/mockups/LaptopMockup';
+import { MobileAppMockup } from '../components/mockups/MobileAppMockup';
 
 // Staggered container variants for rock-solid repeatable scroll animations
 const staggerGridVariants = {
@@ -256,7 +257,7 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
         </div>
       </section>
 
-      {/* 2. Interactive Desktop Workspace Showcase */}
+      {/* 2. Interactive Desktop / Mobile Workspace Showcase */}
       <section className="section-padding bg-slate-50/70 border-b border-slate-200/80 relative overflow-hidden">
         <div className="container-campo relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
@@ -272,15 +273,23 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
             </p>
           </div>
 
-          <div className="max-w-4xl lg:max-w-5xl mx-auto px-2 sm:px-6">
-            <LaptopMockup
-              screens={app.screens || (app.previewImage ? [app.previewImage] : [])}
-              alt={`${app.name} Workspace Preview`}
-              appTitle={`${app.name} • Institutional Console`}
-              aspectRatio="16/8.5"
-              autoScroll={true}
-              autoScrollInterval={4500}
-            />
+          <div className={app.id === 'student-data' ? 'max-w-[340px] sm:max-w-[380px] mx-auto px-2 sm:px-4' : 'max-w-4xl lg:max-w-5xl mx-auto px-2 sm:px-6'}>
+            {app.id === 'student-data' ? (
+              <MobileAppMockup
+                screens={app.screens || (app.previewImage ? [app.previewImage] : [])}
+                autoScroll={true}
+                autoScrollInterval={4500}
+              />
+            ) : (
+              <LaptopMockup
+                screens={app.screens || (app.previewImage ? [app.previewImage] : [])}
+                alt={`${app.name} Workspace Preview`}
+                appTitle={`${app.name} • Institutional Console`}
+                aspectRatio="16/8.5"
+                autoScroll={true}
+                autoScrollInterval={4500}
+              />
+            )}
           </div>
         </div>
       </section>

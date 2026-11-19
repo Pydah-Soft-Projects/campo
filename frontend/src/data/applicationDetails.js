@@ -71,7 +71,7 @@ import admissionsPageScreen from '../assets/Campo Screens/Admissions/Admissions-
 import studentAttendanceScreen from '../assets/Campo Screens/Student-Portal/Attendance.webp';
 import studentTimeTableScreen from '../assets/Campo Screens/Student-Portal/Time_Table.webp';
 import studentScholarshipRtfScreen from '../assets/Campo Screens/Student-Portal/Scholarship-RTF.webp';
-import studentMobileMockupScreen from '../assets/Campo Screens/Student-Portal/Modern Student Dashboard Phone Mockup.webp';
+import studentDashboardScreen from '../assets/Campo Screens/Student-Portal/Modern Student Dashboard Screen.webp';
 
 // Campo Application Screens - Fees & Finance
 import feeCollectionScreen from '../assets/Campo Screens/FEES/Fee-Collection.webp';
@@ -263,8 +263,14 @@ export const applicationDetails = {
     tagline: 'One Student. One Record. Complete Campus Engagement.',
     headline: 'Centralize every student and parent record, generate instant smart ID cards, manage online service requests, and drive active campus club engagement.',
     bannerImage: studentDataBanner,
-    previewImage: studentAttendanceScreen,
+    previewImage: studentDashboardScreen,
     screens: [
+      {
+        src: studentDashboardScreen,
+        title: 'Mobile Student Companion & Dashboard',
+        description: 'Digital student identity, campus circular alerts, and academic progression.',
+        fit: 'contain',
+      },
       {
         src: studentAttendanceScreen,
         title: 'Student Biometric Attendance & Leave History',
@@ -281,12 +287,6 @@ export const applicationDetails = {
         src: studentScholarshipRtfScreen,
         title: 'Scholarship & Government RTF Status Ledger',
         description: 'Verified scholarship disbursements, RTF eligibility, and fee ledgers.',
-        fit: 'contain',
-      },
-      {
-        src: studentMobileMockupScreen,
-        title: 'Mobile Student Companion Portal',
-        description: 'Digital student identity, campus circular alerts, and academic progression.',
         fit: 'contain',
       },
     ],
