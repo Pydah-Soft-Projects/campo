@@ -142,7 +142,8 @@ export function HeroSection({ onRequestDemo }) {
                   src={studentMobileImg}
                   alt="Student user"
                   loading="eager"
-                  className="inline-block h-8.5 w-8.5 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
+                  className="inline-block h-8 w-8 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
+                  style={{ width: '36px', height: '36px' }}
                 />
                 <motion.img
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -151,7 +152,8 @@ export function HeroSection({ onRequestDemo }) {
                   src={leadershipImg}
                   alt="Campus Dean"
                   loading="eager"
-                  className="inline-block h-8.5 w-8.5 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
+                  className="inline-block h-8 w-8 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
+                  style={{ width: '36px', height: '36px' }}
                 />
                 <motion.img
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -160,13 +162,15 @@ export function HeroSection({ onRequestDemo }) {
                   src={studentsLabImg}
                   alt="Students in lab"
                   loading="eager"
-                  className="inline-block h-8.5 w-8.5 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
+                  className="inline-block h-8 w-8 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
+                  style={{ width: '36px', height: '36px' }}
                 />
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.4, delay: 0.7 }}
-                  className="flex h-8.5 w-8.5 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-campo-navy text-[10px] font-bold text-campo-teal ring-2 ring-white shrink-0"
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-campo-navy text-[10px] font-bold text-campo-teal ring-2 ring-white shrink-0"
+                  style={{ width: '36px', height: '36px' }}
                 >
                   20+
                 </motion.div>

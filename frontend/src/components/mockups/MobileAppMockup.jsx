@@ -398,7 +398,7 @@ export function MobileAppMockup({
                       {/* Digital Campus Identity Bar */}
                       <div className="flex items-center justify-between rounded-2xl border border-slate-200/90 bg-gradient-to-r from-slate-50 via-white to-slate-50 p-2.5 shadow-xs">
                         <div className="flex items-center gap-2">
-                          <div className="flex h-6.5 w-6.5 items-center justify-center rounded-xl bg-campo-navy text-campo-teal">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-campo-navy text-campo-teal">
                             <QrCode className="h-3.5 w-3.5" />
                           </div>
                           <div>
@@ -505,7 +505,7 @@ export function MobileAppMockup({
                       {/* Ward Snapshot Badges */}
                       <div className="grid grid-cols-4 gap-1.5">
                         <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200/90 bg-white p-1.5 sm:p-2 text-center shadow-xs">
-                          <div className="flex h-6.5 w-6.5 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
                             <UserCheck className="h-3.5 w-3.5" />
                           </div>
                           <span className="mt-1 text-[9px] font-extrabold text-emerald-600">Present</span>
@@ -513,7 +513,7 @@ export function MobileAppMockup({
                         </div>
 
                         <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200/90 bg-white p-1.5 sm:p-2 text-center shadow-xs">
-                          <div className="flex h-6.5 w-6.5 items-center justify-center rounded-lg bg-sky-50 text-sky-600">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-50 text-sky-600">
                             <Bus className="h-3.5 w-3.5" />
                           </div>
                           <span className="mt-1 text-[9px] font-extrabold text-campo-navy">1.2 km</span>
@@ -521,7 +521,7 @@ export function MobileAppMockup({
                         </div>
 
                         <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200/90 bg-white p-1.5 sm:p-2 text-center shadow-xs">
-                          <div className="flex h-6.5 w-6.5 items-center justify-center rounded-lg bg-teal-50 text-campo-teal-dark">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-50 text-campo-teal-dark">
                             <CreditCard className="h-3.5 w-3.5" />
                           </div>
                           <span className="mt-1 text-[9px] font-extrabold text-campo-navy">₹0 Due</span>
@@ -529,7 +529,7 @@ export function MobileAppMockup({
                         </div>
 
                         <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200/90 bg-white p-1.5 sm:p-2 text-center shadow-xs">
-                          <div className="flex h-6.5 w-6.5 items-center justify-center rounded-lg bg-purple-50 text-purple-600">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-50 text-purple-600">
                             <Sparkles className="h-3.5 w-3.5" />
                           </div>
                           <span className="mt-1 text-[9px] font-extrabold text-purple-600">8.7 SGPA</span>
@@ -596,7 +596,7 @@ export function MobileAppMockup({
                       {/* Official Circular Card */}
                       <div className="flex items-center justify-between rounded-2xl border border-slate-200/90 bg-gradient-to-r from-slate-50 via-white to-slate-50 p-2.5 shadow-xs">
                         <div className="flex items-center gap-2">
-                          <div className="flex h-6.5 w-6.5 items-center justify-center rounded-xl bg-campo-navy text-campo-teal">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-campo-navy text-campo-teal">
                             <Bell className="h-3.5 w-3.5" />
                           </div>
                           <div>
@@ -689,7 +689,7 @@ export function MobileAppMockup({
             <button
               type="button"
               onClick={() => setIsPlaying(!isPlaying)}
-              className="flex h-7.5 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 text-[11px] font-semibold text-slate-700 shadow-2xs hover:bg-slate-50 hover:text-campo-navy transition-colors cursor-pointer"
+              className="flex h-8 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 text-[11px] font-semibold text-slate-700 shadow-2xs hover:bg-slate-50 hover:text-campo-navy transition-colors cursor-pointer"
               title={isPlaying ? 'Pause Slideshow' : 'Resume Slideshow'}
             >
               {isPlaying ? (
@@ -710,7 +710,7 @@ export function MobileAppMockup({
               <button
                 type="button"
                 onClick={handlePrev}
-                className="flex h-7.5 w-7.5 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-2xs hover:bg-slate-50 hover:text-campo-navy active:scale-95 transition-all cursor-pointer"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-2xs hover:bg-slate-50 hover:text-campo-navy active:scale-95 transition-all cursor-pointer"
                 title="Previous Screen"
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -718,7 +718,7 @@ export function MobileAppMockup({
               <button
                 type="button"
                 onClick={handleNext}
-                className="flex h-7.5 w-7.5 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-2xs hover:bg-slate-50 hover:text-campo-navy active:scale-95 transition-all cursor-pointer"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-2xs hover:bg-slate-50 hover:text-campo-navy active:scale-95 transition-all cursor-pointer"
                 title="Next Screen"
               >
                 <ChevronRight className="h-4 w-4" />
