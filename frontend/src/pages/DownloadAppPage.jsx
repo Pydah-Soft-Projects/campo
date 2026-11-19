@@ -20,6 +20,7 @@ import { downloadConfig } from '../config/downloadConfig';
 import { SectionHeading, revealEase } from '../components/MotionPrimitives';
 import { MobileAppMockup } from '../components/mockups/MobileAppMockup';
 import { CTASection } from '../components/CTASection';
+import { SEO } from '../components/SEO';
 
 // Official Apple vector logo (clean & centered)
 function AppleIcon({ className = 'h-6 w-6' }) {
@@ -172,6 +173,26 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
 
   return (
     <div className="relative min-h-screen bg-white">
+      <SEO
+        title="Download Campo App — Mobile Campus Portal for Android & iOS"
+        description="Download the Campo Student & Faculty Companion mobile app. Check real-time attendance, digital fee receipts, exam timetables, and campus transport directly on your phone."
+        keywords="Campo app download, Campo Android APK, student companion app, college attendance app, campus mobile portal, student ERP app"
+        canonical="https://campo.co.in/download"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: 'Campo Student Companion App',
+          applicationCategory: 'EducationalApplication',
+          operatingSystem: 'Android, iOS',
+          description: 'Mobile campus companion for students and faculty to access attendance, exam timetables, fee receipts, and announcements.',
+          url: 'https://campo.co.in/download',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'INR',
+          },
+        }}
+      />
       {/* ========================================================
           HERO SECTION: APPLE-INSPIRED 3D PRODUCT PRESENTATION
           ======================================================== */}

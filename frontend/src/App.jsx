@@ -17,6 +17,7 @@ import { DownloadAppPage } from './pages/DownloadAppPage';
 import { ApplicationDetailPage } from './pages/ApplicationDetailPage';
 import { AdminLoginPage } from './pages/AdminLoginPage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import { SEO } from './components/SEO';
 
 export default function App() {
   const [inquiryIntent, setInquiryIntent] = useState('Demo Request');
@@ -135,6 +136,42 @@ export default function App() {
             />
           ) : (
             <>
+              <SEO
+                title="Campo — Unified Institutional Management Ecosystem"
+                description="Campo brings admissions, academics, finance, HRMS, campus operations, and permission-scoped institutional intelligence together in one connected platform."
+                keywords="Campo, institutional management platform, campus ERP, admissions CRM, fee management, academic management, HRMS, LMS, campus operations, college ERP India"
+                canonical="https://campo.co.in/"
+                structuredData={{
+                  '@context': 'https://schema.org',
+                  '@graph': [
+                    {
+                      '@type': 'Organization',
+                      name: 'Campo',
+                      url: 'https://campo.co.in/',
+                      logo: 'https://campo.co.in/og-image.png?v=2',
+                      description: 'Unified institutional management ecosystem connecting campus ERP, admissions, academics, and operations.',
+                    },
+                    {
+                      '@type': 'WebSite',
+                      name: 'Campo',
+                      url: 'https://campo.co.in/',
+                    },
+                    {
+                      '@type': 'SoftwareApplication',
+                      name: 'Campo Institutional Platform',
+                      applicationCategory: 'EducationalApplication',
+                      operatingSystem: 'Web, Android, iOS',
+                      url: 'https://campo.co.in/',
+                      description: 'Campo brings admissions, academics, finance, HRMS, campus operations, and permission-scoped institutional intelligence together in one connected platform.',
+                      offers: {
+                        '@type': 'Offer',
+                        price: '0',
+                        priceCurrency: 'INR',
+                      },
+                    },
+                  ],
+                }}
+              />
               <HeroSection
                 onRequestDemo={() => navigateToContact('Demo Request')}
               />

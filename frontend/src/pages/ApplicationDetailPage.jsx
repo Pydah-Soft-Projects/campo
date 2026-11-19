@@ -17,6 +17,7 @@ import { revealEase } from '../components/MotionPrimitives';
 import { CampoLogo } from '../components/CampoLogo';
 import { LaptopMockup } from '../components/mockups/LaptopMockup';
 import { MobileAppMockup } from '../components/mockups/MobileAppMockup';
+import { SEO } from '../components/SEO';
 
 // Staggered container variants for rock-solid repeatable scroll animations
 const staggerGridVariants = {
@@ -112,6 +113,53 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
+      <SEO
+        title={`${app.name} — Institutional Campus ERP | Campo`}
+        description={`${app.headline || app.tagline} Empower your institution with Campo's ${app.name}.`}
+        keywords={`${app.name}, Campo ${app.name}, ${app.category}, campus ERP, institutional management software, college management India`}
+        canonical={`https://campo.co.in/applications/${app.id}`}
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                {
+                  '@type': 'ListItem',
+                  position: 1,
+                  name: 'Home',
+                  item: 'https://campo.co.in/',
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  name: 'Applications',
+                  item: 'https://campo.co.in/#applications',
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 3,
+                  name: app.name,
+                  item: `https://campo.co.in/applications/${app.id}`,
+                },
+              ],
+            },
+            {
+              '@type': 'SoftwareApplication',
+              name: `Campo ${app.name}`,
+              applicationCategory: 'EducationalApplication',
+              operatingSystem: 'Web, Android, iOS',
+              description: app.headline || app.tagline,
+              url: `https://campo.co.in/applications/${app.id}`,
+              offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'INR',
+              },
+            },
+          ],
+        }}
+      />
       {/* ========================================================
           HERO SECTION: EXPANDED CARD IMAGE BACKGROUND HERO (68-76vh)
           ======================================================== */}
