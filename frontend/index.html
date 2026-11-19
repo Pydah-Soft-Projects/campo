@@ -52,6 +52,48 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- JSON-LD Structured Data Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://campo.co.in/#organization",
+          "name": "Campo",
+          "url": "https://campo.co.in/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://campo.co.in/og-image.png?v=2"
+          },
+          "description": "Campo brings admissions, academics, finance, HRMS, campus operations, and permission-scoped institutional intelligence together in one connected platform."
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://campo.co.in/#website",
+          "url": "https://campo.co.in/",
+          "name": "Campo",
+          "publisher": {
+            "@id": "https://campo.co.in/#organization"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://campo.co.in/#software",
+          "name": "Campo Institutional Platform",
+          "applicationCategory": "EducationalApplication",
+          "operatingSystem": "Web, Android, iOS",
+          "url": "https://campo.co.in/",
+          "description": "Integrated campus management ERP and institutional ecosystem connecting colleges, students, and administration.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body class="bg-white text-campo-ink antialiased selection:bg-campo-teal/20 selection:text-campo-navy">
     <div id="root"></div>
