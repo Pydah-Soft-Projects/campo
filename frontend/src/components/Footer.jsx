@@ -1,15 +1,10 @@
 import React from 'react';
-import { Globe, Linkedin, Share2 } from 'lucide-react';
+import { Phone, Mail } from 'lucide-react';
 import { footerColumns } from '../data/campoData';
 import { siteConfig } from '../config/siteConfig';
 import { CampoLogo } from './CampoLogo';
 import { BrandCornerWave } from './MotionPrimitives';
-
-const socialIconMap = {
-  linkedin: Linkedin,
-  x: Share2,
-  globe: Globe,
-};
+import { realisticSocialLogos } from './SocialLogos';
 
 export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
   const currentYear = new Date().getFullYear();
@@ -54,20 +49,47 @@ export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
               {siteConfig.brand.description}
             </p>
 
-            {/* Social Media Placeholders */}
-            <div className="mt-6 flex items-center gap-2.5">
+            {/* Direct Official Contact Channels (Single Line) */}
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-200">
+              <a
+                href={`tel:${siteConfig.contact.phone.replace(/\s+/g, '')}`}
+                className="group inline-flex items-center gap-1.5 font-medium transition-colors hover:text-campo-teal"
+              >
+                <Phone className="h-3.5 w-3.5 text-campo-teal transition-transform group-hover:scale-110 shrink-0" />
+                <span>{siteConfig.contact.phone}</span>
+              </a>
+              <span className="hidden sm:inline-block h-3 w-px bg-white/20" />
+              <a
+                href={`mailto:${siteConfig.contact.email}`}
+                className="group inline-flex items-center gap-1.5 font-medium transition-colors hover:text-campo-teal"
+              >
+                <Mail className="h-3.5 w-3.5 text-campo-teal transition-transform group-hover:scale-110 shrink-0" />
+                <span>{siteConfig.contact.email}</span>
+              </a>
+            </div>
+
+            {/* Realistic Big Official Social Media Logomarks */}
+            <div className="mt-5 flex items-center gap-3 sm:gap-3.5">
               {siteConfig.social.map((item) => {
-                const Icon = socialIconMap[item.id] || Globe;
+                const LogoComponent = realisticSocialLogos[item.id];
+                if (!LogoComponent) return null;
+                const isExternal = item.href.startsWith('http');
                 return (
                   <a
                     key={item.id}
                     href={item.href}
-                    aria-label={item.label}
+                    target={isExternal ? '_blank' : undefined}
+                    rel={isExternal ? 'noopener noreferrer' : undefined}
+                    aria-label={`Campo on ${item.label}`}
                     title={item.label}
-                    onClick={(e) => handleLinkClick(e, item.label, item.href)}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/5 text-slate-300 transition-colors duration-200 hover:border-campo-teal/70 hover:bg-white/10 hover:text-campo-teal"
+                    onClick={(e) => {
+                      if (!isExternal) {
+                        handleLinkClick(e, item.label, item.href);
+                      }
+                    }}
+                    className="group relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full transition-all duration-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal"
                   >
-                    <Icon className="h-4 w-4" />
+                    <LogoComponent />
                   </a>
                 );
               })}

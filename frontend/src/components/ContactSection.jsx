@@ -186,6 +186,24 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
               <h2 className="font-display text-xl sm:text-3xl lg:text-[2.25rem] font-bold leading-[1.2] sm:leading-[1.18] tracking-tight text-campo-navy">
                 Let&apos;s Build a More Connected Campus.
               </h2>
+
+              {/* Direct Official Contact Channels (Phone & Email) */}
+              <div className="mt-4 sm:mt-5 flex flex-wrap items-center gap-2 sm:gap-2.5 text-xs">
+                <a
+                  href={`tel:${siteConfig.contact.phone.replace(/\s+/g, '')}`}
+                  className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 font-semibold text-campo-navy shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-campo-teal/70 hover:text-campo-teal-dark hover:shadow-sm"
+                >
+                  <Phone className="h-3.5 w-3.5 text-campo-teal-dark shrink-0" />
+                  <span>{siteConfig.contact.phone}</span>
+                </a>
+                <a
+                  href={`mailto:${siteConfig.contact.email}`}
+                  className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 font-semibold text-campo-navy shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-campo-teal/70 hover:text-campo-teal-dark hover:shadow-sm"
+                >
+                  <Mail className="h-3.5 w-3.5 text-campo-teal-dark shrink-0" />
+                  <span>{siteConfig.contact.email}</span>
+                </a>
+              </div>
             </div>
 
             {/* Employee Advisor Cutout Image in Middle Pointing Directly Toward Form (Hidden on mobile) */}
@@ -348,7 +366,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                       value={formData.phone}
                       onChange={handleChange}
                       aria-invalid={Boolean(errors.phone)}
-                      placeholder="+91 98765 43210"
+                      placeholder="+91 70361 24568"
                       className={getFieldClass('phone')}
                     />
                     {errors.phone && (
