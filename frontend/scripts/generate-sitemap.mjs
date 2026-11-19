@@ -19,7 +19,7 @@ const PROJECT_ROOT = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.resolve(PROJECT_ROOT, 'public');
 const DIST_DIR = path.resolve(PROJECT_ROOT, 'dist');
 
-const DEFAULT_BASE_URL = 'https://www.campo.co.in';
+const DEFAULT_BASE_URL = 'https://campo.co.in';
 
 const VALID_CHANGEFREQS = new Set([
   'always',

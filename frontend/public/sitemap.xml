@@ -1,91 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.campo.co.in/</loc>
+    <loc>https://campo.co.in/</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/download</loc>
+    <loc>https://campo.co.in/download</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/admin/login</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://www.campo.co.in/applications/admissions-crm</loc>
+    <loc>https://campo.co.in/applications/admissions-crm</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/student-data</loc>
+    <loc>https://campo.co.in/applications/student-data</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/fee-management</loc>
+    <loc>https://campo.co.in/applications/fee-management</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/transport-management</loc>
+    <loc>https://campo.co.in/applications/transport-management</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/academic-management</loc>
+    <loc>https://campo.co.in/applications/academic-management</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/examination-management</loc>
+    <loc>https://campo.co.in/applications/examination-management</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/hrms</loc>
+    <loc>https://campo.co.in/applications/hrms</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/staff-recruitment</loc>
+    <loc>https://campo.co.in/applications/staff-recruitment</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/hostel-management</loc>
+    <loc>https://campo.co.in/applications/hostel-management</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/stationery-management</loc>
+    <loc>https://campo.co.in/applications/stationery-management</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/maintenance-management</loc>
+    <loc>https://campo.co.in/applications/maintenance-management</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.campo.co.in/applications/library-management</loc>
+    <loc>https://campo.co.in/applications/library-management</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
