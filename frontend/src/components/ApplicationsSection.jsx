@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { applications } from '../data/campoData';
 import { SectionHeading } from './MotionPrimitives';
@@ -155,7 +155,7 @@ const moduleCardThemes = {
   },
 };
 
-// Premium Modern Horizontal Wide Card matching the user's reference exactly
+// Premium Modern Horizontal Wide Card matching the user's reference with touch feedback
 function ModuleCard({ app, onInspect }) {
   const Icon = app.icon;
   const moduleImg = moduleImages[app.id];
@@ -173,7 +173,9 @@ function ModuleCard({ app, onInspect }) {
   return (
     <article
       onClick={() => onInspect(app)}
-      className={`group relative flex h-[190px] sm:h-[215px] w-[285px] sm:w-[410px] shrink-0 overflow-hidden rounded-3xl border ${config.border} ${config.cardBg} shadow-card transition-all duration-300 hover:-translate-y-1 ${config.hoverBorder} hover:shadow-elevated cursor-pointer select-none`}
+      draggable={false}
+      onDragStart={(e) => e.preventDefault()}
+      className={`group relative flex h-[190px] sm:h-[215px] w-[285px] sm:w-[410px] shrink-0 overflow-hidden rounded-3xl border ${config.border} ${config.cardBg} shadow-card transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] ${config.hoverBorder} hover:shadow-elevated cursor-pointer select-none`}
     >
       {/* Background Graphic / Image Area */}
       {moduleImg ? (
@@ -183,13 +185,14 @@ function ModuleCard({ app, onInspect }) {
             alt={app.name}
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 h-full w-full object-cover object-right pointer-events-none"
+            draggable={false}
+            className="absolute inset-0 h-full w-full object-cover object-right pointer-events-none select-none"
           />
           {/* Subtle light gradient: light at top-left, gentle at bottom-left so artwork shows through */}
           <div className="absolute inset-y-0 left-0 w-[68%] sm:w-[68%] bg-gradient-to-br from-white/80 via-white/40 to-transparent pointer-events-none z-[1]" />
         </>
       ) : (
-        <div className="absolute right-4 inset-y-0 w-[38%] flex items-center justify-center pointer-events-none">
+        <div className="absolute right-4 inset-y-0 w-[38%] flex items-center justify-center pointer-events-none select-none">
           {/* Soft Aura Glow */}
           <div className={`absolute h-24 w-24 rounded-full ${config.aura} blur-xl`} />
           <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200/80 bg-white/80 shadow-xs backdrop-blur-xs transition-transform duration-300 group-hover:scale-105">
@@ -199,7 +202,7 @@ function ModuleCard({ app, onInspect }) {
       )}
 
       {/* Left Content Column */}
-      <div className="relative z-10 flex h-full w-[70%] sm:w-[70%] flex-col justify-between p-3.5 sm:p-4.5">
+      <div className="relative z-10 flex h-full w-[70%] sm:w-[70%] flex-col justify-between p-3.5 sm:p-4.5 pointer-events-none select-none">
         {/* Top: Module Title & Sub text directly under it */}
         <div>
           <div className="-ml-1 inline-block rounded-lg border border-white/70 bg-white/75 px-2 py-0.5 shadow-2xs backdrop-blur-md">
@@ -224,6 +227,238 @@ function ModuleCard({ app, onInspect }) {
   );
 }
 
+// Touch and drag-enabled continuous CSS marquee row
+function InteractiveMarqueeRow({
+  items,
+  direction = 'left',
+  onInspect,
+}) {
+  const containerRef = useRef(null);
+  const firstSetRef = useRef(null);
+  const singleSetWidthRef = useRef(0);
+
+  const [isPaused, setIsPaused] = useState(false);
+  const isDraggingRef = useRef(false);
+  const dragDistanceRef = useRef(0);
+  const startXRef = useRef(0);
+  const startScrollLeftRef = useRef(0);
+  const resumeTimeoutRef = useRef(null);
+  const isTouchActiveRef = useRef(false);
+
+  // Measure single set width and set initial scrollLeft to 1 full set
+  useEffect(() => {
+    const measure = () => {
+      if (!firstSetRef.current || !containerRef.current) return;
+      const setWidth = firstSetRef.current.offsetWidth + (window.innerWidth >= 640 ? 20 : 16);
+      if (setWidth > 0) {
+        singleSetWidthRef.current = setWidth;
+        if (containerRef.current.scrollLeft === 0) {
+          containerRef.current.scrollLeft = setWidth;
+        }
+      }
+    };
+
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
+  const pauseAnimation = () => {
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current);
+    }
+    setIsPaused(true);
+  };
+
+  const resumeAnimation = (delay = 1000) => {
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current);
+    }
+    resumeTimeoutRef.current = setTimeout(() => {
+      if (!isDraggingRef.current && !isTouchActiveRef.current) {
+        setIsPaused(false);
+      }
+    }, delay);
+  };
+
+  // Global mouse move & up listeners for drag-to-scroll on desktop
+  useEffect(() => {
+    const handleGlobalMouseMove = (e) => {
+      if (!isDraggingRef.current || !containerRef.current) return;
+      const dx = e.pageX - startXRef.current;
+      dragDistanceRef.current = Math.abs(dx);
+      containerRef.current.scrollLeft = startScrollLeftRef.current - dx;
+    };
+
+    const handleGlobalMouseUp = () => {
+      if (isDraggingRef.current) {
+        isDraggingRef.current = false;
+        resumeAnimation(1000);
+        setTimeout(() => {
+          dragDistanceRef.current = 0;
+        }, 120);
+      }
+    };
+
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, []);
+
+  // Mouse drag handler on container
+  const handleMouseDown = (e) => {
+    if (e.button !== 0 || isTouchActiveRef.current) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    isDraggingRef.current = true;
+    dragDistanceRef.current = 0;
+    startXRef.current = e.pageX;
+    startScrollLeftRef.current = el.scrollLeft;
+    pauseAnimation();
+  };
+
+  // Touch handlers for mobile / tablet swiping
+  const touchStartXRef = useRef(0);
+  const handleTouchStart = (e) => {
+    isTouchActiveRef.current = true;
+    dragDistanceRef.current = 0;
+    touchStartXRef.current = e.touches[0].clientX;
+    pauseAnimation();
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches.length > 0) {
+      const diff = Math.abs(e.touches[0].clientX - touchStartXRef.current);
+      if (diff > 5) {
+        dragDistanceRef.current = diff;
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      isTouchActiveRef.current = false;
+      resumeAnimation(1200);
+      dragDistanceRef.current = 0;
+    }, 150);
+  };
+
+  // Scroll event: keeps scroll buffer safe for continuous manual scrolling
+  const handleScroll = () => {
+    const el = containerRef.current;
+    const sw = singleSetWidthRef.current;
+    if (!el || sw <= 0) return;
+
+    if (el.scrollLeft <= 50) {
+      el.scrollLeft += sw;
+    } else if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 50) {
+      el.scrollLeft -= sw;
+    }
+  };
+
+  // Desktop hover pause (fine pointer only)
+  const handleMouseEnter = () => {
+    if (isTouchActiveRef.current) return;
+    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      pauseAnimation();
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isDraggingRef.current && !isTouchActiveRef.current) {
+      setIsPaused(false);
+    }
+  };
+
+  const handleCardClick = (app) => {
+    if (dragDistanceRef.current > 6) {
+      return;
+    }
+    onInspect(app);
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      onScroll={handleScroll}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onWheel={() => {
+        pauseAnimation();
+        resumeAnimation(1000);
+      }}
+      className="relative w-full overflow-x-auto no-scrollbar scrollbar-none cursor-grab active:cursor-grabbing select-none"
+      style={{
+        WebkitOverflowScrolling: 'touch',
+        touchAction: 'pan-x pan-y',
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+      }}
+    >
+      <div
+        className={`flex gap-4 sm:gap-5 w-max py-2 ${
+          direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'
+        }`}
+        style={{
+          animationPlayState: isPaused ? 'paused' : 'running',
+        }}
+      >
+        {/* Set 0 (used for measuring 1 cycle) */}
+        <div ref={firstSetRef} className="flex gap-4 sm:gap-5 shrink-0">
+          {items.map((app, idx) => (
+            <ModuleCard
+              key={`s0-${direction}-${app.id}-${idx}`}
+              app={app}
+              onInspect={handleCardClick}
+            />
+          ))}
+        </div>
+
+        {/* Set 1 */}
+        <div className="flex gap-4 sm:gap-5 shrink-0">
+          {items.map((app, idx) => (
+            <ModuleCard
+              key={`s1-${direction}-${app.id}-${idx}`}
+              app={app}
+              onInspect={handleCardClick}
+            />
+          ))}
+        </div>
+
+        {/* Set 2 */}
+        <div className="flex gap-4 sm:gap-5 shrink-0">
+          {items.map((app, idx) => (
+            <ModuleCard
+              key={`s2-${direction}-${app.id}-${idx}`}
+              app={app}
+              onInspect={handleCardClick}
+            />
+          ))}
+        </div>
+
+        {/* Set 3 */}
+        <div className="flex gap-4 sm:gap-5 shrink-0">
+          {items.map((app, idx) => (
+            <ModuleCard
+              key={`s3-${direction}-${app.id}-${idx}`}
+              app={app}
+              onInspect={handleCardClick}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function ApplicationsSection({ onRequestDemo, onNavigate }) {
   const handleInspect = (app) => {
     if (onNavigate) {
@@ -234,7 +469,7 @@ export function ApplicationsSection({ onRequestDemo, onNavigate }) {
   // Map of applications by ID for curated, distinct color distribution
   const appMap = new Map(applications.map((app) => [app.id, app]));
 
-  // Curated color-alternating rows so no same-color cards appear side-by-side (including loop seams)
+  // Curated color-alternating rows so no same-color cards appear side-by-side
   const row1Ids = [
     'admissions-crm',        // Green (Admissions CRM)
     'academic-management',   // Purple (Academics)
@@ -256,10 +491,6 @@ export function ApplicationsSection({ onRequestDemo, onNavigate }) {
   const row1 = row1Ids.map((id) => appMap.get(id)).filter(Boolean);
   const row2 = row2Ids.map((id) => appMap.get(id)).filter(Boolean);
 
-  // Duplicate arrays to create an infinite, seamless loop
-  const row1Items = [...row1, ...row1];
-  const row2Items = [...row2, ...row2];
-
   return (
     <section
       id="solutions"
@@ -267,70 +498,64 @@ export function ApplicationsSection({ onRequestDemo, onNavigate }) {
     >
       <style>{`
         @keyframes marqueeLeft {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
+          0% { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(-50%, 0, 0); }
         }
         @keyframes marqueeRight {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0%); }
+          0% { transform: translate3d(-50%, 0, 0); }
+          100% { transform: translate3d(0, 0, 0); }
         }
         .animate-marquee-left {
           display: flex;
           width: max-content;
           animation: marqueeLeft 42s linear infinite;
+          will-change: transform;
         }
         .animate-marquee-right {
           display: flex;
           width: max-content;
           animation: marqueeRight 42s linear infinite;
-        }
-        .animate-marquee-left:hover,
-        .animate-marquee-right:hover {
-          animation-play-state: paused;
+          will-change: transform;
         }
       `}</style>
 
-      <div className="container-campo relative z-10 mb-8 sm:mb-12">
+      <div className="container-campo relative z-10 mb-6 sm:mb-8">
         <SectionHeading
           index="03"
           label="Platform Modules"
           title="Unified Campus Modules Operating on One Core."
-          description="Continuous bidirectional synchronization across every institutional domain. Hover to pause and click any module to view its dedicated page."
+          description="Continuous bidirectional synchronization across every institutional domain. Hover to pause, drag or swipe to explore, and click any module to view its dedicated page."
           align="center"
         />
+
+        {/* Tactile interaction hint pill */}
+        <div className="mt-4 flex items-center justify-center select-none pointer-events-none">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white/80 px-3 py-1 text-[11px] sm:text-xs font-medium text-slate-500 shadow-2xs backdrop-blur-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-campo-teal animate-pulse" />
+            Auto-scrolling • Swipe or drag to explore • Hover to pause • Click to open
+          </span>
+        </div>
       </div>
 
-      {/* Two-Row Continuous Bidirectional Marquee */}
-      <div className="relative w-full overflow-hidden space-y-4 sm:space-y-5 py-2">
+      {/* Two-Row Continuous Interactive Bidirectional Marquee */}
+      <div className="relative w-full overflow-hidden space-y-3 sm:space-y-4 py-2">
         {/* Soft Gradient Fade Masks on Screen Edges */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-6 sm:w-24 lg:w-36 bg-gradient-to-r from-slate-50/95 via-slate-50/80 to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-6 sm:w-24 lg:w-36 bg-gradient-to-l from-slate-50/95 via-slate-50/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-24 lg:w-36 bg-gradient-to-r from-slate-50/95 via-slate-50/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-24 lg:w-36 bg-gradient-to-l from-slate-50/95 via-slate-50/80 to-transparent z-10" />
 
-        {/* Row 1: Right-to-Left Continuous Marquee */}
-        <div className="flex overflow-hidden">
-          <div className="animate-marquee-left flex gap-4 sm:gap-5">
-            {row1Items.map((app, index) => (
-              <ModuleCard
-                key={`r1-${app.id}-${index}`}
-                app={app}
-                onInspect={handleInspect}
-              />
-            ))}
-          </div>
-        </div>
+        {/* Row 1: Right-to-Left Continuous Marquee with Touch & Drag Scroll */}
+        <InteractiveMarqueeRow
+          items={row1}
+          direction="left"
+          onInspect={handleInspect}
+        />
 
-        {/* Row 2: Left-to-Right Continuous Marquee */}
-        <div className="flex overflow-hidden">
-          <div className="animate-marquee-right flex gap-4 sm:gap-5">
-            {row2Items.map((app, index) => (
-              <ModuleCard
-                key={`r2-${app.id}-${index}`}
-                app={app}
-                onInspect={handleInspect}
-              />
-            ))}
-          </div>
-        </div>
+        {/* Row 2: Left-to-Right Continuous Marquee with Touch & Drag Scroll */}
+        <InteractiveMarqueeRow
+          items={row2}
+          direction="right"
+          onInspect={handleInspect}
+        />
       </div>
     </section>
   );

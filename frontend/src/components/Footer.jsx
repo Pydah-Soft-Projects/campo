@@ -1,13 +1,16 @@
 import React from 'react';
 import { Phone, Mail } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { footerColumns } from '../data/campoData';
 import { siteConfig } from '../config/siteConfig';
 import { CampoLogo } from './CampoLogo';
 import { BrandCornerWave } from './MotionPrimitives';
 import { realisticSocialLogos } from './SocialLogos';
+import campoWatermark from '../assets/campo-footer-watermark.png';
 
 export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
   const currentYear = new Date().getFullYear();
+  const shouldReduceMotion = useReducedMotion();
 
   const handleLinkClick = (e, label, href) => {
     if (label === 'Request a Demo') {
@@ -28,6 +31,59 @@ export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
 
   return (
     <footer className="relative overflow-hidden border-t border-campo-secondary bg-gradient-to-br from-campo-navy via-campo-navy to-campo-deep text-white">
+      {/* Background Brand Watermark Effect with Smooth Moving Light Sweep */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden select-none px-4 sm:px-8"
+      >
+        <div className="relative w-full max-w-6xl xl:max-w-7xl 2xl:max-w-[1440px]">
+          {/* Base subtle brand watermark */}
+          <img
+            src={campoWatermark}
+            alt=""
+            className="w-full h-auto object-contain opacity-[0.05] sm:opacity-[0.06] select-none pointer-events-none drop-shadow-[0_0_16px_rgba(255,255,255,0.06)]"
+            draggable={false}
+          />
+
+          {/* Smooth White Light Beam Moving Across the Letters & Swoosh */}
+          {!shouldReduceMotion && (
+            <div
+              className="pointer-events-none absolute inset-0 overflow-hidden select-none"
+              style={{
+                WebkitMaskImage: `url("${campoWatermark}")`,
+                maskImage: `url("${campoWatermark}")`,
+                WebkitMaskSize: 'contain',
+                maskSize: 'contain',
+                WebkitMaskPosition: 'center',
+                maskPosition: 'center',
+                WebkitMaskRepeat: 'no-repeat',
+                maskRepeat: 'no-repeat',
+              }}
+            >
+              {/* Elegant white light moving beam sweeping continuously from C across to O with no dead gap */}
+              <motion.div
+                initial={{ left: '-12%' }}
+                animate={{ left: '104%' }}
+                transition={{
+                  duration: 6.0,
+                  repeat: Infinity,
+                  repeatDelay: 0,
+                  ease: 'linear',
+                }}
+                className="pointer-events-none absolute -bottom-[60%] -top-[60%] w-[14%] sm:w-[10%] -skew-x-[20deg]"
+                style={{
+                  background:
+                    'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.05) 15%, rgba(255, 255, 255, 0.42) 50%, rgba(255, 255, 255, 0.05) 85%, transparent 100%)',
+                }}
+              />
+            </div>
+          )}
+
+          {/* Soft ambient white glow */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/[0.02] via-transparent to-transparent" />
+        </div>
+      </div>
+
       <BrandCornerWave className="h-32 w-72 opacity-80 sm:h-40 sm:w-[420px]" />
 
       <div className="container-campo relative z-10 py-11 sm:py-16">

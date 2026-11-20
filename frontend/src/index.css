@@ -35,4 +35,15 @@
   .section-padding {
     @apply py-11 sm:py-16 lg:py-20;
   }
+
+  /* Hide scrollbars for clean carousels while preserving touch and drag scrolling */
+  .no-scrollbar::-webkit-scrollbar,
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar,
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
