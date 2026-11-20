@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  animate,
   motion,
   useInView,
   useReducedMotion,
@@ -167,43 +168,59 @@ export function SectionHeading({
   );
 }
 
-export function AnimatedCounter({ target, suffix = '', duration = 1100 }) {
+export function AnimatedCounter({
+  target,
+  suffix = '',
+  prefix = '',
+  duration = 1.3,
+  amount = 0.1,
+  margin = '0px 0px -30px 0px',
+  once = false,
+  className = '',
+}) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.4 });
-  const [count, setCount] = useState(0);
+  const isInView = useInView(ref, { once, amount, margin });
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (!isInView) return undefined;
+    const node = ref.current;
+    if (!node) return undefined;
 
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion) {
-      setCount(target);
+    if (!isInView) {
+      if (!once) {
+        node.textContent = `${prefix}0${suffix}`;
+      }
       return undefined;
     }
 
-    let frameId;
-    const startTime = performance.now();
+    if (prefersReducedMotion) {
+      node.textContent = `${prefix}${target.toLocaleString()}${suffix}`;
+      return undefined;
+    }
 
-    const step = (now) => {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(eased * target));
-      if (progress < 1) {
-        frameId = requestAnimationFrame(step);
-      }
-    };
+    // Convert milliseconds to seconds if passed as > 10
+    const durInSeconds = duration > 10 ? duration / 1000 : duration;
 
-    frameId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frameId);
-  }, [isInView, target, duration]);
+    // Direct DOM text animation via framer-motion controls with easeOutExpo curve [0.16, 1, 0.3, 1]
+    // Prevents React re-render churn (ensures 60-120fps smooth native text updates without digit jitter)
+    const controls = animate(0, target, {
+      duration: durInSeconds,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (latest) => {
+        if (!node) return;
+        const val = Number.isInteger(target)
+          ? Math.round(latest).toLocaleString()
+          : latest.toFixed(1);
+        node.textContent = `${prefix}${val}${suffix}`;
+      },
+    });
+
+    return () => controls.stop();
+  }, [isInView, target, duration, once, prefix, suffix, prefersReducedMotion]);
 
   return (
-    <span ref={ref}>
-      {count}
-      {suffix}
+    <span ref={ref} className={`tabular-nums inline-block ${className}`}>
+      {prefix}0{suffix}
     </span>
   );
 }

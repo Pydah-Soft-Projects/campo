@@ -9,7 +9,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { CampoLogo } from './CampoLogo';
-import { SectionHeading, revealEase } from './MotionPrimitives';
+import { SectionHeading, revealEase, AnimatedCounter } from './MotionPrimitives';
 import { campusImpactMetrics } from '../data/campoData';
 import leadershipImg from '../assets/institutional-leadership.webp';
 import libraryImg from '../assets/campus-library.webp';
@@ -31,7 +31,7 @@ export function WhyCampo() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.5, ease: revealEase }}
           className="mt-8 sm:mt-10 rounded-3xl border border-slate-200 bg-slate-50/70 p-5 sm:p-7 shadow-xs"
         >
@@ -45,19 +45,41 @@ export function WhyCampo() {
           </div>
 
           <div className="grid grid-cols-2 gap-2.5 sm:gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            {campusImpactMetrics.map((item, idx) => (
-              <div
-                key={idx}
-                className="rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-4 text-center shadow-xs hover:border-campo-teal/50 hover:shadow-card transition-all"
-              >
-                <div className="font-display text-xl sm:text-3xl font-black text-campo-teal-dark tracking-tight">
-                  {item.value}
-                </div>
-                <p className="mt-1 text-xs font-semibold text-slate-700 leading-snug">
-                  {item.label}
-                </p>
-              </div>
-            ))}
+            {campusImpactMetrics.map((item, idx) => {
+              const match = item.value.match(/^([^\d]*)(\d+(?:\.\d+)?)(.*)$/);
+              const prefix = match ? match[1] : '';
+              const target = match ? parseFloat(match[2]) : 0;
+              const suffix = match ? match[3] : '';
+
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ duration: 0.45, delay: idx * 0.05, ease: revealEase }}
+                  className="rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-4 text-center shadow-xs hover:border-campo-teal/50 hover:shadow-card transition-all"
+                >
+                  <div className="font-display text-xl sm:text-3xl font-black text-campo-teal-dark tracking-tight tabular-nums">
+                    {target > 0 ? (
+                      <AnimatedCounter
+                        target={target}
+                        prefix={prefix}
+                        suffix={suffix}
+                        once={false}
+                        amount={0.1}
+                        duration={1.25 + idx * 0.08}
+                      />
+                    ) : (
+                      item.value
+                    )}
+                  </div>
+                  <p className="mt-1 text-xs font-semibold text-slate-700 leading-snug">
+                    {item.label}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
 

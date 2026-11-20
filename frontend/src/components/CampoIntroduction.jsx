@@ -80,7 +80,7 @@ export function CampoIntroduction() {
 
           {/* Interactive Architecture Studio with Image Integration */}
           <div className="mt-6 sm:mt-8 lg:mt-10 w-full">
-            <div className="w-full overflow-hidden rounded-3xl border border-slate-200 bg-campo-surface p-4 sm:p-6 lg:p-8 shadow-workspace">
+            <div className="w-full overflow-hidden rounded-3xl border border-slate-200 bg-campo-surface p-3 sm:p-5 lg:p-8 shadow-workspace">
               <div className="w-full grid items-stretch gap-5 lg:grid-cols-12 lg:gap-8">
                 {/* Left: 4 Institutional Pillars Selector with Scroll Progress */}
                 <div className="w-full flex flex-col justify-between lg:col-span-5">
@@ -94,6 +94,8 @@ export function CampoIntroduction() {
                     <div className="w-full grid grid-cols-2 gap-2 sm:gap-2.5 lg:flex lg:flex-col lg:space-y-3.5">
                       {ecosystemPillars.map((pillar, index) => {
                         const isSelected = pillar.id === selectedPillarId;
+                        const [firstWord, ...restWords] = pillar.label.split(' ');
+                        const secondWord = restWords.join(' ');
 
                         // Calculate progress of this tab segment [0..1]
                         const segmentStart = index / ecosystemPillars.length;
@@ -108,7 +110,7 @@ export function CampoIntroduction() {
                             key={pillar.id}
                             type="button"
                             onClick={() => handlePillarClick(index, pillar.id)}
-                            className={`group relative flex w-full items-center justify-between overflow-hidden rounded-2xl border px-3.5 py-3 sm:px-5 sm:py-4 lg:px-6 lg:py-5 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal min-h-[68px] sm:min-h-[78px] lg:h-[96px] ${
+                            className={`group relative flex w-full flex-col justify-center overflow-hidden rounded-xl sm:rounded-2xl border px-3 py-2 sm:px-3.5 sm:py-2.5 lg:flex-row lg:items-center lg:justify-between lg:px-6 lg:py-5 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal min-h-[54px] sm:min-h-[60px] lg:h-[96px] ${
                               isSelected
                                 ? 'border-campo-navy bg-campo-navy text-white shadow-elevated'
                                 : 'border-slate-200/80 bg-white hover:border-slate-300 hover:bg-slate-50'
@@ -117,7 +119,7 @@ export function CampoIntroduction() {
                             {isSelected && (
                               <span
                                 aria-hidden="true"
-                                className="absolute inset-y-2 left-0 w-1 sm:w-1.5 rounded-r-full bg-campo-teal"
+                                className="absolute inset-y-1.5 left-0 w-1 sm:w-1.5 rounded-r-full bg-campo-teal"
                               />
                             )}
 
@@ -129,24 +131,49 @@ export function CampoIntroduction() {
                               />
                             )}
 
-                            {/* Left Pillar Title */}
-                            <div className="pr-6 sm:pr-10 lg:pr-14">
-                              <p
-                                className={`font-display text-xs sm:text-sm lg:text-base font-bold leading-snug ${
+                            {/* Mobile Layout: Compact 2 Lines with Inline Number */}
+                            <div className="flex flex-col justify-center w-full lg:hidden">
+                              <span
+                                className={`font-display text-[11.5px] sm:text-xs font-bold leading-tight ${
+                                  isSelected ? 'text-white' : 'text-campo-navy'
+                                }`}
+                              >
+                                {firstWord}
+                              </span>
+                              <div className="flex items-baseline justify-between w-full mt-0.5">
+                                <span
+                                  className={`font-display text-[11.5px] sm:text-xs font-bold leading-tight ${
+                                    isSelected ? 'text-white' : 'text-campo-navy'
+                                  }`}
+                                >
+                                  {secondWord}
+                                </span>
+                                <span
+                                  className={`font-display text-sm sm:text-base font-extrabold leading-none shrink-0 ml-1.5 transition-all duration-300 ${
+                                    isSelected
+                                      ? 'text-campo-teal'
+                                      : 'text-slate-400 group-hover:text-slate-600'
+                                  }`}
+                                >
+                                  0{index + 1}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Desktop Layout: Title on Left, Large Number on Right */}
+                            <div className="hidden lg:flex lg:items-center lg:justify-between w-full">
+                              <span
+                                className={`font-display text-base font-bold leading-snug ${
                                   isSelected ? 'text-white' : 'text-campo-navy'
                                 }`}
                               >
                                 {pillar.label}
-                              </p>
-                            </div>
-
-                            {/* Right Side Number */}
-                            <div className="absolute right-3 sm:right-4 bottom-2.5 sm:bottom-3 overflow-hidden pointer-events-none">
+                              </span>
                               <span
-                                className={`block font-display text-lg sm:text-2xl lg:text-3xl font-extrabold leading-none transition-all duration-300 ${
+                                className={`font-display text-3xl font-extrabold leading-none transition-all duration-300 ${
                                   isSelected
                                     ? 'text-campo-teal'
-                                    : 'text-slate-400/80 group-hover:text-slate-500'
+                                    : 'text-slate-400/90 group-hover:text-slate-600'
                                 }`}
                               >
                                 0{index + 1}

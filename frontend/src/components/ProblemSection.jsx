@@ -194,17 +194,19 @@ export function ProblemSection() {
                         : { y: -6, scale: 1.02 }
                     }
                     transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="group flex h-full flex-col justify-start rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm transition-shadow duration-300 hover:border-slate-300 hover:shadow-card"
+                    className="group flex h-full flex-col justify-start rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-white p-4 sm:p-6 shadow-sm transition-shadow duration-300 hover:border-slate-300 hover:shadow-card"
                   >
-                    <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-2xl ${point.iconBg} transition-transform duration-300 group-hover:scale-105`}
-                    >
-                      <Icon className="h-6 w-6" />
+                    <div className="flex items-center gap-3 sm:block">
+                      <div
+                        className={`flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl ${point.iconBg} transition-transform duration-300 group-hover:scale-105`}
+                      >
+                        <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                      </div>
+                      <h3 className="font-display text-sm sm:text-base font-bold leading-snug text-campo-navy sm:mt-5">
+                        {point.title}
+                      </h3>
                     </div>
-                    <h3 className="mt-5 font-display text-base font-bold leading-snug text-campo-navy">
-                      {point.title}
-                    </h3>
-                    <p className="mt-2 text-xs sm:text-[13px] leading-relaxed text-slate-600">
+                    <p className="mt-2.5 sm:mt-2 text-xs sm:text-[13px] leading-relaxed text-slate-600">
                       {point.impact}
                     </p>
                   </motion.div>

@@ -16,6 +16,7 @@ import {
   pickPlugPlaySteps,
 } from '../data/campoData';
 import { SectionHeading, revealEase } from './MotionPrimitives';
+import campusHeroImg from '../assets/campus-hero.webp';
 
 // 3 Signature Campo Blue Tiers:
 // 1st Card: Core (Deep Marine Blue)
@@ -276,9 +277,21 @@ export function PricingSection({ onRequestDemo }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: revealEase }}
-          className="mt-8 sm:mt-10 overflow-hidden rounded-3xl bg-gradient-to-br from-campo-navy via-slate-900 to-campo-deep p-6 sm:p-8 lg:p-10 text-white border border-white/10 shadow-workspace"
+          className="relative mt-8 sm:mt-10 overflow-hidden rounded-3xl bg-campo-navy p-6 sm:p-8 lg:p-10 text-white border border-white/10 shadow-workspace"
         >
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8">
+          {/* Background Image Vignette with Campus Architecture Photo */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+            <img
+              src={campusHeroImg}
+              alt="Modern university campus architecture"
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover opacity-45 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-campo-deep/95 via-campo-navy/85 to-campo-navy/55" />
+          </div>
+
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
               {/* Badge 90 DAYS (Circular Round) */}
               <div className="flex h-16 w-16 sm:h-20 sm:w-20 shrink-0 flex-col items-center justify-center rounded-full aspect-square bg-campo-teal text-campo-deep shadow-elevated">
@@ -298,7 +311,7 @@ export function PricingSection({ onRequestDemo }) {
                 <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                   Try Campo, completely free.
                 </h3>
-                <p className="mt-1.5 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+                <p className="mt-1.5 text-sm sm:text-base text-slate-200 max-w-2xl leading-relaxed">
                   Full access to every area. If it isn’t making your campus easier to run, walk away with your data. No lock-in, no penalties.
                 </p>
               </div>
