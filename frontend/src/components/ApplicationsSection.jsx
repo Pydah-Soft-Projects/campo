@@ -227,76 +227,132 @@ function ModuleCard({ app, onInspect }) {
   );
 }
 
-// Touch and drag-enabled continuous CSS marquee row
+// Seamless infinite marquee row with interactive touch swipe and mouse drag
 function InteractiveMarqueeRow({
   items,
   direction = 'left',
+  speed = 52, // pixels per second for smooth, continuous gliding
   onInspect,
 }) {
   const containerRef = useRef(null);
-  const firstSetRef = useRef(null);
+  const set0Ref = useRef(null);
+  const set1Ref = useRef(null);
   const singleSetWidthRef = useRef(0);
+  const scrollPosRef = useRef(0);
+  const isProgrammaticScrollRef = useRef(false);
 
-  const [isPaused, setIsPaused] = useState(false);
+  const isInteractingRef = useRef(false);
+  const isHoveredRef = useRef(false);
   const isDraggingRef = useRef(false);
   const dragDistanceRef = useRef(0);
   const startXRef = useRef(0);
   const startScrollLeftRef = useRef(0);
   const resumeTimeoutRef = useRef(null);
   const isTouchActiveRef = useRef(false);
+  const lastTimeRef = useRef(null);
 
-  // Measure single set width and set initial scrollLeft to 1 full set
+  // 6 duplicate sets provide an infinite buffer with zero blank gaps in either direction
+  const sets = [0, 1, 2, 3, 4, 5];
+
+  // Measure exact single set width and center initial scroll offset
   useEffect(() => {
     const measure = () => {
-      if (!firstSetRef.current || !containerRef.current) return;
-      const setWidth = firstSetRef.current.offsetWidth + (window.innerWidth >= 640 ? 20 : 16);
-      if (setWidth > 0) {
-        singleSetWidthRef.current = setWidth;
-        if (containerRef.current.scrollLeft === 0) {
-          containerRef.current.scrollLeft = setWidth;
+      const s0 = set0Ref.current;
+      const s1 = set1Ref.current;
+      const container = containerRef.current;
+      if (!s0 || !s1 || !container) return;
+      const W = s1.offsetLeft - s0.offsetLeft;
+      if (W > 0) {
+        singleSetWidthRef.current = W;
+        if (container.scrollLeft === 0) {
+          const initialPos = 2 * W;
+          container.scrollLeft = initialPos;
+          scrollPosRef.current = initialPos;
         }
       }
     };
 
     measure();
+
+    let ro;
+    if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
+      ro = new ResizeObserver(() => measure());
+      ro.observe(containerRef.current);
+    }
     window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', measure);
+    };
   }, []);
 
-  const pauseAnimation = () => {
-    if (resumeTimeoutRef.current) {
-      clearTimeout(resumeTimeoutRef.current);
-    }
-    setIsPaused(true);
-  };
-
-  const resumeAnimation = (delay = 1000) => {
+  // Quick resume helper (220ms on release so auto-scroll picks up immediately)
+  const scheduleQuickResume = useCallback((delay = 220) => {
     if (resumeTimeoutRef.current) {
       clearTimeout(resumeTimeoutRef.current);
     }
     resumeTimeoutRef.current = setTimeout(() => {
       if (!isDraggingRef.current && !isTouchActiveRef.current) {
-        setIsPaused(false);
+        isInteractingRef.current = false;
       }
     }, delay);
-  };
+  }, []);
 
-  // Global mouse move & up listeners for drag-to-scroll on desktop
+  // Continuous auto-scroll loop
+  useEffect(() => {
+    let rafId;
+
+    const tick = (now) => {
+      if (!lastTimeRef.current) lastTimeRef.current = now;
+      const dt = Math.min((now - lastTimeRef.current) / 1000, 0.1);
+      lastTimeRef.current = now;
+
+      const el = containerRef.current;
+      const W = singleSetWidthRef.current;
+
+      if (el && W > 0 && !isInteractingRef.current && !isHoveredRef.current) {
+        const move = speed * dt;
+        if (direction === 'left') {
+          scrollPosRef.current += move;
+          if (scrollPosRef.current >= 3 * W) {
+            scrollPosRef.current -= W;
+          }
+        } else {
+          scrollPosRef.current -= move;
+          if (scrollPosRef.current <= 1 * W) {
+            scrollPosRef.current += W;
+          }
+        }
+
+        isProgrammaticScrollRef.current = true;
+        el.scrollLeft = scrollPosRef.current;
+      }
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [direction, speed]);
+
+  // Global mouse move & up listeners for desktop drag-to-scroll
   useEffect(() => {
     const handleGlobalMouseMove = (e) => {
       if (!isDraggingRef.current || !containerRef.current) return;
       const dx = e.pageX - startXRef.current;
       dragDistanceRef.current = Math.abs(dx);
-      containerRef.current.scrollLeft = startScrollLeftRef.current - dx;
+      const newPos = startScrollLeftRef.current - dx;
+      containerRef.current.scrollLeft = newPos;
+      scrollPosRef.current = newPos;
     };
 
     const handleGlobalMouseUp = () => {
       if (isDraggingRef.current) {
         isDraggingRef.current = false;
-        resumeAnimation(1000);
+        scheduleQuickResume(200);
         setTimeout(() => {
           dragDistanceRef.current = 0;
-        }, 120);
+        }, 60);
       }
     };
 
@@ -306,7 +362,7 @@ function InteractiveMarqueeRow({
       window.removeEventListener('mousemove', handleGlobalMouseMove);
       window.removeEventListener('mouseup', handleGlobalMouseUp);
     };
-  }, []);
+  }, [scheduleQuickResume]);
 
   // Mouse drag handler on container
   const handleMouseDown = (e) => {
@@ -315,19 +371,31 @@ function InteractiveMarqueeRow({
     if (!el) return;
 
     isDraggingRef.current = true;
+    isInteractingRef.current = true;
     dragDistanceRef.current = 0;
     startXRef.current = e.pageX;
     startScrollLeftRef.current = el.scrollLeft;
-    pauseAnimation();
+    scrollPosRef.current = el.scrollLeft;
+
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current);
+    }
   };
 
   // Touch handlers for mobile / tablet swiping
   const touchStartXRef = useRef(0);
   const handleTouchStart = (e) => {
     isTouchActiveRef.current = true;
+    isHoveredRef.current = false;
+    isInteractingRef.current = true;
     dragDistanceRef.current = 0;
     touchStartXRef.current = e.touches[0].clientX;
-    pauseAnimation();
+    if (containerRef.current) {
+      scrollPosRef.current = containerRef.current.scrollLeft;
+    }
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current);
+    }
   };
 
   const handleTouchMove = (e) => {
@@ -337,43 +405,61 @@ function InteractiveMarqueeRow({
         dragDistanceRef.current = diff;
       }
     }
+    if (containerRef.current) {
+      scrollPosRef.current = containerRef.current.scrollLeft;
+    }
   };
 
   const handleTouchEnd = () => {
+    isTouchActiveRef.current = false;
+    scheduleQuickResume(220); // quick 220ms resume on touch release
     setTimeout(() => {
-      isTouchActiveRef.current = false;
-      resumeAnimation(1200);
       dragDistanceRef.current = 0;
-    }, 150);
+    }, 60);
   };
 
-  // Scroll event: keeps scroll buffer safe for continuous manual scrolling
+  // Scroll event: handles momentum fling, wheel, and trackpad scrolling
   const handleScroll = () => {
     const el = containerRef.current;
-    const sw = singleSetWidthRef.current;
-    if (!el || sw <= 0) return;
+    const W = singleSetWidthRef.current;
+    if (!el || W <= 0) return;
 
-    if (el.scrollLeft <= 50) {
-      el.scrollLeft += sw;
-    } else if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 50) {
-      el.scrollLeft -= sw;
+    // Ignore scroll event triggered by our continuous auto-scroll loop
+    if (isProgrammaticScrollRef.current) {
+      isProgrammaticScrollRef.current = false;
+      return;
     }
+
+    // Manual user scrolling
+    isInteractingRef.current = true;
+    scrollPosRef.current = el.scrollLeft;
+
+    // Seamless wrap boundaries during manual swipe
+    if (el.scrollLeft <= 1 * W) {
+      el.scrollLeft += W;
+      scrollPosRef.current = el.scrollLeft;
+    } else if (el.scrollLeft >= 4 * W) {
+      el.scrollLeft -= W;
+      scrollPosRef.current = el.scrollLeft;
+    }
+
+    scheduleQuickResume(250);
   };
 
   // Desktop hover pause (fine pointer only)
   const handleMouseEnter = () => {
     if (isTouchActiveRef.current) return;
     if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      pauseAnimation();
+      isHoveredRef.current = true;
     }
   };
 
   const handleMouseLeave = () => {
-    if (!isDraggingRef.current && !isTouchActiveRef.current) {
-      setIsPaused(false);
-    }
+    isHoveredRef.current = false;
+    isInteractingRef.current = false;
   };
 
+  // Smart click handler: if user was dragging or swiping, suppress card navigation
   const handleCardClick = (app) => {
     if (dragDistanceRef.current > 6) {
       return;
@@ -392,8 +478,8 @@ function InteractiveMarqueeRow({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onWheel={() => {
-        pauseAnimation();
-        resumeAnimation(1000);
+        isInteractingRef.current = true;
+        scheduleQuickResume(250);
       }}
       className="relative w-full overflow-x-auto no-scrollbar scrollbar-none cursor-grab active:cursor-grabbing select-none"
       style={{
@@ -403,57 +489,22 @@ function InteractiveMarqueeRow({
         msOverflowStyle: 'none',
       }}
     >
-      <div
-        className={`flex gap-4 sm:gap-5 w-max py-2 ${
-          direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'
-        }`}
-        style={{
-          animationPlayState: isPaused ? 'paused' : 'running',
-        }}
-      >
-        {/* Set 0 (used for measuring 1 cycle) */}
-        <div ref={firstSetRef} className="flex gap-4 sm:gap-5 shrink-0">
-          {items.map((app, idx) => (
-            <ModuleCard
-              key={`s0-${direction}-${app.id}-${idx}`}
-              app={app}
-              onInspect={handleCardClick}
-            />
-          ))}
-        </div>
-
-        {/* Set 1 */}
-        <div className="flex gap-4 sm:gap-5 shrink-0">
-          {items.map((app, idx) => (
-            <ModuleCard
-              key={`s1-${direction}-${app.id}-${idx}`}
-              app={app}
-              onInspect={handleCardClick}
-            />
-          ))}
-        </div>
-
-        {/* Set 2 */}
-        <div className="flex gap-4 sm:gap-5 shrink-0">
-          {items.map((app, idx) => (
-            <ModuleCard
-              key={`s2-${direction}-${app.id}-${idx}`}
-              app={app}
-              onInspect={handleCardClick}
-            />
-          ))}
-        </div>
-
-        {/* Set 3 */}
-        <div className="flex gap-4 sm:gap-5 shrink-0">
-          {items.map((app, idx) => (
-            <ModuleCard
-              key={`s3-${direction}-${app.id}-${idx}`}
-              app={app}
-              onInspect={handleCardClick}
-            />
-          ))}
-        </div>
+      <div className="flex gap-4 sm:gap-5 w-max py-2">
+        {sets.map((setIdx) => (
+          <div
+            key={`set-${setIdx}`}
+            ref={setIdx === 0 ? set0Ref : setIdx === 1 ? set1Ref : null}
+            className="flex gap-4 sm:gap-5 shrink-0"
+          >
+            {items.map((app, idx) => (
+              <ModuleCard
+                key={`mod-${setIdx}-${app.id}-${idx}`}
+                app={app}
+                onInspect={handleCardClick}
+              />
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -496,29 +547,6 @@ export function ApplicationsSection({ onRequestDemo, onNavigate }) {
       id="solutions"
       className="section-padding relative overflow-hidden bg-slate-50/70 border-y border-slate-200/80"
     >
-      <style>{`
-        @keyframes marqueeLeft {
-          0% { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(-50%, 0, 0); }
-        }
-        @keyframes marqueeRight {
-          0% { transform: translate3d(-50%, 0, 0); }
-          100% { transform: translate3d(0, 0, 0); }
-        }
-        .animate-marquee-left {
-          display: flex;
-          width: max-content;
-          animation: marqueeLeft 42s linear infinite;
-          will-change: transform;
-        }
-        .animate-marquee-right {
-          display: flex;
-          width: max-content;
-          animation: marqueeRight 42s linear infinite;
-          will-change: transform;
-        }
-      `}</style>
-
       <div className="container-campo relative z-10 mb-6 sm:mb-8">
         <SectionHeading
           index="03"
@@ -547,6 +575,7 @@ export function ApplicationsSection({ onRequestDemo, onNavigate }) {
         <InteractiveMarqueeRow
           items={row1}
           direction="left"
+          speed={52}
           onInspect={handleInspect}
         />
 
@@ -554,6 +583,7 @@ export function ApplicationsSection({ onRequestDemo, onNavigate }) {
         <InteractiveMarqueeRow
           items={row2}
           direction="right"
+          speed={52}
           onInspect={handleInspect}
         />
       </div>
