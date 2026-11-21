@@ -80,8 +80,18 @@ export function AdminDashboardPage({ onNavigate }) {
               {
                 type: 'body',
                 parameters: [
-                  { type: 'text', text: 'Sample Text 1' },
-                  { type: 'text', text: 'Sample Text 2' },
+                  { type: 'text', text: 'Dr. Rajesh Sharma' },
+                  { type: 'text', text: '78' },
+                  { type: 'text', text: '22' },
+                  { type: 'text', text: '20' },
+                  { type: 'text', text: '16' },
+                  { type: 'text', text: '20' },
+                  { type: 'text', text: 'Campus Operations' },
+                  {
+                    type: 'text',
+                    text: 'Campo automates bus fleet tracking, gate security, and hostel asset management to close this gap.',
+                  },
+                  { type: 'text', text: "St. Xavier's Engineering College" },
                 ],
               },
             ],
@@ -927,7 +937,7 @@ export function AdminDashboardPage({ onNavigate }) {
                         onClick={() => setWaRawJson(buildTemplateJson(waConfig?.templateName, true))}
                         className="text-[11px] font-semibold text-slate-600 hover:text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200"
                       >
-                        Dynamic Template (With Vars)
+                        Expo Report Template (9 Vars)
                       </button>
                     </div>
                   </div>

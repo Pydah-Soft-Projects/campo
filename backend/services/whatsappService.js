@@ -458,38 +458,51 @@ export async function sendCampusHealthReportWhatsApp(details) {
     students: 'Student Management & Engagement',
   };
 
+  const weakAreaInsights = {
+    acad: 'Campo unifies real-time attendance, grading, and lecture logs to eliminate academic blind spots.',
+    admin: 'Campo streamlines fee collections, staff payroll, and daily administrative approvals.',
+    campus: 'Campo automates bus fleet tracking, gate security, and hostel asset management to close this gap.',
+    students: 'Campo boosts student engagement with mobile fee reminders, poll feedback, and grievance resolution.',
+  };
+
   const weakAreaLabel = weakAreaMap[weakest] || 'Campus Operations';
+  const weakAreaInsight = weakAreaInsights[weakest] || weakAreaInsights.campus;
 
-  const band =
-    total >= 80 ? 'Smart campus' : total >= 50 ? 'Room to grow' : 'Needs attention';
-
-  // Standard candidate template variables:
-  // {{1}} Recipient Name (e.g. Dr. Rajesh)
-  // {{2}} Institution Name (e.g. St. Xavier's)
-  // {{3}} Campus Score (e.g. 78/100)
-  // {{4}} Weakest Area (e.g. Campus Operations)
-  // {{5}} Plan Status / Next Steps
+  // 9 Template Variables matching the official Campo Expo Template:
+  // {{1}} Recipient Name
+  // {{2}} Overall Campus Score (e.g. 78)
+  // {{3}} Academics Score (e.g. 22)
+  // {{4}} Administrative Score (e.g. 20)
+  // {{5}} Campus Score (e.g. 16)
+  // {{6}} Students Score (e.g. 20)
+  // {{7}} Biggest Gap Area Name (e.g. Campus Operations)
+  // {{8}} Gap Action Insight Sentence
+  // {{9}} Institution Name (e.g. St. Xavier's Engineering College)
   const candidateVariables = [
     name ? name.trim() : 'Campus Leader',
-    inst ? inst.trim() : 'Your Institution',
-    `${total || 0}/100`,
+    String(total != null ? total : 0),
+    String(scores?.acad != null ? scores.acad : 0),
+    String(scores?.admin != null ? scores.admin : 0),
+    String(scores?.campus != null ? scores.campus : 0),
+    String(scores?.students != null ? scores.students : 0),
     weakAreaLabel,
-    `${band} — 90-Day Free Plan Reserved`,
+    weakAreaInsight,
+    inst ? inst.trim() : 'your institution',
   ];
 
   // Dynamic variable count:
-  // - If WHATSAPP_TEMPLATE_VAR_COUNT is set in .env (e.g. 0, 1, 2, 4, 5), use that.
-  // - If WHATSAPP_TEMPLATE_VAR_COUNT is not set or 0, default to 0 variables for static templates.
+  // - If WHATSAPP_TEMPLATE_VAR_COUNT is set in .env (e.g. 0, 9), use that count.
+  // - If WHATSAPP_TEMPLATE_VAR_COUNT is not set, default to all 9 candidate variables.
   const envVarCount = process.env.WHATSAPP_TEMPLATE_VAR_COUNT;
   const effectiveCount =
     varCount !== undefined
       ? parseInt(varCount, 10)
-      : (envVarCount !== undefined ? parseInt(envVarCount, 10) : 0);
+      : (envVarCount !== undefined ? parseInt(envVarCount, 10) : candidateVariables.length);
 
   const finalVariables =
-    !isNaN(effectiveCount) && effectiveCount > 0
+    !isNaN(effectiveCount) && effectiveCount >= 0
       ? candidateVariables.slice(0, effectiveCount)
-      : [];
+      : candidateVariables;
 
   return sendWhatsAppTemplateMessage({
     to: mobile,
