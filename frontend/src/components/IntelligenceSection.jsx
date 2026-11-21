@@ -1,10 +1,11 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import {
   Database,
   Link2,
   CheckCircle2,
   ShieldCheck,
+  Zap,
 } from 'lucide-react';
 import { CampoLogo } from './CampoLogo';
 import { SectionHeading, revealEase } from './MotionPrimitives';
@@ -54,11 +55,32 @@ const coreFeatures = [
 ];
 
 export function IntelligenceSection() {
+  const sectionRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const imageParallaxY = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
+
   return (
-    <section id="features" className="section-padding relative overflow-hidden bg-slate-50/60 border-y border-slate-200/80">
+    <section
+      ref={sectionRef}
+      id="features"
+      className="section-padding relative overflow-hidden bg-slate-50/60 border-y border-slate-200/80"
+    >
+      {/* Background ambient lighting */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        <div className="absolute right-1/4 top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-blue-100/40 blur-[140px]" />
+      </div>
+
       <div className="container-campo relative z-10">
         <SectionHeading
-          index="04"
           label="Centralized Data"
           title="All Applications Connected. All Data in One Central System."
           align="center"
@@ -66,23 +88,24 @@ export function IntelligenceSection() {
 
         {/* Full-Section Expansive Layout with Image Fitting Entire Section Height */}
         <div className="mt-10 lg:mt-12 grid gap-8 lg:grid-cols-12 items-stretch">
-          {/* Left Column (5 Cols): Full-Height Authentic Boardroom Image */}
+          {/* Left Column (5 Cols): Full-Height Authentic Boardroom Image with Scroll Parallax */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.6, ease: revealEase }}
-            className="relative min-h-[320px] sm:min-h-[400px] lg:min-h-full rounded-3xl overflow-hidden border border-slate-200 bg-slate-900 shadow-workspace lg:col-span-5 flex flex-col justify-end"
+            className="relative min-h-[340px] sm:min-h-[420px] lg:min-h-full rounded-3xl overflow-hidden border border-slate-200 bg-slate-900 shadow-workspace lg:col-span-5 flex flex-col justify-end"
           >
-            {/* Image fits entire height of section */}
-            <img
+            {/* Image fits entire height of section with Parallax */}
+            <motion.img
               src={boardroomAnalyticsImg}
               alt="University leadership monitoring real-time centralized campus operations"
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+              style={prefersReducedMotion ? undefined : { y: imageParallaxY }}
+              className="absolute inset-0 h-[112%] w-full object-cover transition-transform duration-700 hover:scale-105 will-change-transform"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
 
             <div className="absolute top-4 left-4 z-10">
               <CampoLogo variant="light" size="sm" />
@@ -97,36 +120,45 @@ export function IntelligenceSection() {
               </p>
 
               <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-300">
-                <span>12 Connected Modules</span>
-                <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="flex items-center gap-1.5 font-medium">
+                  <Zap className="h-3.5 w-3.5 text-campo-teal" />
+                  12 Connected Modules
+                </span>
+                <span className="text-emerald-400 font-semibold flex items-center gap-2">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                  </span>
                   Live Synchronized
                 </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Right Column (7 Cols): Core Features */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: revealEase }}
-            className="lg:col-span-7 flex flex-col justify-between"
-          >
+          {/* Right Column (7 Cols): Core Features with Staggered Scroll Entrance */}
+          <div className="lg:col-span-7 flex flex-col justify-between">
             {/* 4 Focused Feature Cards (Two rows side-by-side on mobile view) */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-4 h-full">
-              {coreFeatures.map((feat) => {
+              {coreFeatures.map((feat, idx) => {
                 const Icon = feat.icon;
                 return (
-                  <div
+                  <motion.div
                     key={feat.title}
-                    className="group flex flex-col justify-between rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-3 sm:p-6 shadow-card transition-all duration-300 hover:border-campo-teal/60 hover:shadow-elevated"
+                    initial={{ opacity: 0, y: 25, scale: 0.96 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true, amount: 0.15 }}
+                    transition={{
+                      duration: 0.45,
+                      delay: idx * 0.08,
+                      ease: revealEase,
+                    }}
+                    whileHover={{ y: -4, scale: 1.015 }}
+                    className="group flex flex-col justify-between rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-3 sm:p-6 shadow-card transition-all duration-300 hover:border-campo-teal/70 hover:shadow-elevated"
                   >
                     <div>
                       {/* Icon with Dark Line Color (Not filled dark box) & Tag */}
                       <div className="flex flex-wrap items-center justify-between gap-1.5">
-                        <div className="flex h-8 w-8 sm:h-11 sm:w-11 items-center justify-center rounded-xl sm:rounded-2xl border border-slate-200/90 bg-slate-50 text-campo-navy transition-all duration-300 group-hover:border-campo-teal/60 group-hover:bg-campo-teal/10 group-hover:text-campo-teal-dark group-hover:scale-105 shrink-0">
+                        <div className="flex h-8 w-8 sm:h-11 sm:w-11 items-center justify-center rounded-xl sm:rounded-2xl border border-slate-200/90 bg-slate-50 text-campo-navy transition-all duration-300 group-hover:border-campo-teal/60 group-hover:bg-campo-teal/10 group-hover:text-campo-teal-dark group-hover:scale-110 group-hover:rotate-3 shrink-0">
                           <Icon className="h-4 w-4 sm:h-5 sm:w-5 stroke-[1.8]" />
                         </div>
                         <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[9px] sm:text-[10px] font-bold text-slate-600 border border-slate-200 truncate max-w-[110px] sm:max-w-none">
@@ -155,11 +187,11 @@ export function IntelligenceSection() {
                         <span className="hidden sm:inline">Verified System Capability</span>
                       </span>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

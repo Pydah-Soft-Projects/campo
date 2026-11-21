@@ -118,7 +118,7 @@ export const ecosystemPillars = [
       'Academics',
       'Examination',
       'Library',
-      'CRT & Placement Training',
+      'Placement Training',
     ],
     sharedData: 'Lesson Plans, Faculty Substitutions, Hall Tickets, Placement Batches',
     alertQuote: 'Low attendance found when it is too late? Exam clashes at the last minute?',
@@ -540,7 +540,7 @@ export const pricingPlans = [
     categories: [
       {
         name: 'Academics Operations',
-        modules: 'Academics, Examinations, Library, CRT and Placement Hub',
+        modules: 'Academics, Examinations, Library, Placement Training Hub',
       },
       {
         name: 'Administrative Operations',

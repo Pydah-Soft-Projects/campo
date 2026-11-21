@@ -20,22 +20,24 @@ const backgroundOrientations = {
 };
 
 /**
- * Top viewport scroll progress indicator linking page scroll position to a crisp brand gradient.
+ * Top viewport scroll progress indicator linking page scroll position to a crisp brand gradient
+ * with an energetic glow and smooth spring physics.
  */
 export function ScrollProgressBar() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 180,
-    damping: 28,
+    stiffness: 200,
+    damping: 30,
     restDelta: 0.001,
   });
 
   return (
-    <motion.div
-      aria-hidden="true"
-      style={{ scaleX }}
-      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-gradient-to-r from-campo-navy via-campo-teal to-[#38BDF8]"
-    />
+    <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-[70] h-[3.5px] bg-slate-200/20">
+      <motion.div
+        style={{ scaleX }}
+        className="h-full w-full origin-left bg-gradient-to-r from-campo-navy via-campo-teal to-[#38BDF8] shadow-[0_0_12px_rgba(0,197,181,0.85)]"
+      />
+    </div>
   );
 }
 
@@ -130,7 +132,6 @@ export function Reveal({
 }
 
 export function SectionHeading({
-  index,
   label,
   title,
   description,
@@ -145,15 +146,13 @@ export function SectionHeading({
       y={22}
       className={`max-w-3xl ${isCenter ? 'mx-auto text-center' : 'text-left'}`}
     >
-      {(index || label) && (
+      {label && (
         <div
-          className={`mb-2.5 sm:mb-3 flex items-center gap-2 sm:gap-2.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark ${
+          className={`mb-2.5 sm:mb-3 flex items-center gap-2 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark ${
             isCenter ? 'justify-center' : ''
           }`}
         >
-          {index && <span className="font-mono text-campo-navy/45">{index}</span>}
-          {index && label && <span className="h-px w-4 sm:w-5 bg-slate-300" />}
-          {label && <span>{label}</span>}
+          <span>{label}</span>
         </div>
       )}
       <h2 className={`font-display text-xl sm:text-3xl lg:text-[2.6rem] font-bold leading-[1.2] lg:leading-[1.14] tracking-tight text-campo-navy ${titleClassName}`}>

@@ -1,7 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Check, ArrowRight } from 'lucide-react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { Check, ArrowRight, Sparkles } from 'lucide-react';
 import campusHeroImg from '../assets/campus-hero.webp';
+import { revealEase } from './MotionPrimitives';
 
 // --- Integration SVG Badges matching reference design ---
 function BiometricIcon() {
@@ -97,131 +98,172 @@ function PaymentGatewayIcon() {
 }
 
 export function PricingSection({ onRequestDemo }) {
-  return (
-    <section id="pricing" className="section-padding relative overflow-hidden bg-white border-y border-slate-200/80">
-      <div className="container-campo relative z-10 max-w-6xl mx-auto">
-        {/* Section Heading - Single Line */}
-        <div className="text-center w-full mx-auto mb-8 sm:mb-12 px-2">
-          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-[46px] xl:text-5xl font-black text-campo-navy tracking-tight whitespace-normal sm:whitespace-nowrap">
-            Simple pricing per student per year
-          </h2>
-        </div>
+  const sectionRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
 
-        {/* 90-Day Free Trial Banner */}
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const bannerScale = useTransform(scrollYProgress, [0, 0.4], [0.97, 1]);
+  const bannerImgY = useTransform(scrollYProgress, [0, 0.6], ['-4%', '4%']);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="pricing"
+      className="section-padding relative overflow-hidden bg-white border-y border-slate-200/80"
+    >
+      <div className="container-campo relative z-10 max-w-6xl mx-auto">
+        {/* Section Heading - Single Line with Scroll Reveal */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-          className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-campo-navy p-6 sm:p-8 lg:p-9 text-white border border-white/10 shadow-workspace mb-10 sm:mb-14"
+          transition={{ duration: 0.5, ease: revealEase }}
+          className="text-center w-full mx-auto mb-6 sm:mb-10 lg:mb-12 px-2"
         >
-          {/* Background Image Vignette (Preserved per user instruction) */}
+          <div className="mb-2 sm:mb-3 inline-flex items-center gap-2 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark">
+            <span>Clear Investment</span>
+          </div>
+          <h2 className="font-display text-2xl xs:text-3xl sm:text-4xl lg:text-[46px] xl:text-5xl font-black text-campo-navy tracking-tight leading-tight">
+            Simple pricing per student per year
+          </h2>
+        </motion.div>
+
+        {/* 90-Day Free Trial Banner with Scroll Scale & Parallax */}
+        <motion.div
+          style={prefersReducedMotion ? undefined : { scale: bannerScale }}
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.6, ease: revealEase }}
+          className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-campo-navy p-5 sm:p-8 lg:p-9 text-white border border-white/10 shadow-workspace mb-8 sm:mb-12 lg:mb-14"
+        >
+          {/* Background Image Vignette with Scroll Parallax */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-            <img
+            <motion.img
               src={campusHeroImg}
               alt="Modern university campus architecture"
               loading="lazy"
               decoding="async"
-              className="h-full w-full object-cover opacity-35"
+              style={prefersReducedMotion ? undefined : { y: bannerImgY }}
+              className="h-[110%] w-full object-cover opacity-35 will-change-transform"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-campo-deep/95 via-campo-navy/90 to-campo-navy/70" />
           </div>
 
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
-            <div className="flex flex-col sm:flex-row items-center sm:items-center gap-5 sm:gap-7 text-center sm:text-left">
-              {/* Circular Badge: 90 DAYS */}
-              <div className="flex h-20 w-20 sm:h-22 sm:w-22 shrink-0 flex-col items-center justify-center rounded-full bg-campo-teal text-campo-deep shadow-lg">
-                <span className="font-display text-3xl sm:text-4xl font-black leading-none">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-7 lg:gap-8">
+            <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6 lg:gap-7 text-center sm:text-left">
+              {/* Circular Badge: 90 DAYS with Rotating Halo */}
+              <div className="relative flex h-16 w-16 sm:h-22 sm:w-22 shrink-0 flex-col items-center justify-center rounded-full bg-campo-teal text-campo-deep shadow-lg">
+                {/* Rotating Dashed Accent Ring */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+                  className="absolute -inset-1 sm:-inset-1.5 rounded-full border-2 border-dashed border-campo-teal/60 pointer-events-none"
+                />
+                <span className="font-display text-2xl sm:text-4xl font-black leading-none">
                   90
                 </span>
-                <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest mt-0.5">
+                <span className="text-[9px] sm:text-xs font-black uppercase tracking-widest mt-0.5">
                   DAYS
                 </span>
               </div>
 
               <div>
-                <h3 className="font-display text-2xl sm:text-3xl lg:text-[32px] font-black text-white tracking-tight leading-tight">
+                <h3 className="font-display text-xl sm:text-3xl lg:text-[32px] font-black text-white tracking-tight leading-tight">
                   Try Campo, <span className="text-campo-teal">completely free</span>
                 </h3>
-                <p className="mt-2 text-sm sm:text-base text-slate-200 max-w-2xl leading-relaxed">
+                <p className="mt-1.5 sm:mt-2 text-xs sm:text-base text-slate-200 max-w-2xl leading-relaxed">
                   Full access to every area. If it isn’t making your campus easier to run, walk away with your data
                 </p>
               </div>
             </div>
 
-            <div className="w-full sm:w-auto shrink-0">
-              <button
+            <div className="w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
+              <motion.button
                 type="button"
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => onRequestDemo?.('90-Day Free Trial')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-campo-teal px-6 py-3.5 text-sm font-black text-campo-deep shadow-md transition-all hover:bg-[#19d6c6] hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-campo-teal px-5 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-black text-campo-deep shadow-md transition-all hover:bg-[#19d6c6] hover:shadow-lg cursor-pointer font-outfit"
               >
                 <span>Start 90-Day Free Trial</span>
                 <ArrowRight className="h-4 w-4 stroke-[2.5]" />
-              </button>
+              </motion.button>
             </div>
           </div>
         </motion.div>
 
-        {/* 3 Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8 items-stretch mb-14 sm:mb-18">
+        {/* 3 Pricing Cards Grid with Staggered Scroll Entrance & Elevated Middle Card */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 items-stretch mb-10 sm:mb-14 lg:mb-18">
           {/* CARD 1: Core */}
-          <div className="flex flex-col rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-md transition-all bg-white min-h-[640px] sm:min-h-[680px] lg:min-h-[720px]">
+          <motion.div
+            initial={{ opacity: 0, y: 30, x: -15 }}
+            whileInView={{ opacity: 1, y: 0, x: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.5, ease: revealEase }}
+            whileHover={{ y: -6 }}
+            className="flex flex-col rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-md transition-all bg-white min-h-0 md:min-h-[640px] lg:min-h-[700px]"
+          >
             {/* Header Block: Light Grey */}
-            <div className="bg-[#F0F4F8] py-8 sm:py-9 lg:py-10 px-6 sm:px-8 text-center border-b border-slate-200/60">
-              <h3 className="font-display text-xl sm:text-2xl font-black text-campo-navy">
+            <div className="bg-[#F0F4F8] py-6 sm:py-8 lg:py-10 px-5 sm:px-6 lg:px-8 text-center border-b border-slate-200/60">
+              <h3 className="font-display text-lg sm:text-xl lg:text-2xl font-black text-campo-navy">
                 Core
               </h3>
-              <div className="mt-2.5 flex items-baseline justify-center gap-1">
-                <span className="font-display text-5xl sm:text-6xl font-black text-campo-navy tracking-tight">
+              <div className="mt-2 flex items-baseline justify-center gap-1">
+                <span className="font-display text-4xl sm:text-5xl lg:text-6xl font-black text-campo-navy tracking-tight">
                   ₹200
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-500 font-semibold mt-1.5">
+              <p className="text-[11px] sm:text-sm text-slate-500 font-semibold mt-1">
                 per student, per year
               </p>
-              <p className="text-sm sm:text-[15px] text-slate-600 font-medium mt-3.5 leading-relaxed max-w-[260px] mx-auto">
+              <p className="text-xs sm:text-[14px] lg:text-[15px] text-slate-600 font-medium mt-2.5 sm:mt-3 leading-relaxed max-w-[260px] mx-auto">
                 Students, Classes, admissions and staff in one place
               </p>
             </div>
 
             {/* Checklist Body: White */}
-            <div className="p-7 sm:p-8 lg:p-9 flex-1 flex flex-col justify-between space-y-8">
-              <div className="space-y-6 sm:space-y-7">
+            <div className="p-5 sm:p-7 lg:p-9 flex-1 flex flex-col justify-between space-y-6 sm:space-y-8">
+              <div className="space-y-4 sm:space-y-6 lg:space-y-7">
                 {/* Academic Operations */}
                 <div>
-                  <div className="flex items-center gap-2.5">
-                    <Check className="h-5 w-5 text-campo-teal shrink-0 stroke-[2.5]" />
-                    <span className="font-display text-[15px] sm:text-base font-bold text-campo-navy">
+                  <div className="flex items-center gap-2 sm:gap-2.5">
+                    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-campo-teal shrink-0 stroke-[2.5]" />
+                    <span className="font-display text-sm sm:text-[15px] lg:text-base font-bold text-campo-navy">
                       Academic Operations
                     </span>
                   </div>
-                  <p className="text-xs sm:text-[13px] text-slate-500 pl-7 mt-1.5 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-slate-500 pl-6 sm:pl-7 mt-1 sm:mt-1.5 leading-relaxed">
                     Academics, Examinations, Library
                   </p>
                 </div>
 
                 {/* Administrative Operations */}
                 <div>
-                  <div className="flex items-center gap-2.5">
-                    <Check className="h-5 w-5 text-campo-teal shrink-0 stroke-[2.5]" />
-                    <span className="font-display text-[15px] sm:text-base font-bold text-campo-navy">
+                  <div className="flex items-center gap-2 sm:gap-2.5">
+                    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-campo-teal shrink-0 stroke-[2.5]" />
+                    <span className="font-display text-sm sm:text-[15px] lg:text-base font-bold text-campo-navy">
                       Administrative Operations
                     </span>
                   </div>
-                  <p className="text-xs sm:text-[13px] text-slate-500 pl-7 mt-1.5 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-slate-500 pl-6 sm:pl-7 mt-1 sm:mt-1.5 leading-relaxed">
                     Admissions, Fees, Lab Management, HRMS and Payroll
                   </p>
                 </div>
 
                 {/* Student Management and Engagement */}
                 <div>
-                  <div className="flex items-center gap-2.5">
-                    <Check className="h-5 w-5 text-campo-teal shrink-0 stroke-[2.5]" />
-                    <span className="font-display text-[15px] sm:text-base font-bold text-campo-navy">
+                  <div className="flex items-center gap-2 sm:gap-2.5">
+                    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-campo-teal shrink-0 stroke-[2.5]" />
+                    <span className="font-display text-sm sm:text-[15px] lg:text-base font-bold text-campo-navy">
                       Student Management and Engagement
                     </span>
                   </div>
-                  <p className="text-xs sm:text-[13px] text-slate-500 pl-7 mt-1.5 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-slate-500 pl-6 sm:pl-7 mt-1 sm:mt-1.5 leading-relaxed">
                     Student Management, Student Clubs, Communications, Student and Parent App
                   </p>
                 </div>
@@ -230,59 +272,74 @@ export function PricingSection({ onRequestDemo }) {
               <button
                 type="button"
                 onClick={() => onRequestDemo?.('Core Plan')}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl bg-campo-navy py-3.5 sm:py-4 px-5 text-sm sm:text-base font-bold text-white transition-all hover:bg-slate-800 shadow-xs cursor-pointer mt-6"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl bg-campo-navy py-3 sm:py-3.5 lg:py-4 px-4 sm:px-5 text-xs sm:text-sm lg:text-base font-bold text-white transition-all hover:bg-slate-800 shadow-xs cursor-pointer mt-4 sm:mt-6 font-outfit"
               >
                 <span>Request Demo</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
-          </div>
+          </motion.div>
 
           {/* CARD 2: Campus (Flagship Hero Card) */}
-          <div className="flex flex-col rounded-3xl overflow-hidden border-2 border-campo-teal shadow-[0_16px_40px_-8px_rgba(0,197,181,0.32)] md:-translate-y-2 transition-all bg-white relative min-h-[640px] sm:min-h-[680px] lg:min-h-[720px]">
+          <motion.div
+            initial={{ opacity: 0, y: 35, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: revealEase }}
+            whileHover={{ y: -8 }}
+            className="flex flex-col rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-campo-teal shadow-[0_16px_40px_-8px_rgba(0,197,181,0.28)] lg:shadow-[0_20px_50px_-10px_rgba(0,197,181,0.35)] md:-translate-y-2 transition-all bg-white relative min-h-0 md:min-h-[640px] lg:min-h-[700px] ring-2 ring-campo-teal/30"
+          >
+            {/* Top Recommended Tag */}
+            <div className="bg-gradient-to-r from-campo-teal to-[#14c7b8] py-1 sm:py-1.5 text-center">
+              <span className="font-outfit text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-[#071C46] flex items-center justify-center gap-1.5">
+                <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                Recommended for Full Campus
+              </span>
+            </div>
+
             {/* Header Block: Solid Dark Navy */}
-            <div className="bg-campo-navy py-8 sm:py-9 lg:py-10 px-6 sm:px-8 text-center">
-              <h3 className="font-display text-xl sm:text-2xl font-black text-white">
+            <div className="bg-campo-navy py-6 sm:py-8 lg:py-10 px-5 sm:px-6 lg:px-8 text-center">
+              <h3 className="font-display text-lg sm:text-xl lg:text-2xl font-black text-white">
                 Campus
               </h3>
-              <div className="mt-2.5 flex items-baseline justify-center gap-1">
-                <span className="font-display text-5xl sm:text-6xl font-black text-white tracking-tight">
+              <div className="mt-2 flex items-baseline justify-center gap-1">
+                <span className="font-display text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight">
                   ₹300
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-300 font-semibold mt-1.5">
+              <p className="text-[11px] sm:text-sm text-slate-300 font-semibold mt-1">
                 per student, per year
               </p>
-              <p className="text-sm sm:text-[15px] text-slate-200 font-medium mt-3.5 leading-relaxed max-w-[260px] mx-auto">
+              <p className="text-xs sm:text-[14px] lg:text-[15px] text-slate-200 font-medium mt-2.5 sm:mt-3 leading-relaxed max-w-[260px] mx-auto">
                 Adds buses, hostels, stores and upkeep
               </p>
             </div>
 
             {/* Checklist Body: White */}
-            <div className="p-7 sm:p-8 lg:p-9 flex-1 flex flex-col justify-between space-y-8">
-              <div className="space-y-6 sm:space-y-7">
+            <div className="p-5 sm:p-7 lg:p-9 flex-1 flex flex-col justify-between space-y-6 sm:space-y-8">
+              <div className="space-y-4 sm:space-y-6 lg:space-y-7">
                 {/* Everything in Core */}
-                <div className="flex items-center gap-2.5">
-                  <Check className="h-5 w-5 text-campo-teal shrink-0 stroke-[2.5]" />
-                  <span className="font-display text-[15px] sm:text-base font-bold text-campo-navy">
+                <div className="flex items-center gap-2 sm:gap-2.5">
+                  <Check className="h-4 w-4 sm:h-5 sm:w-5 text-campo-teal shrink-0 stroke-[2.5]" />
+                  <span className="font-display text-sm sm:text-[15px] lg:text-base font-bold text-campo-navy">
                     Everything in Core
                   </span>
                 </div>
 
                 {/* with connector */}
-                <div className="pl-7 text-xs sm:text-sm text-slate-400 font-bold uppercase tracking-wider">
+                <div className="pl-6 sm:pl-7 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">
                   with
                 </div>
 
                 {/* Campus Operations */}
                 <div>
-                  <div className="flex items-center gap-2.5">
-                    <Check className="h-5 w-5 text-campo-teal shrink-0 stroke-[2.5]" />
-                    <span className="font-display text-[15px] sm:text-base font-bold text-campo-navy">
+                  <div className="flex items-center gap-2 sm:gap-2.5">
+                    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-campo-teal shrink-0 stroke-[2.5]" />
+                    <span className="font-display text-sm sm:text-[15px] lg:text-base font-bold text-campo-navy">
                       Campus Operations
                     </span>
                   </div>
-                  <p className="text-xs sm:text-[13px] text-slate-500 pl-7 mt-1.5 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-slate-500 pl-6 sm:pl-7 mt-1 sm:mt-1.5 leading-relaxed">
                     Transport, Hostel, Stationery Maintenance
                   </p>
                 </div>
@@ -291,78 +348,85 @@ export function PricingSection({ onRequestDemo }) {
               <button
                 type="button"
                 onClick={() => onRequestDemo?.('Campus Plan')}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl bg-campo-teal py-3.5 sm:py-4 px-5 text-sm sm:text-base font-black text-campo-deep transition-all hover:bg-[#19d6c6] shadow-sm cursor-pointer mt-6"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl bg-campo-teal py-3 sm:py-3.5 lg:py-4 px-4 sm:px-5 text-xs sm:text-sm lg:text-base font-black text-campo-deep transition-all hover:bg-[#19d6c6] shadow-sm cursor-pointer mt-4 sm:mt-6 font-outfit"
               >
                 <span>Request Demo</span>
                 <ArrowRight className="h-4 w-4 stroke-[2.5]" />
               </button>
             </div>
-          </div>
+          </motion.div>
 
           {/* CARD 3: Campus AI */}
-          <div className="flex flex-col rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-md transition-all bg-white min-h-[640px] sm:min-h-[680px] lg:min-h-[720px]">
+          <motion.div
+            initial={{ opacity: 0, y: 30, x: 15 }}
+            whileInView={{ opacity: 1, y: 0, x: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: revealEase }}
+            whileHover={{ y: -6 }}
+            className="flex flex-col rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-md transition-all bg-white min-h-0 md:min-h-[640px] lg:min-h-[700px]"
+          >
             {/* Header Block: Light Grey */}
-            <div className="bg-[#F0F4F8] py-8 sm:py-9 lg:py-10 px-6 sm:px-8 text-center border-b border-slate-200/60">
-              <h3 className="font-display text-xl sm:text-2xl font-black text-campo-navy">
+            <div className="bg-[#F0F4F8] py-6 sm:py-8 lg:py-10 px-5 sm:px-6 lg:px-8 text-center border-b border-slate-200/60">
+              <h3 className="font-display text-lg sm:text-xl lg:text-2xl font-black text-campo-navy">
                 Campus AI
               </h3>
-              <div className="mt-2.5 flex items-baseline justify-center gap-1">
-                <span className="font-display text-5xl sm:text-6xl font-black text-campo-navy tracking-tight">
+              <div className="mt-2 flex items-baseline justify-center gap-1">
+                <span className="font-display text-4xl sm:text-5xl lg:text-6xl font-black text-campo-navy tracking-tight">
                   ₹400
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-500 font-semibold mt-1.5">
+              <p className="text-[11px] sm:text-sm text-slate-500 font-semibold mt-1">
                 per student, per year
               </p>
-              <p className="text-sm sm:text-[15px] text-slate-600 font-medium mt-3.5 leading-relaxed max-w-[260px] mx-auto">
+              <p className="text-xs sm:text-[14px] lg:text-[15px] text-slate-600 font-medium mt-2.5 sm:mt-3 leading-relaxed max-w-[260px] mx-auto">
                 For campuses that want to hear about problems first
               </p>
             </div>
 
             {/* Checklist Body: White */}
-            <div className="p-7 sm:p-8 lg:p-9 flex-1 flex flex-col justify-between space-y-8">
-              <div className="space-y-4 sm:space-y-5">
+            <div className="p-5 sm:p-7 lg:p-9 flex-1 flex flex-col justify-between space-y-6 sm:space-y-8">
+              <div className="space-y-3.5 sm:space-y-4 lg:space-y-5">
                 {/* Everything in Campus */}
-                <div className="flex items-center gap-2.5">
-                  <Check className="h-5 w-5 text-campo-teal shrink-0 stroke-[2.5]" />
-                  <span className="font-display text-[15px] sm:text-base font-bold text-campo-navy">
+                <div className="flex items-center gap-2 sm:gap-2.5">
+                  <Check className="h-4 w-4 sm:h-5 sm:w-5 text-campo-teal shrink-0 stroke-[2.5]" />
+                  <span className="font-display text-sm sm:text-[15px] lg:text-base font-bold text-campo-navy">
                     Everything in Campus
                   </span>
                 </div>
 
                 {/* with connector */}
-                <div className="pl-7 text-xs sm:text-sm text-slate-400 font-bold uppercase tracking-wider">
+                <div className="pl-6 sm:pl-7 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">
                   with
                 </div>
 
                 {/* AI alerts across every area */}
-                <div className="flex items-center gap-2.5">
-                  <Check className="h-5 w-5 text-campo-teal shrink-0 stroke-[2.5]" />
-                  <span className="font-display text-[15px] sm:text-base font-bold text-campo-navy">
+                <div className="flex items-center gap-2 sm:gap-2.5">
+                  <Check className="h-4 w-4 sm:h-5 sm:w-5 text-campo-teal shrink-0 stroke-[2.5]" />
+                  <span className="font-display text-sm sm:text-[15px] lg:text-base font-bold text-campo-navy">
                     AI alerts across every area
                   </span>
                 </div>
 
-                {/* CRT & Placement Hub */}
-                <div className="flex items-center gap-2.5">
-                  <Check className="h-5 w-5 text-campo-teal shrink-0 stroke-[2.5]" />
-                  <span className="font-display text-[15px] sm:text-base font-bold text-campo-navy">
-                    CRT &amp; Placement Hub
+                {/* Placement Training */}
+                <div className="flex items-center gap-2 sm:gap-2.5">
+                  <Check className="h-4 w-4 sm:h-5 sm:w-5 text-campo-teal shrink-0 stroke-[2.5]" />
+                  <span className="font-display text-sm sm:text-[15px] lg:text-base font-bold text-campo-navy">
+                    Placement Training
                   </span>
                 </div>
 
                 {/* Staff Recruitment */}
-                <div className="flex items-center gap-2.5">
-                  <Check className="h-5 w-5 text-campo-teal shrink-0 stroke-[2.5]" />
-                  <span className="font-display text-[15px] sm:text-base font-bold text-campo-navy">
+                <div className="flex items-center gap-2 sm:gap-2.5">
+                  <Check className="h-4 w-4 sm:h-5 sm:w-5 text-campo-teal shrink-0 stroke-[2.5]" />
+                  <span className="font-display text-sm sm:text-[15px] lg:text-base font-bold text-campo-navy">
                     Staff Recruitment
                   </span>
                 </div>
 
                 {/* Inventory */}
-                <div className="flex items-center gap-2.5">
-                  <Check className="h-5 w-5 text-campo-teal shrink-0 stroke-[2.5]" />
-                  <span className="font-display text-[15px] sm:text-base font-bold text-campo-navy">
+                <div className="flex items-center gap-2 sm:gap-2.5">
+                  <Check className="h-4 w-4 sm:h-5 sm:w-5 text-campo-teal shrink-0 stroke-[2.5]" />
+                  <span className="font-display text-sm sm:text-[15px] lg:text-base font-bold text-campo-navy">
                     Inventory
                   </span>
                 </div>
@@ -371,79 +435,61 @@ export function PricingSection({ onRequestDemo }) {
               <button
                 type="button"
                 onClick={() => onRequestDemo?.('Campus AI Plan')}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl bg-campo-navy py-3.5 sm:py-4 px-5 text-sm sm:text-base font-bold text-white transition-all hover:bg-slate-800 shadow-xs cursor-pointer mt-6"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl bg-campo-navy py-3 sm:py-3.5 lg:py-4 px-4 sm:px-5 text-xs sm:text-sm lg:text-base font-bold text-white transition-all hover:bg-slate-800 shadow-xs cursor-pointer mt-4 sm:mt-6 font-outfit"
               >
                 <span>Request Demo</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* ========================================================
-            ZERO INTEGRATION COST (Bottom Row)
+            ZERO INTEGRATION COST (Bottom Row) with Stagger Wave
             ======================================================== */}
-        <div className="pt-4 text-center">
-          <h3 className="font-display text-xl sm:text-2xl font-black text-campo-navy tracking-tight mb-7 sm:mb-8">
+        <div className="pt-2 sm:pt-4 text-center">
+          <motion.h3
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5 }}
+            className="font-display text-lg sm:text-xl lg:text-2xl font-black text-campo-navy tracking-tight mb-5 sm:mb-8"
+          >
             Zero Integration Cost
-          </h3>
+          </motion.h3>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-9 md:gap-12 lg:gap-14">
-            {/* 1. Biometric devices */}
-            <div className="group flex flex-col items-center gap-2 cursor-default">
-              <BiometricIcon />
-              <span className="text-xs font-semibold text-slate-600 group-hover:text-campo-navy transition-colors">
-                Biometric devices
-              </span>
-            </div>
-
-            {/* 2. WhatsApp */}
-            <div className="group flex flex-col items-center gap-2 cursor-default">
-              <WhatsAppIcon />
-              <span className="text-xs font-semibold text-slate-600 group-hover:text-campo-navy transition-colors">
-                WhatsApp
-              </span>
-            </div>
-
-            {/* 3. Bulk SMS */}
-            <div className="group flex flex-col items-center gap-2 cursor-default">
-              <BulkSmsIcon />
-              <span className="text-xs font-semibold text-slate-600 group-hover:text-campo-navy transition-colors">
-                Bulk SMS
-              </span>
-            </div>
-
-            {/* 4. QR Code */}
-            <div className="group flex flex-col items-center gap-2 cursor-default">
-              <QrCodeIcon />
-              <span className="text-xs font-semibold text-slate-600 group-hover:text-campo-navy transition-colors">
-                QR Code
-              </span>
-            </div>
-
-            {/* 5. Barcode */}
-            <div className="group flex flex-col items-center gap-2 cursor-default">
-              <BarcodeIcon />
-              <span className="text-xs font-semibold text-slate-600 group-hover:text-campo-navy transition-colors">
-                Barcode
-              </span>
-            </div>
-
-            {/* 6. Google Workspace */}
-            <div className="group flex flex-col items-center gap-2 cursor-default">
-              <GoogleWorkspaceIcon />
-              <span className="text-xs font-semibold text-slate-600 group-hover:text-campo-navy transition-colors">
-                Google Workspace
-              </span>
-            </div>
-
-            {/* 7. Payment Gateway */}
-            <div className="group flex flex-col items-center gap-2 cursor-default">
-              <PaymentGatewayIcon />
-              <span className="text-xs font-semibold text-slate-600 group-hover:text-campo-navy transition-colors">
-                Payment Gateway
-              </span>
-            </div>
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:flex md:flex-wrap items-center justify-center gap-3.5 sm:gap-6 md:gap-9 lg:gap-14">
+            {[
+              { component: BiometricIcon, label: 'Biometric devices' },
+              { component: WhatsAppIcon, label: 'WhatsApp' },
+              { component: BulkSmsIcon, label: 'Bulk SMS' },
+              { component: QrCodeIcon, label: 'QR Code' },
+              { component: BarcodeIcon, label: 'Barcode' },
+              { component: GoogleWorkspaceIcon, label: 'Google Workspace' },
+              { component: PaymentGatewayIcon, label: 'Payment Gateway' },
+            ].map((item, idx) => {
+              const IconComp = item.component;
+              return (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 15, scale: 0.85 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: idx * 0.05,
+                    ease: revealEase,
+                  }}
+                  whileHover={{ y: -4, scale: 1.08 }}
+                  className="group flex flex-col items-center gap-1.5 sm:gap-2 p-2 sm:p-0 rounded-xl bg-slate-50/50 sm:bg-transparent border border-slate-200/50 sm:border-none cursor-default"
+                >
+                  <IconComp />
+                  <span className="text-[11px] sm:text-xs font-semibold text-slate-600 group-hover:text-campo-navy transition-colors text-center leading-tight">
+                    {item.label}
+                  </span>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>

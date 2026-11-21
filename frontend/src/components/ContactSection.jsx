@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   Mail,
   Phone,
@@ -178,8 +179,6 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
           <Reveal className="flex flex-col justify-between lg:col-span-5">
             <div>
               <div className="mb-2 sm:mb-3 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-campo-teal-dark">
-                <span className="font-mono text-campo-navy/45">07</span>
-                <span className="h-px w-5 bg-slate-300" />
                 <span>Institutional Inquiries</span>
               </div>
 
@@ -206,14 +205,22 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
               </div>
             </div>
 
-            {/* Employee Advisor Cutout Image in Middle Pointing Directly Toward Form (Hidden on mobile) */}
+            {/* Employee Advisor Cutout Image in Middle with Entrance & Soft Levitation */}
             <div className="hidden lg:flex relative my-2 sm:my-3 justify-center lg:justify-start">
-              <img
+              <motion.img
                 src={advisorImg}
                 alt="Campo Campus Solutions Specialist"
                 loading="lazy"
                 decoding="async"
-                className="h-[220px] sm:h-[320px] lg:h-[400px] w-auto object-contain filter drop-shadow-[0_18px_28px_rgba(7,28,70,0.14)] transition-transform duration-500 hover:scale-[1.02]"
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                animate={{ y: [-4, 4, -4] }}
+                transition={{
+                  y: { duration: 5.5, repeat: Infinity, ease: 'easeInOut' },
+                  opacity: { duration: 0.6 },
+                }}
+                className="h-[220px] sm:h-[320px] lg:h-[400px] w-auto object-contain filter drop-shadow-[0_18px_28px_rgba(7,28,70,0.14)]"
               />
             </div>
 
@@ -253,22 +260,36 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                   </h3>
                 </div>
 
-                {/* Inquiry Type Switcher */}
+                {/* Inquiry Type Switcher with Smooth Layout Animation */}
                 <div className="relative z-10 inline-flex w-full rounded-lg border border-white/15 bg-white/10 p-0.5 backdrop-blur-sm sm:w-auto sm:rounded-xl sm:p-1">
-                  {['Demo Request', 'General Inquiry'].map((intent) => (
-                    <button
-                      key={intent}
-                      type="button"
-                      onClick={() => setSelectedIntent(intent)}
-                      className={`flex-1 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all sm:flex-initial sm:rounded-lg sm:px-3 sm:py-1.5 sm:text-xs ${
-                        selectedIntent === intent
-                          ? 'bg-campo-teal text-campo-deep shadow-sm'
-                          : 'text-slate-200 hover:text-white'
-                      }`}
-                    >
-                      {intent}
-                    </button>
-                  ))}
+                  {['Demo Request', 'General Inquiry'].map((intent) => {
+                    const isSelected = selectedIntent === intent;
+                    return (
+                      <button
+                        key={intent}
+                        type="button"
+                        onClick={() => setSelectedIntent(intent)}
+                        className="relative flex-1 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-colors sm:flex-initial sm:rounded-lg sm:px-3 sm:py-1.5 sm:text-xs cursor-pointer focus:outline-none"
+                      >
+                        {isSelected && (
+                          <motion.span
+                            layoutId="contactActiveIntent"
+                            className="absolute inset-0 rounded-md sm:rounded-lg bg-campo-teal shadow-sm"
+                            transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                          />
+                        )}
+                        <span
+                          className={`relative z-10 ${
+                            isSelected
+                              ? 'text-campo-deep font-bold'
+                              : 'text-slate-200 hover:text-white'
+                          }`}
+                        >
+                          {intent}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 

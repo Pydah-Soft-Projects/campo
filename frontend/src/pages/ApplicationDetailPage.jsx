@@ -4,8 +4,6 @@ import {
   ArrowRight,
   CheckCircle2,
   Sparkles,
-  Link2,
-  Users,
   ShieldCheck,
   ChevronRight,
   Layers,
@@ -43,53 +41,6 @@ const capabilityCardVariants = {
     scale: 1,
     transition: {
       duration: 0.48,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const workflowStepVariants = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-    scale: 0.96,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.45,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const itemSlideLeftVariants = {
-  hidden: {
-    opacity: 0,
-    x: -25,
-  },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.45,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const itemSlideRightVariants = {
-  hidden: {
-    opacity: 0,
-    x: 25,
-  },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.45,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -402,141 +353,7 @@ export function ApplicationDetailPage({ appId = 'admissions-crm', onNavigate, on
         </div>
       </section>
 
-      {/* 3. Sequential Workflow Process */}
-      <section className="section-padding bg-white border-b border-slate-200/80">
-        <div className="container-campo">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.5, ease: revealEase }}
-            className="text-center max-w-2xl mx-auto mb-12"
-          >
-            <span className="text-xs font-bold uppercase tracking-wider text-campo-teal-dark">
-              Standardized Workflow
-            </span>
-            <h2 className="mt-1.5 font-display text-2xl sm:text-3xl font-extrabold text-campo-navy">
-              How {app.name} Operates From Start to Finish
-            </h2>
-          </motion.div>
-
-          <motion.div
-            variants={staggerGridVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false, amount: 0.15 }}
-            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-          >
-            {app.workflowSteps.map((ws) => (
-              <motion.div
-                key={`${app.id}-${ws.step}`}
-                variants={workflowStepVariants}
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className="relative rounded-2xl border border-slate-200 bg-slate-50/70 p-5 shadow-2xs transition-[border-color,box-shadow] duration-200 hover:border-campo-teal/40"
-              >
-                <span className="font-mono text-2xl font-black text-campo-teal block mb-2">
-                  {ws.step}
-                </span>
-                <h4 className="font-display text-sm font-bold text-campo-navy">
-                  {ws.title}
-                </h4>
-                <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">
-                  {ws.description}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 4. Stakeholder Roles & Connected Modules */}
-      <section className="section-padding bg-slate-50/60 border-b border-slate-200/80">
-        <div className="container-campo">
-          <div className="grid lg:grid-cols-12 gap-8 items-start">
-            {/* Left: Primary Stakeholders */}
-            <div className="lg:col-span-6 space-y-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-campo-teal-dark">
-                  User Workspaces
-                </span>
-                <h3 className="mt-1 font-display text-xl sm:text-2xl font-bold text-campo-navy">
-                  Primary Stakeholders &amp; Roles
-                </h3>
-              </div>
-
-              <motion.div
-                variants={staggerGridVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: false, amount: 0.15 }}
-                className="space-y-3"
-              >
-                {app.stakeholders.map((sh) => (
-                  <motion.div
-                    key={`${app.id}-${sh.role}`}
-                    variants={itemSlideLeftVariants}
-                    className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs transition-[border-color,box-shadow] duration-200 hover:border-campo-teal/40 hover:shadow-xs"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-campo-navy text-campo-teal">
-                        <Users className="h-3.5 w-3.5" />
-                      </div>
-                      <h4 className="font-display text-xs sm:text-sm font-bold text-campo-navy">
-                        {sh.role}
-                      </h4>
-                    </div>
-                    <p className="mt-2 text-xs text-slate-600 leading-relaxed">
-                      {sh.responsibility}
-                    </p>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Right: Connected Modules */}
-            <div className="lg:col-span-6 space-y-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-campo-teal-dark">
-                  Live Campus Integration
-                </span>
-                <h3 className="mt-1 font-display text-xl sm:text-2xl font-bold text-campo-navy">
-                  Synchronized Platform Connections
-                </h3>
-              </div>
-
-              <motion.div
-                variants={staggerGridVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: false, amount: 0.15 }}
-                className="space-y-3"
-              >
-                {app.connectedModules.map((cm) => (
-                  <motion.div
-                    key={`${app.id}-${cm.name}`}
-                    variants={itemSlideRightVariants}
-                    className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs transition-[border-color,box-shadow] duration-200 hover:border-campo-teal/40 hover:shadow-xs"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        <Link2 className="h-3.5 w-3.5" />
-                      </div>
-                      <h4 className="font-display text-xs sm:text-sm font-bold text-campo-navy">
-                        {cm.name}
-                      </h4>
-                    </div>
-                    <p className="mt-2 text-xs text-slate-600 leading-relaxed">
-                      {cm.desc}
-                    </p>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Switch to Next Application Card */}
+      {/* 3. Switch to Next Application Card */}
       <section className="py-12 bg-white border-b border-slate-200/80">
         <div className="container-campo">
           <div className="overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-r from-slate-900 to-campo-navy text-white p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-workspace">
