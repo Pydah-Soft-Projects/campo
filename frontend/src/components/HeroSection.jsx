@@ -6,30 +6,50 @@ import {
   useTransform,
 } from 'framer-motion';
 import {
-  ArrowRight,
-  Layers,
   Sparkles,
-  CheckCircle2,
-  TrendingUp,
-  ShieldCheck,
-  Star,
-  StarHalf,
+  GraduationCap,
+  Briefcase,
+  Bus,
+  Users,
+  ArrowRight,
 } from 'lucide-react';
 import { revealEase } from './MotionPrimitives';
-import { DashboardMockup } from './mockups/DashboardMockup';
-import studentMobileImg from '../assets/student-mobile-campus.webp';
-import leadershipImg from '../assets/institutional-leadership.webp';
-import studentsLabImg from '../assets/students-classroom.webp';
+import { MobileAppMockup } from './mockups/MobileAppMockup';
+
+const CATEGORIES = [
+  {
+    num: '01',
+    title: 'Academics Operations',
+    icon: GraduationCap,
+  },
+  {
+    num: '02',
+    title: 'Administrative Operations',
+    icon: Briefcase,
+  },
+  {
+    num: '03',
+    title: 'Campus Operations',
+    icon: Bus,
+  },
+  {
+    num: '04',
+    title: 'Student Management & Engagement',
+    icon: Users,
+  },
+];
 
 export function HeroSection({ onRequestDemo }) {
   const sectionRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   });
-  const copyY = useTransform(scrollYProgress, [0, 1], ['0px', '24px']);
-  const copyOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.4]);
+
+  const copyY = useTransform(scrollYProgress, [0, 1], ['0px', '28px']);
+  const copyOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.55]);
 
   const handleExploreClick = () => {
     const target = document.getElementById('platform');
@@ -42,65 +62,107 @@ export function HeroSection({ onRequestDemo }) {
     <section
       ref={sectionRef}
       id="home"
-      className="relative flex min-h-[520px] items-center overflow-hidden bg-gradient-to-b from-[#F8FAFC] via-white to-white pb-14 pt-28 sm:min-h-[700px] sm:pb-24 sm:pt-32 lg:min-h-[min(100vh,940px)] lg:py-20"
+      className="relative overflow-hidden bg-[#F1F4F8] pt-28 pb-16 sm:pt-32 sm:pb-20 lg:pt-36 lg:pb-24"
     >
-      {/* Subtle Ambient Background Gradients */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -right-20 -top-20 h-[500px] w-[500px] rounded-full bg-campo-teal/10 blur-[100px]" />
-        <div className="absolute -left-20 top-1/3 h-[450px] w-[450px] rounded-full bg-blue-100/50 blur-[120px]" />
-        <div className="absolute inset-0 bg-grid-subtle bg-grid-56 opacity-60" />
+      {/* Subtle ambient lighting glows (Light grey & soft navy/blue tones, zero green) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        <div className="absolute right-0 top-1/4 h-[500px] w-[500px] rounded-full bg-blue-100/50 blur-[130px]" />
+        <div className="absolute -left-20 top-1/3 h-[450px] w-[450px] rounded-full bg-slate-200/60 blur-[140px]" />
       </div>
 
       <div className="container-campo relative z-10 w-full">
-        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-8 xl:gap-12">
-          {/* Left Column: Editorial Headline & Actions */}
+        {/* 2-Column Main Layout: Symmetrically Aligned & Balanced */}
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-8 xl:gap-14">
+          {/* Left Column: AI Alerts Badge, Headline, 4 Category Cards, CTAs */}
           <motion.div
             style={prefersReducedMotion ? undefined : { y: copyY, opacity: copyOpacity }}
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: revealEase }}
-            className="lg:col-span-5 xl:col-span-5"
+            className="lg:col-span-6 xl:col-span-6"
           >
-            {/* Main Display Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, ease: revealEase }}
-              className="font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] text-campo-navy sm:text-5xl lg:text-[3.25rem] xl:text-[3.65rem]"
+            {/* Pill Badge: ✨ AI ALERTS (Dark Blue matching Demo button, Zero Green) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.45, ease: revealEase }}
+              className="inline-flex items-center gap-2 rounded-full bg-campo-navy px-4 py-1.5 shadow-xs"
             >
-              One Institution.
-              <br />
-              One Connected
-              <br />
-              Ecosystem<span className="text-campo-teal">.</span>
+              <Sparkles className="h-4 w-4 text-blue-300" strokeWidth={2.5} />
+              <span className="font-outfit text-xs font-bold tracking-wider text-white uppercase">
+                AI ALERTS
+              </span>
+            </motion.div>
+
+            {/* Display Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.1, ease: revealEase }}
+              className="mt-4 font-outfit text-3xl font-extrabold leading-[1.08] tracking-tight text-slate-900 sm:text-5xl lg:text-[52px] xl:text-[56px]"
+            >
+              AI is watching your
+              <span className="block text-campo-teal">whole campus.</span>
             </motion.h1>
 
-            {/* Signature Accent Line */}
-            <motion.div
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: revealEase }}
-              className="mt-4 h-1 w-12 origin-left rounded-full bg-campo-teal sm:mt-5"
-            />
-
-            {/* Supporting Copy */}
+            {/* Eyebrow Label */}
             <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.28, ease: revealEase }}
-              className="mt-4 max-w-lg text-[15px] leading-relaxed text-slate-600 sm:mt-5 sm:text-[17px]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-6 font-outfit text-[11px] font-bold tracking-[0.16em] text-slate-500 uppercase sm:text-xs"
             >
-              Everything your campus needs—connected, role-governed, and working together.
-              Campo brings admissions, academic schedules, fee ledgers, examinations, and campus
-              operations into one unified institutional workspace.
+              FOUR CATEGORIES · EVERY PART OF YOUR INSTITUTION
             </motion.p>
 
-            {/* Action Buttons: Perfectly Aligned, Single-Line, Robust Padding */}
+            {/* 4 Category Cards (2x2 Grid) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.38, ease: revealEase }}
-              className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4"
+              transition={{ duration: 0.6, delay: 0.25, ease: revealEase }}
+              className="mt-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4"
+            >
+              {CATEGORIES.map((cat, idx) => {
+                const IconComponent = cat.icon;
+                return (
+                  <motion.div
+                    key={cat.num}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.45,
+                      delay: 0.28 + idx * 0.06,
+                      ease: revealEase,
+                    }}
+                    whileHover={{ y: -3, scale: 1.015 }}
+                    className="group flex items-center gap-3.5 rounded-2xl border border-slate-200/90 bg-white p-3.5 shadow-sm transition-all duration-200 hover:border-slate-300 hover:shadow-md sm:p-4"
+                  >
+                    {/* Dark Blue Icon Badge (Matching Request a Demo Button, Zero Green) */}
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-campo-navy text-white shadow-xs transition-transform duration-200 group-hover:scale-105 sm:h-12 sm:w-12">
+                      <IconComponent className="h-6 w-6" strokeWidth={2.2} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="font-outfit text-xs font-bold text-slate-500">
+                        {cat.num}
+                      </span>
+                      <h3 className="font-outfit text-sm font-bold leading-tight text-slate-900 sm:text-[15px]">
+                        {cat.title}
+                      </h3>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+
+            {/* Action Buttons Row */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.45, ease: revealEase }}
+              className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
               <motion.button
                 type="button"
@@ -108,10 +170,10 @@ export function HeroSection({ onRequestDemo }) {
                 whileHover={{ y: -2, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                className="group whitespace-nowrap inline-flex items-center justify-center gap-2 h-12 sm:h-13 px-6 sm:px-7 rounded-xl bg-campo-navy text-sm sm:text-base font-bold text-white shadow-card transition-all duration-200 hover:bg-campo-secondary hover:shadow-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal"
+                className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-campo-navy px-6 text-sm font-bold text-white shadow-card transition-all duration-200 hover:bg-campo-secondary hover:shadow-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-navy sm:h-13 sm:px-7 sm:text-base font-outfit"
               >
                 <span>Request a Demo</span>
-                <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
+                <ArrowRight className="h-4 w-4 shrink-0 text-blue-300 transition-transform duration-200 group-hover:translate-x-1" />
               </motion.button>
 
               <motion.button
@@ -120,160 +182,63 @@ export function HeroSection({ onRequestDemo }) {
                 whileHover={{ y: -2, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                className="group whitespace-nowrap inline-flex items-center justify-center gap-2 h-12 sm:h-13 px-6 sm:px-7 rounded-xl border border-slate-300 bg-white text-sm sm:text-base font-bold text-campo-navy transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal shadow-xs"
+                className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 text-sm font-bold text-campo-navy shadow-xs transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-navy sm:h-13 sm:px-7 sm:text-base font-outfit"
               >
-                <span>Explore Platform Modules</span>
-                <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
+                <span>Explore Platform</span>
+                <ArrowRight className="h-4 w-4 shrink-0 text-campo-navy transition-transform duration-200 group-hover:translate-x-1" />
               </motion.button>
-            </motion.div>
-
-            {/* Real Institutional Proof Avatar Stack */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.48, ease: revealEase }}
-              className="mt-8 flex items-center gap-3 border-t border-slate-200/80 pt-5 sm:mt-9 sm:gap-3.5 sm:pt-6"
-            >
-              <div className="flex -space-x-2.5 shrink-0">
-                <motion.img
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 0.52 }}
-                  src={studentMobileImg}
-                  alt="Student user"
-                  loading="eager"
-                  className="inline-block h-8 w-8 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
-                  style={{ width: '36px', height: '36px' }}
-                />
-                <motion.img
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 0.58 }}
-                  src={leadershipImg}
-                  alt="Campus Dean"
-                  loading="eager"
-                  className="inline-block h-8 w-8 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
-                  style={{ width: '36px', height: '36px' }}
-                />
-                <motion.img
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 0.64 }}
-                  src={studentsLabImg}
-                  alt="Students in lab"
-                  loading="eager"
-                  className="inline-block h-8 w-8 sm:h-9 sm:w-9 rounded-full ring-2 ring-white object-cover shrink-0"
-                  style={{ width: '36px', height: '36px' }}
-                />
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 0.7 }}
-                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-campo-navy text-[10px] font-bold text-campo-teal ring-2 ring-white shrink-0"
-                  style={{ width: '36px', height: '36px' }}
-                >
-                  20+
-                </motion.div>
-              </div>
-              <div className="text-xs min-w-0 flex-1">
-                <div className="flex items-center gap-1.5 font-bold text-campo-navy">
-                  <div className="flex text-amber-400 shrink-0">
-                    <Star className="h-3.5 w-3.5 fill-current" />
-                    <Star className="h-3.5 w-3.5 fill-current" />
-                    <Star className="h-3.5 w-3.5 fill-current" />
-                    <Star className="h-3.5 w-3.5 fill-current" />
-                    <StarHalf className="h-3.5 w-3.5 fill-current" />
-                  </div>
-                  <span className="whitespace-nowrap">4.5 / 5 Rating</span>
-                </div>
-                <p className="text-[11px] text-slate-500 font-medium leading-snug mt-0.5">
-                  Trusted by Autonomous Colleges &amp; Multi-Campus Trusts
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Trust Badges */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.58, ease: revealEase }}
-              className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-5 text-xs"
-            >
-              <motion.div
-                whileHover={{ y: -2, scale: 1.03 }}
-                transition={{ type: 'spring', stiffness: 350, damping: 20 }}
-                className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-default"
-              >
-                <Layers className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[11px] sm:text-xs whitespace-nowrap">Unified Platform</span>
-              </motion.div>
-              <motion.div
-                whileHover={{ y: -2, scale: 1.03 }}
-                transition={{ type: 'spring', stiffness: 350, damping: 20 }}
-                className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-default"
-              >
-                <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[11px] sm:text-xs whitespace-nowrap">Role-Governed</span>
-              </motion.div>
-              <motion.div
-                whileHover={{ y: -2, scale: 1.03 }}
-                transition={{ type: 'spring', stiffness: 350, damping: 20 }}
-                className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-default"
-              >
-                <Sparkles className="h-3.5 w-3.5 shrink-0 text-campo-teal-dark" />
-                <span className="text-[11px] sm:text-xs whitespace-nowrap">Audit-Ready Core</span>
-              </motion.div>
             </motion.div>
           </motion.div>
 
-          {/* Right Column: Layered Live Product Showcase Mockup with Clean Floating Badges (Hidden on mobile view) */}
+          {/* Right Column: 3D Smartphone Device Mockup with Centered Orbit */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: revealEase }}
-            className="hidden lg:block relative lg:col-span-7 xl:col-span-7"
+            className="relative flex items-center justify-center lg:col-span-6 xl:col-span-6"
           >
-            {/* Top Floating Pill: Positioned Elegantly Above the Mockup (No cutoff or overlap) */}
-            <div className="mb-2.5 flex items-center justify-center sm:justify-end">
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.35, ease: revealEase }}
-                className="inline-flex items-center gap-2 sm:gap-2.5 rounded-xl border border-slate-200/90 bg-white/95 px-3 py-1.5 sm:px-3.5 shadow-elevated backdrop-blur-md max-w-full"
+            {/* Centered Relative Wrapper */}
+            <div className="relative flex items-center justify-center py-6">
+              {/* Perfectly Centered Circular Orbit & Backdrop directly behind the phone */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 -m-16 sm:-m-24 lg:-m-28 flex items-center justify-center"
               >
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-50 text-campo-teal-dark shrink-0">
-                  <CheckCircle2 className="h-4 w-4" />
-                </div>
-                <div className="text-left text-xs min-w-0">
-                  <div className="flex items-center gap-1.5 font-bold text-campo-navy truncate">
-                    <span>94.6% Live Attendance</span>
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                  </div>
-                  <span className="text-[10px] text-slate-500 block truncate">Biometric Sync Across 14 Halls</span>
-                </div>
-              </motion.div>
-            </div>
+                {/* Soft circular background glow */}
+                <div className="h-[440px] w-[440px] sm:h-[520px] sm:w-[520px] lg:h-[560px] lg:w-[560px] rounded-full bg-blue-100/60 shrink-0" />
 
-            {/* The Main High-Definition Executive Browser Frame */}
-            <div className="relative z-10 transition-transform duration-500 hover:scale-[1.008]">
-              <DashboardMockup />
-            </div>
+                {/* Rotating dashed outer orbit ring */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
+                  className="absolute h-[500px] w-[500px] sm:h-[590px] sm:w-[590px] lg:h-[630px] lg:w-[630px] rounded-full border-2 border-dashed border-blue-200/90 shrink-0"
+                />
+              </div>
 
-            {/* Bottom Floating Pill: Positioned Cleanly Below the Mockup (No overlap with sidebar or bottom bar) */}
-            <div className="mt-2.5 flex items-center justify-center sm:justify-start">
+              {/* 3D Smartphone Device with Hardware Depth & Levitation Animation */}
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.45, ease: revealEase }}
-                className="inline-flex items-center gap-2 sm:gap-2.5 rounded-xl border border-slate-200/90 bg-white/95 px-3 py-1.5 sm:px-3.5 shadow-elevated backdrop-blur-md max-w-full"
+                animate={
+                  prefersReducedMotion
+                    ? undefined
+                    : {
+                        y: [-7, 7, -7],
+                        rotateY: [-2, 2, -2],
+                        rotateX: [1, -1, 1],
+                      }
+                }
+                transition={{
+                  duration: 5.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                style={{ transformStyle: 'preserve-3d', perspective: 1200 }}
+                className="relative z-10 w-[295px] sm:w-[325px]"
               >
-                <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-campo-navy text-campo-teal shrink-0">
-                  <TrendingUp className="h-4 w-4" />
-                </div>
-                <div className="text-left text-xs min-w-0">
-                  <p className="font-bold text-campo-navy truncate">₹14.82 Cr Term Fees Realized</p>
-                  <p className="text-[10px] text-emerald-600 font-bold truncate">92.4% Online Reconciliation Rate</p>
-                </div>
+                <MobileAppMockup
+                  screen="alerts"
+                  colorTheme="navy"
+                  className="w-full"
+                />
               </motion.div>
             </div>
           </motion.div>

@@ -35,22 +35,24 @@ export function MobileAppMockup({
   autoScroll = true,
   autoScrollInterval = 4500,
   className = '',
+  colorTheme = 'default',
 }) {
+  const isNavy = colorTheme === 'navy';
   const isScreenSlideshow = Array.isArray(screens) && screens.length > 0;
 
   // Normalized screens for slideshow mode
   const normalizedScreens = isScreenSlideshow
     ? screens.map((item, index) => {
-        if (typeof item === 'string') {
-          return { src: item, title: `Screen ${index + 1}` };
-        }
-        return {
-          src: item.src,
-          title: item.title || `Screen ${index + 1}`,
-          description: item.description,
-          alt: item.alt || item.title || `Screen ${index + 1}`,
-        };
-      })
+      if (typeof item === 'string') {
+        return { src: item, title: `Screen ${index + 1}` };
+      }
+      return {
+        src: item.src,
+        title: item.title || `Screen ${index + 1}`,
+        description: item.description,
+        alt: item.alt || item.title || `Screen ${index + 1}`,
+      };
+    })
     : [];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -164,14 +166,18 @@ export function MobileAppMockup({
             </div>
             {/* Live Status Indicator */}
             <div className="flex items-center gap-1">
-              <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
-              <div className="h-2 w-0.5 rounded-full bg-campo-teal animate-pulse" />
+              <div className={`h-1.5 w-1.5 rounded-full ${isNavy ? 'bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]' : 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'}`} />
+              <div className={`h-2 w-0.5 rounded-full ${isNavy ? 'bg-blue-300' : 'bg-campo-teal'} animate-pulse`} />
             </div>
           </div>
 
           {/* Screen Display Area - Ultra-Crisp High-Definition OLED Display */}
           <div className={`relative overflow-hidden rounded-[40px] sm:rounded-[44px] bg-[#F8FAFC] text-slate-800 shadow-inner antialiased [text-rendering:optimizeLegibility] ${
-            isScreenSlideshow ? 'aspect-[9/18.2] flex flex-col bg-white' : ''
+            isScreenSlideshow
+              ? 'aspect-[9/18.2] flex flex-col bg-white'
+              : screen === 'alerts'
+              ? 'aspect-[9/19.2] flex flex-col bg-[#071C46]'
+              : ''
           }`}>
             {/* Subtle Edge Reflection */}
             <div
@@ -180,28 +186,113 @@ export function MobileAppMockup({
             />
 
             {/* Mobile Status Bar */}
-            <div className="relative z-30 flex items-center justify-between px-6 pt-3.5 pb-2 text-[11px] font-bold text-slate-900 shrink-0">
-              <span className="tracking-tight font-extrabold">09:41</span>
+            <div className={`relative z-30 flex items-center justify-between px-6 pt-3.5 pb-2 text-[11px] font-bold ${screen === 'alerts' ? 'text-white' : 'text-slate-900'} shrink-0`}>
+              {screen === 'alerts' ? (
+                <span className="opacity-0">09:41</span>
+              ) : (
+                <span className="tracking-tight font-extrabold">09:41</span>
+              )}
               <div className="flex items-center gap-1.5">
                 {/* 4-Bar Cellular Signal */}
                 <div className="flex items-end gap-0.5 h-2.5">
-                  <div className="w-0.5 h-1 rounded-2xs bg-slate-900" />
-                  <div className="w-0.5 h-1.5 rounded-2xs bg-slate-900" />
-                  <div className="w-0.5 h-2 rounded-2xs bg-slate-900" />
-                  <div className="w-0.5 h-2.5 rounded-2xs bg-slate-900" />
+                  <div className={`w-0.5 h-1 rounded-2xs ${screen === 'alerts' ? 'bg-white' : 'bg-slate-900'}`} />
+                  <div className={`w-0.5 h-1.5 rounded-2xs ${screen === 'alerts' ? 'bg-white' : 'bg-slate-900'}`} />
+                  <div className={`w-0.5 h-2 rounded-2xs ${screen === 'alerts' ? 'bg-white' : 'bg-slate-900'}`} />
+                  <div className={`w-0.5 h-2.5 rounded-2xs ${screen === 'alerts' ? 'bg-white' : 'bg-slate-900'}`} />
                 </div>
                 {/* 5G Label */}
-                <span className="text-[10px] font-black tracking-tighter text-slate-900">5G</span>
+                <span className={`text-[10px] font-black tracking-tighter ${screen === 'alerts' ? 'text-white' : 'text-slate-900'}`}>5G</span>
                 {/* Battery with 94% fill */}
-                <div className="relative h-2.5 w-4 rounded-xs border border-slate-900 p-0.5 flex items-center">
-                  <div className="h-full w-[90%] bg-slate-900 rounded-2xs" />
-                  <div className="absolute -right-0.5 h-1 w-0.5 rounded-r-xs bg-slate-900" />
+                <div className={`relative h-2.5 w-4 rounded-xs border ${screen === 'alerts' ? 'border-white' : 'border-slate-900'} p-0.5 flex items-center`}>
+                  <div className={`h-full w-[90%] ${screen === 'alerts' ? 'bg-white' : 'bg-slate-900'} rounded-2xs`} />
+                  <div className={`absolute -right-0.5 h-1 w-0.5 rounded-r-xs ${screen === 'alerts' ? 'bg-white' : 'bg-slate-900'}`} />
                 </div>
               </div>
             </div>
 
-            {/* CASE A: Real Screens Slideshow Mode */}
-            {isScreenSlideshow ? (
+            {/* CASE 0: Reference Alert Notifications Lock Screen View */}
+            {screen === 'alerts' ? (
+              <div className="relative w-full flex-1 bg-[#071C46] px-3.5 pb-4 pt-1 text-white flex flex-col justify-between">
+                {/* Lock Screen Clock & Date */}
+                <div className="mt-1 mb-3.5 text-center">
+                  <p className="font-outfit text-xs font-medium text-slate-300">
+                    Thursday, 19 November
+                  </p>
+                  <p className="mt-1 font-outfit text-5xl font-bold tracking-tight text-white sm:text-6xl">
+                    9:41
+                  </p>
+                </div>
+
+                {/* 4 Reference Alert Cards with Smooth Stagger Animation & Zero Green */}
+                <div className="space-y-2.5 sm:space-y-3">
+                  {[
+                    {
+                      category: 'ACADEMICS',
+                      time: 'now',
+                      title: 'Attendance is slipping',
+                      desc: 'Section B is below the usual level this week.',
+                    },
+                    {
+                      category: 'ADMINISTRATIVE',
+                      time: '2m',
+                      title: 'Fee dues overdue',
+                      desc: 'A group of students has pending fees. Reminders are queued.',
+                    },
+                    {
+                      category: 'CAMPUS',
+                      time: '5m',
+                      title: 'Bus 6 is running late',
+                      desc: 'About 15 minutes behind on its route. Parents notified.',
+                    },
+                    {
+                      category: 'STUDENTS',
+                      time: '9m',
+                      title: 'Notice delivered',
+                      desc: 'The circular reached every parent and student app.',
+                    },
+                  ].map((item, index) => (
+                    <motion.div
+                      key={item.category}
+                      initial={{ opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.4,
+                        delay: 0.2 + index * 0.08,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      whileHover={{ scale: 1.02 }}
+                      className="rounded-2xl border border-white/80 bg-white/95 p-3.5 shadow-md backdrop-blur-md transition-all duration-200"
+                    >
+                      {/* Alert Header Row */}
+                      <div className="flex items-center gap-1.5">
+                        <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded bg-campo-navy font-outfit text-[9px] font-bold text-white">
+                          C
+                        </div>
+                        <span className="font-outfit text-[10px] font-bold tracking-wider text-campo-navy uppercase">
+                          CAMPO · {item.category}
+                        </span>
+                        <span className="ml-auto font-outfit text-[10px] font-medium text-slate-400">
+                          {item.time}
+                        </span>
+                      </div>
+
+                      {/* Alert Title */}
+                      <h4 className="mt-1 font-outfit text-xs font-bold text-slate-900 sm:text-[13px]">
+                        {item.title}
+                      </h4>
+
+                      {/* Alert Message */}
+                      <p className="mt-0.5 font-sans text-[11px] leading-snug text-slate-600 sm:text-xs">
+                        {item.desc}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Smartphone Home Indicator Bar */}
+                <div className="mx-auto mt-4 sm:mt-5 h-1 w-28 rounded-full bg-white/70 shrink-0" />
+              </div>
+            ) : isScreenSlideshow ? (
               <>
                 <div className="relative w-full flex-1 overflow-hidden bg-white flex items-center justify-center">
                   <AnimatePresence initial={false} mode="wait">
@@ -247,10 +338,10 @@ export function MobileAppMockup({
                         <div className="flex items-center gap-1.5">
                           <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-xs transition-colors">
                             <Bell className="h-3.5 w-3.5" />
-                            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-emerald-400 ring-2 ring-campo-navy shadow-xs" />
+                            <span className={`absolute top-1 right-1 h-2 w-2 rounded-full ${isNavy ? 'bg-blue-400' : 'bg-emerald-400'} ring-2 ring-campo-navy shadow-xs`} />
                           </div>
                           <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-xs">
-                            <QrCode className="h-3.5 w-3.5 text-campo-teal" />
+                            <QrCode className={`h-3.5 w-3.5 ${isNavy ? 'text-blue-300' : 'text-campo-teal'}`} />
                           </div>
                         </div>
                       </div>
@@ -259,7 +350,7 @@ export function MobileAppMockup({
                       <div className="mt-2.5 rounded-2xl border border-white/20 bg-white/[0.14] p-2.5 backdrop-blur-md shadow-xs">
                         <div className="flex items-center gap-2.5">
                           {/* Student Photo Avatar */}
-                          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-2 ring-campo-teal shadow-xs">
+                          <div className={`relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-2 ${isNavy ? 'ring-blue-400' : 'ring-campo-teal'} shadow-xs`}>
                             <img
                               src={studentPhoto}
                               alt="Student Aarav Sharma"
@@ -267,7 +358,7 @@ export function MobileAppMockup({
                               decoding="sync"
                               className="h-full w-full object-cover"
                             />
-                            <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-emerald-400 ring-1.5 ring-campo-navy" />
+                            <span className={`absolute bottom-0 right-0 h-2 w-2 rounded-full ${isNavy ? 'bg-blue-400' : 'bg-emerald-400'} ring-1.5 ring-campo-navy`} />
                           </div>
 
                           <div className="min-w-0 flex-1">
@@ -275,11 +366,11 @@ export function MobileAppMockup({
                               <h4 className="truncate font-display text-xs sm:text-[13px] font-bold text-white tracking-wide">
                                 Aarav Sharma
                               </h4>
-                              <span className="rounded-full bg-emerald-500/30 px-1.5 py-0.2 text-[8px] font-bold text-emerald-300 border border-emerald-400/40 flex items-center gap-0.5">
+                              <span className={`rounded-full px-1.5 py-0.2 text-[8px] font-bold flex items-center gap-0.5 ${isNavy ? 'bg-blue-500/30 text-blue-200 border border-blue-400/40' : 'bg-emerald-500/30 text-emerald-300 border border-emerald-400/40'}`}>
                                 <ShieldCheck className="h-2 w-2" /> Verified
                               </span>
                             </div>
-                            <p className="truncate text-[10px] text-teal-300 font-medium mt-0.5">
+                            <p className={`truncate text-[10px] font-medium mt-0.5 ${isNavy ? 'text-blue-200' : 'text-teal-300'}`}>
                               Roll: PYD-2023-CS-042
                             </p>
                             <p className="truncate text-[9px] text-slate-200 font-medium">
@@ -295,7 +386,7 @@ export function MobileAppMockup({
                       {/* 4 Interactive Quick Action Buttons */}
                       <div className="grid grid-cols-4 gap-1.5">
                         <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200/90 bg-white p-1.5 sm:p-2 text-center shadow-xs">
-                          <div className="flex h-6.5 w-6.5 items-center justify-center rounded-lg bg-teal-50 text-campo-teal-dark">
+                          <div className={`flex h-6.5 w-6.5 items-center justify-center rounded-lg ${isNavy ? 'bg-blue-50 text-campo-navy' : 'bg-teal-50 text-campo-teal-dark'}`}>
                             <CheckCircle2 className="h-3.5 w-3.5" />
                           </div>
                           <span className="mt-1 text-[9px] font-extrabold text-campo-navy">89.4%</span>
@@ -311,10 +402,10 @@ export function MobileAppMockup({
                         </div>
 
                         <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200/90 bg-white p-1.5 sm:p-2 text-center shadow-xs">
-                          <div className="flex h-6.5 w-6.5 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                          <div className={`flex h-6.5 w-6.5 items-center justify-center rounded-lg ${isNavy ? 'bg-blue-50 text-campo-navy' : 'bg-emerald-50 text-emerald-600'}`}>
                             <CreditCard className="h-3.5 w-3.5" />
                           </div>
-                          <span className="mt-1 text-[9px] font-extrabold text-emerald-600">Paid</span>
+                          <span className={`mt-1 text-[9px] font-extrabold ${isNavy ? 'text-campo-navy' : 'text-emerald-600'}`}>Paid</span>
                           <span className="text-[8px] font-semibold text-slate-600">Fee Ledger</span>
                         </div>
 
@@ -331,12 +422,12 @@ export function MobileAppMockup({
                       <div className="rounded-2xl border border-slate-200/90 bg-white p-3 shadow-xs">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                           <div className="flex items-center gap-1.5">
-                            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                            <div className={`h-2 w-2 rounded-full ${isNavy ? 'bg-blue-600' : 'bg-emerald-500'} animate-pulse`} />
                             <span className="font-display text-[11px] font-bold text-campo-navy">
                               Live Academic Session
                             </span>
                           </div>
-                          <span className="rounded-md bg-teal-50 px-1.5 py-0.5 text-[9px] font-bold text-campo-teal-dark border border-teal-200/80">
+                          <span className={`rounded-md px-1.5 py-0.5 text-[9px] font-bold border ${isNavy ? 'bg-blue-50 text-campo-navy border-blue-200/80' : 'bg-teal-50 text-campo-teal-dark border-teal-200/80'}`}>
                             In Progress
                           </span>
                         </div>
@@ -356,10 +447,10 @@ export function MobileAppMockup({
 
                           <div className="mt-2 flex items-center justify-between rounded-xl bg-slate-50 px-2.5 py-1 text-[10px] border border-slate-200/80">
                             <div className="flex items-center gap-1.5">
-                              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                              <span className={`h-2 w-2 rounded-full ${isNavy ? 'bg-blue-600' : 'bg-emerald-500'}`} />
                               <span className="font-bold text-slate-800">Biometric Attendance Logged</span>
                             </div>
-                            <span className="font-mono text-[9px] font-extrabold text-emerald-600">10:28 AM</span>
+                            <span className={`font-mono text-[9px] font-extrabold ${isNavy ? 'text-campo-navy' : 'text-emerald-600'}`}>10:28 AM</span>
                           </div>
                         </div>
                       </div>
@@ -368,10 +459,10 @@ export function MobileAppMockup({
                       <div className="rounded-2xl border border-slate-200/90 bg-white p-3 shadow-xs">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                           <span className="font-display text-[11px] font-bold text-campo-navy flex items-center gap-1.5">
-                            <CreditCard className="h-3.5 w-3.5 text-campo-teal-dark" />
+                            <CreditCard className={`h-3.5 w-3.5 ${isNavy ? 'text-campo-navy' : 'text-campo-teal-dark'}`} />
                             Recent Digital Receipt
                           </span>
-                          <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[9px] font-bold text-emerald-700 border border-emerald-200">
+                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold border ${isNavy ? 'bg-blue-50 text-campo-navy border-blue-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'}`}>
                             Verified Zero Dues
                           </span>
                         </div>
@@ -389,7 +480,7 @@ export function MobileAppMockup({
                             type="button"
                             className="inline-flex items-center gap-1 rounded-lg bg-campo-navy px-2.5 py-1 text-[9px] font-bold text-white shadow-xs hover:bg-campo-secondary transition-colors"
                           >
-                            <Download className="h-2.5 w-2.5 text-campo-teal" />
+                            <Download className={`h-2.5 w-2.5 ${isNavy ? 'text-blue-300' : 'text-campo-teal'}`} />
                             <span>Receipt PDF</span>
                           </button>
                         </div>
@@ -398,7 +489,7 @@ export function MobileAppMockup({
                       {/* Digital Campus Identity Bar */}
                       <div className="flex items-center justify-between rounded-2xl border border-slate-200/90 bg-gradient-to-r from-slate-50 via-white to-slate-50 p-2.5 shadow-xs">
                         <div className="flex items-center gap-2">
-                          <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-campo-navy text-campo-teal">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-campo-navy text-white">
                             <QrCode className="h-3.5 w-3.5" />
                           </div>
                           <div>
@@ -417,7 +508,7 @@ export function MobileAppMockup({
                     {/* Bottom Floating Navigation Dock - Student */}
                     <div className="relative px-3 pb-3 pt-1">
                       <div className="flex items-center justify-around rounded-2xl border border-slate-200/90 bg-white px-2 py-1.5 shadow-md">
-                        <div className="flex flex-col items-center text-campo-teal-dark">
+                        <div className={`flex flex-col items-center ${isNavy ? 'text-campo-navy' : 'text-campo-teal-dark'}`}>
                           <BookOpen className="h-4 w-4 stroke-[2.5]" />
                           <span className="text-[8px] font-bold mt-0.5">Home</span>
                         </div>
@@ -454,7 +545,7 @@ export function MobileAppMockup({
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
                           <CampoLogo variant="light" size="sm" />
-                          <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider text-teal-300 border border-white/10">
+                          <span className={`rounded-full px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider border border-white/10 ${isNavy ? 'bg-white/10 text-blue-200' : 'bg-white/10 text-teal-300'}`}>
                             Parent App
                           </span>
                         </div>
@@ -464,7 +555,7 @@ export function MobileAppMockup({
                             <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-amber-400 ring-2 ring-campo-navy shadow-xs" />
                           </div>
                           <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-xs">
-                            <PhoneCall className="h-3.5 w-3.5 text-campo-teal" />
+                            <PhoneCall className={`h-3.5 w-3.5 ${isNavy ? 'text-blue-300' : 'text-campo-teal'}`} />
                           </div>
                         </div>
                       </div>
@@ -473,9 +564,9 @@ export function MobileAppMockup({
                       <div className="mt-2.5 rounded-2xl border border-white/20 bg-white/[0.14] p-2.5 backdrop-blur-md shadow-xs">
                         <div className="flex items-center gap-2.5">
                           {/* Parent Avatar with Guardian Badge */}
-                          <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-teal-600 to-campo-teal text-campo-deep font-extrabold text-xs shadow-xs ring-2 ring-white/30">
+                          <div className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-xs ring-2 ring-white/30 ${isNavy ? 'bg-campo-navy text-white font-extrabold text-xs' : 'bg-gradient-to-tr from-teal-600 to-campo-teal text-campo-deep font-extrabold text-xs'}`}>
                             <span>RS</span>
-                            <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-400 ring-1.5 ring-campo-navy" />
+                            <span className={`absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full ${isNavy ? 'bg-blue-400' : 'bg-emerald-400'} ring-1.5 ring-campo-navy`} />
                           </div>
 
                           <div className="min-w-0 flex-1">
@@ -483,14 +574,14 @@ export function MobileAppMockup({
                               <h4 className="truncate font-display text-xs sm:text-[13px] font-bold text-white tracking-wide">
                                 Ramesh Sharma
                               </h4>
-                              <span className="rounded-full bg-teal-500/30 px-1.5 py-0.2 text-[8px] font-bold text-teal-300 border border-teal-400/40 flex items-center gap-0.5">
+                              <span className={`rounded-full px-1.5 py-0.2 text-[8px] font-bold border flex items-center gap-0.5 ${isNavy ? 'bg-blue-500/30 text-blue-200 border-blue-400/40' : 'bg-teal-500/30 text-teal-300 border-teal-400/40'}`}>
                                 <Users className="h-2 w-2" /> Guardian
                               </span>
                             </div>
-                            <p className="truncate text-[10px] text-teal-200 font-medium mt-0.5 flex items-center gap-1">
+                            <p className="truncate text-[10px] text-blue-200 font-medium mt-0.5 flex items-center gap-1">
                               <span>Ward:</span>
                               <span className="font-bold text-white">Aarav Sharma</span>
-                              <span className="text-[8px] text-teal-300/80">(CS-042)</span>
+                              <span className="text-[8px] text-blue-300/80">(CS-042)</span>
                             </p>
                             <p className="truncate text-[9px] text-slate-200 font-medium">
                               Pydah College of Engineering &bull; Sem IV
@@ -505,10 +596,10 @@ export function MobileAppMockup({
                       {/* Ward Snapshot Badges */}
                       <div className="grid grid-cols-4 gap-1.5">
                         <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200/90 bg-white p-1.5 sm:p-2 text-center shadow-xs">
-                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                          <div className={`flex h-7 w-7 items-center justify-center rounded-lg ${isNavy ? 'bg-blue-50 text-campo-navy' : 'bg-emerald-50 text-emerald-600'}`}>
                             <UserCheck className="h-3.5 w-3.5" />
                           </div>
-                          <span className="mt-1 text-[9px] font-extrabold text-emerald-600">Present</span>
+                          <span className={`mt-1 text-[9px] font-extrabold ${isNavy ? 'text-campo-navy' : 'text-emerald-600'}`}>Present</span>
                           <span className="text-[8px] font-semibold text-slate-600">08:45 AM</span>
                         </div>
 
@@ -521,7 +612,7 @@ export function MobileAppMockup({
                         </div>
 
                         <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200/90 bg-white p-1.5 sm:p-2 text-center shadow-xs">
-                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-50 text-campo-teal-dark">
+                          <div className={`flex h-7 w-7 items-center justify-center rounded-lg ${isNavy ? 'bg-blue-50 text-campo-navy' : 'bg-teal-50 text-campo-teal-dark'}`}>
                             <CreditCard className="h-3.5 w-3.5" />
                           </div>
                           <span className="mt-1 text-[9px] font-extrabold text-campo-navy">₹0 Due</span>
@@ -541,7 +632,7 @@ export function MobileAppMockup({
                       <div className="rounded-2xl border border-slate-200/90 bg-white p-3 shadow-xs">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                           <div className="flex items-center gap-1.5">
-                            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className={`h-2 w-2 rounded-full ${isNavy ? 'bg-blue-600' : 'bg-emerald-500'} animate-pulse`} />
                             <span className="font-display text-[11px] font-bold text-campo-navy">
                               Live Transit &amp; ETA Tracking
                             </span>
@@ -556,12 +647,12 @@ export function MobileAppMockup({
                             Campus Express &bull; Sector 5 Route
                           </p>
                           <div className="flex items-center gap-1 text-[10px] text-slate-600 font-medium">
-                            <MapPin className="h-3 w-3 text-campo-teal-dark" />
+                            <MapPin className={`h-3 w-3 ${isNavy ? 'text-campo-navy' : 'text-campo-teal-dark'}`} />
                             <span>Next Stop: Central Gate (3 mins &bull; 1.2 km)</span>
                           </div>
                           <div className="flex items-center justify-between pt-1 text-[9px] text-slate-500 font-medium border-t border-slate-50">
                             <span>Driver: Suresh K.</span>
-                            <span className="font-bold text-emerald-600">Live 25 km/h</span>
+                            <span className={`font-bold ${isNavy ? 'text-campo-navy' : 'text-emerald-600'}`}>Live 25 km/h</span>
                           </div>
                         </div>
                       </div>
@@ -570,10 +661,10 @@ export function MobileAppMockup({
                       <div className="rounded-2xl border border-slate-200/90 bg-white p-3 shadow-xs">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                           <span className="font-display text-[11px] font-bold text-campo-navy flex items-center gap-1.5">
-                            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                            <ShieldCheck className={`h-3.5 w-3.5 ${isNavy ? 'text-campo-navy' : 'text-emerald-600'}`} />
                             Campus Safety &amp; Turnstile Logs
                           </span>
-                          <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[9px] font-bold text-emerald-700 border border-emerald-200">
+                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold border ${isNavy ? 'bg-blue-50 text-campo-navy border-blue-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'}`}>
                             Safely Inside
                           </span>
                         </div>
@@ -615,7 +706,7 @@ export function MobileAppMockup({
                     {/* Bottom Floating Navigation Dock - Parent */}
                     <div className="relative px-3 pb-3 pt-1">
                       <div className="flex items-center justify-around rounded-2xl border border-slate-200/90 bg-white px-2 py-1.5 shadow-md">
-                        <div className="flex flex-col items-center text-campo-teal-dark">
+                        <div className={`flex flex-col items-center ${isNavy ? 'text-campo-navy' : 'text-campo-teal-dark'}`}>
                           <Users className="h-4 w-4 stroke-[2.5]" />
                           <span className="text-[8px] font-bold mt-0.5">Ward</span>
                         </div>
@@ -651,7 +742,7 @@ export function MobileAppMockup({
         <div className="mt-6 flex flex-col items-center gap-3 px-2">
           {/* Active Screen Title & Counter */}
           <div className="flex items-center gap-2 text-center">
-            <span className="flex h-2 w-2 rounded-full bg-campo-teal animate-pulse shrink-0" />
+            <span className={`flex h-2 w-2 rounded-full ${isNavy ? 'bg-campo-navy' : 'bg-campo-teal'} animate-pulse shrink-0`} />
             <span className="text-xs font-bold text-campo-navy truncate max-w-[240px] sm:max-w-[300px]">
               {currentScreen.title}
             </span>
@@ -672,11 +763,10 @@ export function MobileAppMockup({
                     setDirection(dotIdx > currentIndex ? 1 : -1);
                     setCurrentIndex(dotIdx);
                   }}
-                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                    dotIdx === currentIndex
-                      ? 'w-7 bg-campo-teal shadow-xs'
-                      : 'w-2 bg-slate-300 hover:bg-slate-400'
-                  }`}
+                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${dotIdx === currentIndex
+                    ? `w-7 ${isNavy ? 'bg-campo-navy' : 'bg-campo-teal'} shadow-xs`
+                    : 'w-2 bg-slate-300 hover:bg-slate-400'
+                    }`}
                   aria-label={`Go to screen ${dotIdx + 1}`}
                   title={normalizedScreens[dotIdx].title}
                 />
@@ -699,7 +789,7 @@ export function MobileAppMockup({
                 </>
               ) : (
                 <>
-                  <Play className="h-3 w-3 text-campo-teal-dark fill-campo-teal-dark" />
+                  <Play className={`h-3 w-3 ${isNavy ? 'text-campo-navy fill-campo-navy' : 'text-campo-teal-dark fill-campo-teal-dark'}`} />
                   <span>Auto-play</span>
                 </>
               )}

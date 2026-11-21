@@ -7,9 +7,11 @@ export default {
         campo: {
           navy: '#071C46',
           deep: '#061638',
+          'navy-dark': '#081630',
           secondary: '#0B2452',
           teal: '#00C5B5',
           'teal-dark': '#009E91',
+          'teal-mint': '#00DF8F',
           light: '#F7F9FC',
           surface: '#F4F7FB',
           ink: '#14213D',

@@ -262,7 +262,7 @@ export function PricingSection({ onRequestDemo }) {
       <style>{pricingAmbientStyles}</style>
       <div className="container-campo relative z-10">
         <SectionHeading
-          index="07"
+          index="05"
           label="Institutional Pricing"
           title="Simple pricing, per student per year."
           description="Predictable annual plans designed for institutions of every scale. Full transparency, zero hidden charges, and completely risk-free trial."

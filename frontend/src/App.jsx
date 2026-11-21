@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
-import { ProblemSection } from './components/ProblemSection';
 import { CampoIntroduction } from './components/CampoIntroduction';
-import { ApplicationsSection } from './components/ApplicationsSection';
+import { CampusStatsSection } from './components/CampusStatsSection';
 import { IntelligenceSection } from './components/IntelligenceSection';
-import { HowItWorks } from './components/HowItWorks';
-import { WhyCampo } from './components/WhyCampo';
 import { PricingSection } from './components/PricingSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
@@ -185,15 +182,9 @@ export default function App() {
               <HeroSection
                 onRequestDemo={() => navigateToContact('Demo Request')}
               />
-              <ProblemSection />
-              <CampoIntroduction />
-              <ApplicationsSection
-                onNavigate={navigate}
-                onRequestDemo={() => navigateToContact('Demo Request')}
-              />
+              <CampoIntroduction onNavigate={navigate} />
+              <CampusStatsSection />
               <IntelligenceSection />
-              <HowItWorks />
-              <WhyCampo />
               <PricingSection
                 onRequestDemo={(plan) => navigateToContact(plan ? `Pricing Inquiry: ${plan}` : 'Demo Request')}
               />

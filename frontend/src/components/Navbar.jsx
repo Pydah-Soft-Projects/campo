@@ -24,9 +24,7 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
     const sections = [
       { id: 'contact', href: '#contact' },
       { id: 'pricing', href: '#pricing' },
-      { id: 'about', href: '#about' },
       { id: 'features', href: '#features' },
-      { id: 'solutions', href: '#solutions' },
       { id: 'platform', href: '#platform' },
       { id: 'home', href: '#home' },
     ];
@@ -141,7 +139,7 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
             e.preventDefault();
             onNavigate?.('/');
           }}
-          className="inline-flex items-center rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal focus-visible:ring-offset-2"
+          className="inline-flex items-center rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-navy focus-visible:ring-offset-2"
           aria-label="Campo Home"
         >
           <CampoLogo variant="dark" />
@@ -157,7 +155,7 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`relative rounded-lg px-3.5 py-2 text-sm font-medium transition-colors duration-200 ${
                   isActive
-                    ? 'text-campo-navy'
+                    ? 'text-campo-navy font-semibold'
                     : 'text-slate-600 hover:text-campo-navy'
                 }`}
               >
@@ -166,7 +164,7 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
                   <motion.span
                     layoutId="nav-active-underline"
                     transition={{ type: 'spring', stiffness: 400, damping: 34 }}
-                    className="absolute inset-x-3.5 -bottom-0.5 h-0.5 rounded-full bg-campo-teal-dark"
+                    className="absolute inset-x-3.5 -bottom-0.5 h-0.5 rounded-full bg-campo-navy"
                   />
                 )}
               </a>
@@ -183,21 +181,21 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
             }}
             className={`inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold transition-all duration-200 ${
               currentPath === '/download'
-                ? 'border-campo-teal bg-teal-50 text-campo-teal-dark shadow-sm'
+                ? 'border-blue-300 bg-blue-50 text-campo-navy shadow-sm'
                 : 'border-slate-200 bg-white text-campo-navy hover:border-slate-300 hover:bg-slate-50'
             }`}
           >
-            <Smartphone className="h-3.5 w-3.5 text-campo-teal-dark" />
+            <Smartphone className="h-3.5 w-3.5 text-campo-navy" />
             <span>Download App</span>
           </a>
 
           <button
             type="button"
             onClick={handleDemoClick}
-            className="group inline-flex items-center gap-2 rounded-xl bg-campo-navy px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-campo-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal focus-visible:ring-offset-2"
+            className="group inline-flex items-center gap-2 rounded-xl bg-campo-navy px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-campo-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-navy focus-visible:ring-offset-2 shadow-xs"
           >
             Request a Demo
-            <ArrowUpRight className="h-4 w-4 text-campo-teal transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight className="h-4 w-4 text-blue-300 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </button>
         </div>
 

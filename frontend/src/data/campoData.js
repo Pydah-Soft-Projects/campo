@@ -33,9 +33,7 @@ import {
 export const navLinks = [
   { label: 'Home', href: '#home' },
   { label: 'Platform', href: '#platform' },
-  { label: 'Solutions', href: '#solutions' },
   { label: 'Features', href: '#features' },
-  { label: 'About Us', href: '#about' },
   { label: 'Pricing', href: '#pricing' },
   { label: 'Contact', href: '#contact' },
 ];
@@ -454,20 +452,19 @@ export const whyCampoFeatures = [
 export const footerColumns = {
   platform: [
     { label: 'Overview', href: '#platform' },
-    { label: 'Applications', href: '#solutions' },
+    { label: 'Platform Architecture', href: '#platform' },
     { label: 'Features', href: '#features' },
     { label: 'Pricing Plans', href: '#pricing' },
     { label: 'Download App', href: '/download' },
   ],
   solutions: [
-    { label: 'Admissions', href: '#solutions' },
-    { label: 'Academics', href: '#solutions' },
-    { label: 'Finance', href: '#solutions' },
-    { label: 'Administration', href: '#solutions' },
-    { label: 'Campus Operations', href: '#solutions' },
+    { label: 'Admissions', href: '/applications/admissions-crm' },
+    { label: 'Academics', href: '/applications/academic-management' },
+    { label: 'Finance', href: '/applications/fee-management' },
+    { label: 'Administration', href: '/applications/hrms' },
+    { label: 'Campus Operations', href: '/applications/transport-management' },
   ],
   company: [
-    { label: 'About Us', href: '#about' },
     { label: 'Contact Us', href: '#contact' },
     { label: 'Request a Demo', href: '#contact' },
     { label: 'Admin Login', href: '/admin/login' },
