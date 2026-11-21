@@ -471,6 +471,7 @@ export const footerColumns = {
     { label: 'Contact Us', href: '#contact' },
     { label: 'Request a Demo', href: '#contact' },
     { label: 'Admin Login', href: '/admin/login' },
+    { label: 'Campus Health Check', href: '/campus-health' },
   ],
 };
 

@@ -17,6 +17,7 @@ import { DownloadAppPage } from './pages/DownloadAppPage';
 import { ApplicationDetailPage } from './pages/ApplicationDetailPage';
 import { AdminLoginPage } from './pages/AdminLoginPage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import { CampusHealthPage } from './pages/CampusHealthPage';
 import { SEO } from './components/SEO';
 
 export default function App() {
@@ -87,6 +88,15 @@ export default function App() {
   const currentAppId = isAppDetail ? currentPath.replace('/applications/', '').split('/')[0] : null;
   const isAdminLogin = currentPath === '/admin/login';
   const isAdminDashboard = currentPath.startsWith('/admin') && !isAdminLogin;
+  const isCampusHealth = currentPath === '/campus-health' || currentPath === '/health-check';
+
+  if (isCampusHealth) {
+    return (
+      <MotionConfig reducedMotion="user">
+        <CampusHealthPage onNavigateHome={() => navigate('/')} />
+      </MotionConfig>
+    );
+  }
 
   if (isAdminLogin) {
     return (

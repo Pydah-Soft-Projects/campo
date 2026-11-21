@@ -14,10 +14,9 @@ const inquirySchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, 'Email address is required'],
       trim: true,
       lowercase: true,
-      match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address'],
+      default: '',
     },
     phone: {
       type: String,
@@ -32,7 +31,7 @@ const inquirySchema = new mongoose.Schema(
     inquiryType: {
       type: String,
       default: 'Demo Request',
-      enum: ['Demo Request', 'General Inquiry', 'Implementation Support', 'Other'],
+      enum: ['Demo Request', 'General Inquiry', 'Implementation Support', 'Campus Health Check', 'Other'],
     },
     message: {
       type: String,

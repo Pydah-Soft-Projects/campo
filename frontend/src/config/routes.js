@@ -20,6 +20,13 @@ export const routes = [
     sourceFile: 'src/App.jsx',
   },
   {
+    path: '/campus-health',
+    name: 'Campus Health Check',
+    priority: 0.95,
+    changefreq: 'weekly',
+    sourceFile: 'src/pages/CampusHealthPage.jsx',
+  },
+  {
     path: '/download',
     name: 'Download App',
     priority: 0.9,

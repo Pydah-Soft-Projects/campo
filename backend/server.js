@@ -5,11 +5,12 @@ import { connectDB } from './config/db.js';
 import { seedInitialAdmin } from './controllers/authController.js';
 import authRoutes from './routes/authRoutes.js';
 import inquiryRoutes from './routes/inquiryRoutes.js';
+import healthCheckRoutes from './routes/healthCheckRoutes.js';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 // Middleware
 app.use(
@@ -36,6 +37,7 @@ app.get('/api/health', (req, res) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/health-check', healthCheckRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

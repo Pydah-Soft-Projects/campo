@@ -2,10 +2,10 @@
  * Campo Backend API Client
  *
  * Communicates with the Campo Node.js + MongoDB backend API.
- * Configured via VITE_API_URL or defaults to http://localhost:5000/api
+ * Configured via VITE_API_URL or defaults to http://localhost:8000/api
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 const TOKEN_KEY = 'campo_admin_jwt';
 
@@ -143,5 +143,22 @@ export async function addInquiryNote(id, text) {
 export async function deleteInquiry(id) {
   return request(`/inquiries/${id}`, {
     method: 'DELETE',
+  });
+}
+
+// ==========================================
+// WHATSAPP MESSAGING TEST & CONFIG API
+// ==========================================
+
+export async function getWhatsAppConfig() {
+  return request('/health-check/whatsapp-config', {
+    method: 'GET',
+  });
+}
+
+export async function testWhatsAppMessage(payload) {
+  return request('/health-check/test-whatsapp', {
+    method: 'POST',
+    body: JSON.stringify(payload),
   });
 }

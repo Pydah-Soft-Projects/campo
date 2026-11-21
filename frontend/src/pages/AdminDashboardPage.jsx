@@ -31,6 +31,8 @@ import {
   deleteInquiry,
   logoutAdmin,
   isAuthenticated,
+  testWhatsAppMessage,
+  getWhatsAppConfig,
 } from '../services/api';
 import { CampoLogo } from '../components/CampoLogo';
 
@@ -55,6 +57,144 @@ export function AdminDashboardPage({ onNavigate }) {
   const [noteSubmitting, setNoteSubmitting] = useState(false);
   const [statusUpdatingId, setStatusUpdatingId] = useState(null);
   const [feedbackMessage, setFeedbackMessage] = useState(null);
+
+  // WhatsApp Testing & Diagnosis State
+  const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
+  const [waConfig, setWaConfig] = useState(null);
+  const [waConfigLoading, setWaConfigLoading] = useState(false);
+  const [waTesting, setWaTesting] = useState(false);
+  const [waTestTab, setWaTestTab] = useState('raw'); // 'raw' (Provider / Postman JSON) or 'form'
+  const buildTemplateJson = (name = '', withVariables = false) => {
+    const templateName = (name || '').trim() || 'TEMPLATE_NAME';
+    if (withVariables) {
+      return JSON.stringify(
+        {
+          type: 'template',
+          template: {
+            language: {
+              policy: 'deterministic',
+              code: 'en',
+            },
+            name: templateName,
+            components: [
+              {
+                type: 'body',
+                parameters: [
+                  { type: 'text', text: 'Sample Text 1' },
+                  { type: 'text', text: 'Sample Text 2' },
+                ],
+              },
+            ],
+          },
+        },
+        null,
+        2
+      );
+    }
+    return JSON.stringify(
+      {
+        type: 'template',
+        template: {
+          language: {
+            policy: 'deterministic',
+            code: 'en',
+          },
+          name: templateName,
+          components: [],
+        },
+      },
+      null,
+      2
+    );
+  };
+
+  const [waRawJson, setWaRawJson] = useState(() => buildTemplateJson('', false));
+  const [waForm, setWaForm] = useState({
+    to: '9392604899',
+    templateName: '',
+    content: 'Campo Campus Health Check: Your institutional assessment report is ready.',
+    sendContentAsVar: false,
+    mode: 'template',
+  });
+  const [waResult, setWaResult] = useState(null);
+
+  const loadWhatsAppConfig = async () => {
+    setWaConfigLoading(true);
+    try {
+      const res = await getWhatsAppConfig();
+      setWaConfig(res);
+      if (res?.templateName) {
+        setWaRawJson((prev) => {
+          if (!prev || prev.includes('TEMPLATE_NAME')) {
+            return buildTemplateJson(res.templateName, false);
+          }
+          return prev;
+        });
+      }
+    } catch (err) {
+      console.warn('Failed to load WhatsApp config:', err);
+    } finally {
+      setWaConfigLoading(false);
+    }
+  };
+
+  const handleOpenWhatsAppModal = (prefill = null) => {
+    setWaResult(null);
+    if (prefill) {
+      setWaForm((prev) => ({
+        ...prev,
+        to: prefill.phone || prev.to,
+      }));
+    }
+    setShowWhatsAppModal(true);
+    loadWhatsAppConfig();
+  };
+
+  const handleSendTestWhatsApp = async (e) => {
+    e.preventDefault();
+    if (!waForm.to.trim()) {
+      showFeedback('Please enter a recipient mobile number', 'error');
+      return;
+    }
+
+    setWaTesting(true);
+    setWaResult(null);
+    try {
+      const payload =
+        waTestTab === 'raw'
+          ? {
+              to: waForm.to.trim(),
+              mode: 'raw',
+              rawPayload: waRawJson,
+            }
+          : {
+              to: waForm.to.trim(),
+              templateName: waForm.templateName.trim() || undefined,
+              content: waForm.content.trim(),
+              sendContentAsVar: waForm.sendContentAsVar,
+              mode: waForm.mode,
+            };
+
+      const res = await testWhatsAppMessage(payload);
+
+      setWaResult(res);
+      if (res.success) {
+        showFeedback('WhatsApp message dispatched successfully!');
+      } else if (res.skipped) {
+        showFeedback(res.reason || 'WhatsApp skipped (check credentials in .env)', 'error');
+      } else {
+        showFeedback('Failed to send WhatsApp message. See details below.', 'error');
+      }
+    } catch (err) {
+      setWaResult({
+        success: false,
+        error: err.data?.message || err.message || 'Request execution error',
+      });
+      showFeedback(err.message || 'Error executing WhatsApp test', 'error');
+    } finally {
+      setWaTesting(false);
+    }
+  };
 
   // Authentication check
   useEffect(() => {
@@ -200,14 +340,24 @@ export function AdminDashboardPage({ onNavigate }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={() => handleOpenWhatsAppModal()}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-lg border border-emerald-200 transition-colors shadow-xs"
+              title="Test sending WhatsApp template message"
+            >
+              <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Test WhatsApp API</span>
+            </button>
+
             <button
               type="button"
               onClick={() => onNavigate?.('/')}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-campo-navy rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors"
             >
               <ExternalLink className="w-3.5 h-3.5" />
-              View Website
+              <span className="hidden sm:inline">View Website</span>
             </button>
 
             <button
@@ -446,6 +596,16 @@ export function AdminDashboardPage({ onNavigate }) {
                       {/* Actions */}
                       <td className="py-3.5 px-4 whitespace-nowrap text-right">
                         <div className="inline-flex items-center gap-1">
+                          {inquiry.phone && (
+                            <button
+                              type="button"
+                              onClick={() => handleOpenWhatsAppModal(inquiry)}
+                              className="p-1.5 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-md transition-colors"
+                              title="Test sending WhatsApp message to this contact"
+                            >
+                              <MessageSquare className="w-4 h-4" />
+                            </button>
+                          )}
                           <button
                             type="button"
                             onClick={() => setActiveInquiry(inquiry)}
@@ -616,7 +776,22 @@ export function AdminDashboardPage({ onNavigate }) {
             </div>
 
             {/* Footer */}
-            <div className="mt-4 pt-3 border-t border-slate-100 flex justify-end">
+            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+              {activeInquiry.phone ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleOpenWhatsAppModal(activeInquiry);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-lg border border-emerald-200 transition-colors shadow-xs"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+                  Test WhatsApp Message
+                </button>
+              ) : (
+                <div />
+              )}
+
               <button
                 type="button"
                 onClick={() => setActiveInquiry(null)}
@@ -625,6 +800,341 @@ export function AdminDashboardPage({ onNavigate }) {
                 Close
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* WhatsApp Template Message Tester Modal */}
+      {showWhatsAppModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+            {/* Header */}
+            <div className="flex items-start justify-between border-b border-slate-100 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
+                  <MessageSquare className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">
+                    WhatsApp Message Tester
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Test live template message dispatch via Meta / WAPost API
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowWhatsAppModal(false)}
+                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Config Status Banner */}
+            <div className="my-4 p-3.5 rounded-xl border text-xs bg-slate-50 border-slate-200">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-semibold text-slate-700">API Connection Status:</span>
+                {waConfigLoading ? (
+                  <span className="inline-flex items-center gap-1 text-slate-400">
+                    <Loader2 className="w-3 h-3 animate-spin" /> Checking .env...
+                  </span>
+                ) : waConfig?.configured ? (
+                  <span className="inline-flex items-center gap-1 font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Ready (Keys Detected)
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 font-semibold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
+                    <AlertCircle className="w-3.5 h-3.5" /> Keys Missing in backend/.env
+                  </span>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-500 pt-1 border-t border-slate-200/60 font-mono">
+                <div>
+                  <span className="text-slate-400 block font-sans">Phone Number ID:</span>
+                  <span className="text-slate-700">{waConfig?.phoneNumberIdMasked || 'Not Set'}</span>
+                </div>
+                <div>
+                  <span className="text-slate-400 block font-sans">Template Name:</span>
+                  <span className="text-slate-700">{waConfig?.templateName || 'Not Set in .env'}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Tab Selector */}
+            <div className="flex border-b border-slate-200 mb-3.5">
+              <button
+                type="button"
+                onClick={() => setWaTestTab('raw')}
+                className={`pb-2 px-3 text-xs font-semibold border-b-2 transition-colors ${
+                  waTestTab === 'raw'
+                    ? 'border-emerald-600 text-emerald-700'
+                    : 'border-transparent text-slate-500 hover:text-slate-700'
+                }`}
+              >
+                Raw Provider / Postman JSON (Recommended)
+              </button>
+              <button
+                type="button"
+                onClick={() => setWaTestTab('form')}
+                className={`pb-2 px-3 text-xs font-semibold border-b-2 transition-colors ${
+                  waTestTab === 'form'
+                    ? 'border-emerald-600 text-emerald-700'
+                    : 'border-transparent text-slate-500 hover:text-slate-700'
+                }`}
+              >
+                Simple Form Builder
+              </button>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSendTestWhatsApp} className="space-y-3.5 text-xs">
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">
+                  Recipient Mobile (WhatsApp Number) <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={waForm.to}
+                  onChange={(e) => setWaForm({ ...waForm, to: e.target.value })}
+                  placeholder="e.g. 9392604899 or 919392604899"
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                />
+                <span className="text-[11px] text-slate-400 mt-0.5 block">
+                  10-digit Indian numbers automatically receive +91 country prefix.
+                </span>
+              </div>
+
+              {waTestTab === 'raw' ? (
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block font-semibold text-slate-700">
+                      Template JSON Payload (from Provider Dashboard or Postman)
+                    </label>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setWaRawJson(buildTemplateJson(waConfig?.templateName, false))}
+                        className="text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"
+                      >
+                        Static Template (0 Vars)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setWaRawJson(buildTemplateJson(waConfig?.templateName, true))}
+                        className="text-[11px] font-semibold text-slate-600 hover:text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200"
+                      >
+                        Dynamic Template (With Vars)
+                      </button>
+                    </div>
+                  </div>
+                  <textarea
+                    rows={12}
+                    value={waRawJson}
+                    onChange={(e) => setWaRawJson(e.target.value)}
+                    className="w-full p-2.5 bg-slate-900 text-emerald-400 font-mono text-[11px] rounded-lg border border-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 leading-snug"
+                    placeholder="Paste the ready-made JSON body for your approved template here..."
+                  />
+                  <p className="mt-1 text-[11px] text-slate-500">
+                    Paste the exact ready-made JSON from your WAPost dashboard. The "to" phone number above will automatically replace the recipient.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  {/* Template Name & Mode */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">
+                        Template Name <span className="font-normal text-slate-400">(from .env)</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={waForm.templateName}
+                        onChange={(e) => setWaForm({ ...waForm, templateName: e.target.value })}
+                        placeholder={waConfig?.templateName || 'e.g. your_template_name'}
+                        disabled={waForm.mode === 'text'}
+                        className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono text-xs disabled:bg-slate-100 disabled:text-slate-400"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">
+                        Send Mode
+                      </label>
+                      <select
+                        value={waForm.mode}
+                        onChange={(e) => setWaForm({ ...waForm, mode: e.target.value })}
+                        className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs bg-white"
+                      >
+                        <option value="template">Template Message (Official)</option>
+                        <option value="text">Direct Text Message (No Template)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Message / Template Content */}
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">
+                      Message Content
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={waForm.content}
+                      onChange={(e) => setWaForm({ ...waForm, content: e.target.value })}
+                      placeholder="Enter message content to test..."
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs leading-relaxed"
+                    />
+                  </div>
+
+                  {/* Variable Setting (Zero Vars by Default) */}
+                  {waForm.mode === 'template' && (
+                    <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
+                      <div className="flex items-start gap-2">
+                        <input
+                          type="checkbox"
+                          id="sendContentAsVarCheck"
+                          checked={waForm.sendContentAsVar}
+                          onChange={(e) => setWaForm({ ...waForm, sendContentAsVar: e.target.checked })}
+                          className="mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                        />
+                        <label htmlFor="sendContentAsVarCheck" className="text-[11px] text-slate-600 cursor-pointer">
+                          <b>Send content as variable {"{{1}}"}:</b> Leave <u>unchecked</u> for testing with <b>no variables</b>.
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Live JSON Payload Preview */}
+                  <div className="p-2.5 bg-slate-900 rounded-lg text-slate-300 text-[10px] font-mono overflow-x-auto">
+                    <div className="text-[9px] uppercase tracking-wider text-slate-400 font-sans mb-1 font-semibold">
+                      API Request Body Preview (WAPost / Meta Cloud API):
+                    </div>
+                    <pre className="whitespace-pre-wrap leading-tight text-emerald-400">
+                      {JSON.stringify(
+                        waForm.mode === 'text'
+                          ? {
+                              to: waForm.to ? `91${waForm.to.replace(/\D/g, '').replace(/^91/, '')}` : 'RECEIVER_NUMBER',
+                              recipient_type: 'individual',
+                              type: 'text',
+                              text: { body: waForm.content || 'Test message' },
+                            }
+                          : {
+                              to: waForm.to ? `91${waForm.to.replace(/\D/g, '').replace(/^91/, '')}` : 'RECEIVER_NUMBER',
+                              recipient_type: 'individual',
+                              type: 'template',
+                              template: {
+                                language: { policy: 'deterministic', code: waConfig?.templateLang || 'en' },
+                                name: waForm.templateName.trim() || waConfig?.templateName || 'TEMPLATE_NAME',
+                                ...(waForm.sendContentAsVar && waForm.content.trim()
+                                  ? {
+                                      components: [
+                                        {
+                                          type: 'body',
+                                          parameters: [{ type: 'text', text: waForm.content.trim() }],
+                                        },
+                                      ],
+                                    }
+                                  : {}),
+                              },
+                            },
+                        null,
+                        2
+                      )}
+                    </pre>
+                  </div>
+                </>
+              )}
+
+              {/* Result Preview Box */}
+              {waResult && (
+                <div
+                  className={`p-3.5 rounded-xl border text-xs animate-in fade-in duration-150 ${
+                    waResult.success
+                      ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                      : waResult.skipped
+                      ? 'bg-amber-50 border-amber-200 text-amber-900'
+                      : 'bg-red-50 border-red-200 text-red-900'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 font-bold mb-1">
+                    {waResult.success ? (
+                      <>
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                        <span>WhatsApp Message Sent Successfully!</span>
+                      </>
+                    ) : waResult.skipped ? (
+                      <>
+                        <AlertCircle className="w-4 h-4 text-amber-600" />
+                        <span>Sending Skipped</span>
+                      </>
+                    ) : (
+                      <>
+                        <AlertCircle className="w-4 h-4 text-red-600" />
+                        <span>Message Sending Failed</span>
+                      </>
+                    )}
+                  </div>
+
+                  {waResult.success && (
+                    <div className="mt-1.5 space-y-1 font-mono text-[11px]">
+                      <div>Recipient: <b className="font-sans">{waResult.recipient}</b></div>
+                      <div>Message ID: <span className="text-emerald-700 break-all">{waResult.messageId}</span></div>
+                    </div>
+                  )}
+
+                  {waResult.error && (
+                    <div className="mt-1.5 text-[11px] leading-relaxed">
+                      <div className="font-semibold">Provider Error:</div>
+                      <pre className="mt-1 p-2 bg-white/80 rounded border border-red-200 overflow-x-auto text-[10px] whitespace-pre-wrap font-mono">
+                        {typeof waResult.error === 'object'
+                          ? JSON.stringify(waResult.error, null, 2)
+                          : String(waResult.error)}
+                      </pre>
+                      <p className="mt-2 text-slate-600">
+                        <b>Hint:</b> Verify that your <code className="bg-red-100 px-1 py-0.5 rounded font-mono">WHATSAPP_ACCESS_TOKEN</code> is valid and not expired, that your <code className="bg-red-100 px-1 py-0.5 rounded font-mono">WHATSAPP_PHONE_NUMBER_ID</code> is correct, and that the template exists in your WAPost dashboard.
+                      </p>
+                    </div>
+                  )}
+
+                  {waResult.skipped && (
+                    <p className="mt-1 text-[11px]">
+                      {waResult.reason || 'Missing credentials in backend/.env'}. Please add <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">WHATSAPP_ACCESS_TOKEN</code> and <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">WHATSAPP_PHONE_NUMBER_ID</code>.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowWhatsAppModal(false)}
+                  className="px-4 py-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={waTesting}
+                  className="inline-flex items-center gap-2 px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 rounded-lg shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                >
+                  {waTesting ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Sending Message...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Send Test Message</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
