@@ -133,7 +133,7 @@ export default function App() {
             <DownloadAppPage
               onNavigateHome={() => navigate('/')}
               onRequestDemo={() => navigateToContact('Demo Request')}
-              onContactUs={() => navigateToContact('General Inquiry')}
+              onContactUs={() => navigateToContact('General Enquiry')}
             />
           ) : isAppDetail ? (
             <ApplicationDetailPage

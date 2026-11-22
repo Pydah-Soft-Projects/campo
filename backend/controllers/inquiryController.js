@@ -11,14 +11,15 @@ export async function createInquiry(req, res) {
       email,
       phone,
       designation,
+      studentCount,
       inquiryType,
       message,
     } = req.body;
 
-    if (!fullName || !institutionName || !email || !phone || !designation || !message) {
+    if (!fullName || !institutionName || !email || !phone || !designation) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide all required fields (Full Name, Institution, Email, Phone, Designation, Message)',
+        message: 'Please provide all required fields (Full Name, Institution, Email, Phone, Designation)',
       });
     }
 
@@ -28,8 +29,9 @@ export async function createInquiry(req, res) {
       email: email.trim().toLowerCase(),
       phone: phone.trim(),
       designation: designation.trim(),
+      studentCount: (studentCount || '').trim(),
       inquiryType: inquiryType || 'Demo Request',
-      message: message.trim(),
+      message: (message || '').trim(),
       status: 'New',
     });
 

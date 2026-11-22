@@ -28,14 +28,20 @@ const inquirySchema = new mongoose.Schema(
       required: [true, 'Role or designation is required'],
       trim: true,
     },
+    studentCount: {
+      type: String,
+      default: '',
+      trim: true,
+    },
     inquiryType: {
       type: String,
       default: 'Demo Request',
-      enum: ['Demo Request', 'General Inquiry', 'Implementation Support', 'Campus Health Check', 'Other'],
+      enum: ['Demo Request', 'General Enquiry', 'General Inquiry', 'Implementation Support', 'Campus Health Check', 'Other'],
     },
     message: {
       type: String,
-      required: [true, 'Inquiry message or requirements note is required'],
+      required: false,
+      default: '',
       trim: true,
     },
     status: {

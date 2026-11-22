@@ -558,8 +558,15 @@ export function AdminDashboardPage({ onNavigate }) {
                       {/* Inquiry Type */}
                       <td className="py-3.5 px-4 whitespace-nowrap">
                         <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200/80">
-                          {inquiry.inquiryType || 'General Inquiry'}
+                          {inquiry.inquiryType || 'General Enquiry'}
                         </span>
+                        {inquiry.studentCount && (
+                          <div className="mt-1">
+                            <span className="inline-flex items-center text-[10px] font-semibold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">
+                              {inquiry.studentCount}
+                            </span>
+                          </div>
+                        )}
                       </td>
 
                       {/* Contact Info */}
@@ -701,6 +708,12 @@ export function AdminDashboardPage({ onNavigate }) {
                     {activeInquiry.phone}
                   </a>
                 </div>
+                {activeInquiry.studentCount && (
+                  <div className="col-span-2">
+                    <span className="text-slate-400 block text-[11px]">Students Count</span>
+                    <span className="font-semibold text-slate-800">{activeInquiry.studentCount}</span>
+                  </div>
+                )}
               </div>
 
               {/* Requirement / Message */}

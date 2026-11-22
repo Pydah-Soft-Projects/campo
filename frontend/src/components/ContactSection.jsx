@@ -12,6 +12,7 @@ import {
   Copy,
   Check,
   ArrowRight,
+  ChevronDown,
 } from 'lucide-react';
 import { siteConfig } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
@@ -19,20 +20,31 @@ import { CampoLogo } from './CampoLogo';
 import { BrandCornerWave, Reveal, SectionBackground } from './MotionPrimitives';
 import advisorImg from '../assets/contact-advisor-pointing.webp';
 
+const STUDENT_COUNT_OPTIONS = [
+  'Below 500',
+  '500 - 1000',
+  '1000 to 2000',
+  '2000 to 4000',
+  '4000 to 10,000',
+  'Above 10,000',
+];
+
 const initialFormState = {
   fullName: '',
   institutionName: '',
   email: '',
   phone: '',
   designation: '',
+  studentCount: '',
   message: '',
 };
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
+export function ContactSection({ inquiryIntent = 'General Enquiry' }) {
+  const normalizedIntent = inquiryIntent === 'General Inquiry' ? 'General Enquiry' : inquiryIntent;
   const [formData, setFormData] = useState(initialFormState);
-  const [selectedIntent, setSelectedIntent] = useState(inquiryIntent);
+  const [selectedIntent, setSelectedIntent] = useState(normalizedIntent);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [submissionResult, setSubmissionResult] = useState(null);
@@ -40,7 +52,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
   const [copiedPayload, setCopiedPayload] = useState(false);
 
   useEffect(() => {
-    setSelectedIntent(inquiryIntent);
+    setSelectedIntent(inquiryIntent === 'General Inquiry' ? 'General Enquiry' : inquiryIntent);
   }, [inquiryIntent]);
 
   const validate = (values) => {
@@ -70,9 +82,8 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
       nextErrors.designation = 'Please specify your role or designation.';
     }
 
-    if (!values.message.trim() || values.message.trim().length < 10) {
-      nextErrors.message =
-        'Please share a brief note about your institutional requirements (at least 10 characters).';
+    if (!values.studentCount || !values.studentCount.trim()) {
+      nextErrors.studentCount = 'Please select student count.';
     }
 
     return nextErrors;
@@ -262,7 +273,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
 
                 {/* Inquiry Type Switcher with Smooth Layout Animation */}
                 <div className="relative z-10 inline-flex w-full rounded-lg border border-white/15 bg-white/10 p-0.5 backdrop-blur-sm sm:w-auto sm:rounded-xl sm:p-1">
-                  {['Demo Request', 'General Inquiry'].map((intent) => {
+                  {['Demo Request', 'General Enquiry'].map((intent) => {
                     const isSelected = selectedIntent === intent;
                     return (
                       <button
@@ -399,29 +410,66 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                   </div>
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="designation"
-                    className="block text-[11px] font-semibold uppercase tracking-wider text-campo-ink sm:text-xs"
-                  >
-                    Designation <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    id="designation"
-                    name="designation"
-                    type="text"
-                    value={formData.designation}
-                    onChange={handleChange}
-                    aria-invalid={Boolean(errors.designation)}
-                    placeholder="Director, Chairman, Registrar, or Principal"
-                    className={getFieldClass('designation')}
-                  />
-                  {errors.designation && (
-                    <p className="mt-1 flex items-center gap-1 text-[11px] text-red-600 sm:text-xs">
-                      <AlertCircle className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
-                      {errors.designation}
-                    </p>
-                  )}
+                <div className="grid gap-3 sm:grid-cols-2 sm:gap-5">
+                  <div>
+                    <label
+                      htmlFor="designation"
+                      className="block text-[11px] font-semibold uppercase tracking-wider text-campo-ink sm:text-xs"
+                    >
+                      Designation <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      id="designation"
+                      name="designation"
+                      type="text"
+                      value={formData.designation}
+                      onChange={handleChange}
+                      aria-invalid={Boolean(errors.designation)}
+                      placeholder="Director, Chairman, Principal"
+                      className={getFieldClass('designation')}
+                    />
+                    {errors.designation && (
+                      <p className="mt-1 flex items-center gap-1 text-[11px] text-red-600 sm:text-xs">
+                        <AlertCircle className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
+                        {errors.designation}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="studentCount"
+                      className="block text-[11px] font-semibold uppercase tracking-wider text-campo-ink sm:text-xs"
+                    >
+                      Student Count <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <select
+                        id="studentCount"
+                        name="studentCount"
+                        value={formData.studentCount}
+                        onChange={handleChange}
+                        aria-invalid={Boolean(errors.studentCount)}
+                        className={`${getFieldClass('studentCount')} cursor-pointer appearance-none pr-9 bg-white`}
+                      >
+                        <option value="">Select student count...</option>
+                        {STUDENT_COUNT_OPTIONS.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400 mt-1 sm:mt-1.5">
+                        <ChevronDown className="h-4 w-4" />
+                      </div>
+                    </div>
+                    {errors.studentCount && (
+                      <p className="mt-1 flex items-center gap-1 text-[11px] text-red-600 sm:text-xs">
+                        <AlertCircle className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
+                        {errors.studentCount}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 <div>
@@ -429,7 +477,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                     htmlFor="message"
                     className="block text-[11px] font-semibold uppercase tracking-wider text-campo-ink sm:text-xs"
                   >
-                    Message <span className="text-red-500">*</span>
+                    Message <span className="text-slate-400 font-normal lowercase tracking-normal">(optional)</span>
                   </label>
                   <textarea
                     id="message"
@@ -438,15 +486,9 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                     value={formData.message}
                     onChange={handleChange}
                     aria-invalid={Boolean(errors.message)}
-                    placeholder="Tell us which institutional modules or workflows you would like to explore..."
+                    placeholder="Tell us which institutional modules or workflows you would like to explore (optional)..."
                     className={getFieldClass('message')}
                   />
-                  {errors.message && (
-                    <p className="mt-1 flex items-center gap-1 text-[11px] text-red-600 sm:text-xs">
-                      <AlertCircle className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
-                      {errors.message}
-                    </p>
-                  )}
                 </div>
 
                 {submitError && (
@@ -521,7 +563,7 @@ export function ContactSection({ inquiryIntent = 'General Inquiry' }) {
                       ? 'Preparing Inquiry...'
                       : selectedIntent === 'Demo Request'
                         ? 'Request Institutional Demo'
-                        : 'Submit Inquiry'}
+                        : 'Submit General Enquiry'}
                   </button>
                 </div>
               </form>

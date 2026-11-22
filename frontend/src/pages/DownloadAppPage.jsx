@@ -319,7 +319,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                 Experience real-time academic transparency. Pay semester fees with instant receipts, track biometric attendance, check daily lecture timetables, and carry your verified digital campus ID.
               </motion.p>
 
-              {/* App Persona Switcher: Student App vs Parent App with Animated Sliding Pill */}
+              {/* App Persona Switcher: Student View vs Parent View with Animated Sliding Pill */}
               <motion.div
                 initial={prefersReducedMotion ? undefined : { opacity: 0, y: 14 }}
                 animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
@@ -345,7 +345,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                       />
                     )}
                     <GraduationCap className="h-3.5 w-3.5" />
-                    <span>Student App</span>
+                    <span>Student View</span>
                   </button>
 
                   <button
@@ -363,7 +363,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                       />
                     )}
                     <Users className="h-3.5 w-3.5" />
-                    <span>Parent App</span>
+                    <span>Parent View</span>
                   </button>
                 </div>
               </motion.div>
@@ -392,10 +392,10 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                   </div>
 
                   <h3 className="mt-3 sm:mt-3.5 font-display text-sm sm:text-base font-bold text-campo-navy">
-                    {activeSide === 'student' ? 'Campo Buddy' : 'Campo Parent App'}
+                    Campo Buddy
                   </h3>
                   <p className="mt-0.5 sm:mt-1 text-[11px] sm:text-xs text-slate-500">
-                    Version {downloadConfig.android.version} • {activeSide === 'student' ? downloadConfig.android.fileSize : '22 MB'}
+                    Version {downloadConfig.android.version} • {downloadConfig.android.fileSize}
                   </p>
 
                   <motion.a
@@ -406,7 +406,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                     className="mt-3.5 sm:mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-campo-navy px-4 py-2 sm:py-2.5 text-xs font-semibold text-white shadow-card transition-all hover:bg-campo-secondary"
                   >
                     <Download className="h-4 w-4 text-campo-teal transition-transform duration-200 group-hover:translate-y-0.5" />
-                    <span>Download APK ({activeSide === 'student' ? downloadConfig.android.fileSize : '22 MB'})</span>
+                    <span>Download APK ({downloadConfig.android.fileSize})</span>
                   </motion.a>
                 </motion.div>
 
@@ -426,7 +426,7 @@ export function DownloadAppPage({ onNavigateHome, onRequestDemo, onContactUs }) 
                   </div>
 
                   <h3 className="mt-3 sm:mt-3.5 font-display text-sm sm:text-base font-bold text-campo-navy">
-                    {activeSide === 'student' ? 'Campo Buddy' : 'Campo Parent App'}
+                    Campo Buddy
                   </h3>
                   <p className="mt-0.5 sm:mt-1 text-[11px] sm:text-xs text-slate-500">
                     Requires {downloadConfig.ios.minOs} • App Store

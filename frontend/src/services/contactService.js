@@ -7,13 +7,14 @@ import { submitContactInquiry as apiSubmit } from './api';
  */
 export async function submitContactInquiry(payload) {
   const normalizedPayload = {
-    fullName: payload.fullName.trim(),
-    institutionName: payload.institutionName.trim(),
-    email: payload.email.trim(),
-    phone: payload.phone.trim(),
-    designation: payload.designation.trim(),
+    fullName: (payload.fullName || '').trim(),
+    institutionName: (payload.institutionName || '').trim(),
+    email: (payload.email || '').trim(),
+    phone: (payload.phone || '').trim(),
+    designation: (payload.designation || '').trim(),
+    studentCount: (payload.studentCount || '').trim(),
     inquiryType: payload.inquiryType || 'Demo Request',
-    message: payload.message.trim(),
+    message: (payload.message || '').trim(),
   };
 
   try {
