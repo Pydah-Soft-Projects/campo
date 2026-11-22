@@ -450,25 +450,20 @@ export const whyCampoFeatures = [
 ];
 
 export const footerColumns = {
-  platform: [
-    { label: 'Overview', href: '#platform' },
-    { label: 'Platform Architecture', href: '#platform' },
-    { label: 'Features', href: '#features' },
-    { label: 'Pricing Plans', href: '#pricing' },
-    { label: 'Download App', href: '/download' },
-  ],
-  solutions: [
-    { label: 'Admissions', href: '/applications/admissions-crm' },
-    { label: 'Academics', href: '/applications/academic-management' },
-    { label: 'Finance', href: '/applications/fee-management' },
-    { label: 'Administration', href: '/applications/hrms' },
-    { label: 'Campus Operations', href: '/applications/transport-management' },
-  ],
   company: [
-    { label: 'Contact Us', href: '#contact' },
-    { label: 'Request a Demo', href: '#contact' },
-    { label: 'Admin Login', href: '/admin/login' },
-    { label: 'Campus Health Check', href: '/campus-health' },
+    { label: 'About Campo', href: '/#platform' },
+    { label: 'About PydahSoft', href: 'https://pydahsoft.in', isExternal: true },
+    { label: 'Contact Us', href: '/contact' },
+  ],
+  legal: [
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Terms & Conditions', href: '/terms' },
+    { label: 'Account Deletion', href: '/delete-account' },
+  ],
+  support: [
+    { label: 'Help & Support', href: '/contact?category=General%20Enquiry' },
+    { label: 'Technical Assistance', href: '/contact?category=Technical%20Support' },
+    { label: 'Privacy Enquiries', href: '/contact?category=Privacy%20Concern' },
   ],
 };
 

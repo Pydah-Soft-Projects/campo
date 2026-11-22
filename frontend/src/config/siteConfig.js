@@ -9,16 +9,32 @@ export const siteConfig = {
     description:
       'An integrated institutional management platform uniting admissions, academics, finance, administration, campus operations, and permission-scoped intelligence.',
   },
+  company: {
+    name: 'PydahSoft',
+    fullName: 'PydahSoft Pvt Ltd',
+    website: 'https://pydahsoft.in',
+    aboutUrl: 'https://pydahsoft.in',
+  },
+  app: {
+    name: 'Campo',
+    packageName: 'com.pydahsoft.campobuddy',
+    iosBundleId: 'com.pydahsoft.campobuddy',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.pydahsoft.campobuddy',
+  },
   contact: {
     email: 'hello@campo.co.in',
+    supportEmail: 'support@campo.co.in',
+    privacyEmail: 'privacy@pydahsoft.in',
+    deletionEmail: 'deletion@campo.co.in',
     phone: '+91 70361 24568',
-    address: 'Pydahsoft Pvt Ltd, Kakinada Yanam Road, Kakinada District, Andhra Pradesh, India',
-    website: 'https://www.campo.co.in',
+    address: 'PydahSoft Pvt Ltd, Kakinada Yanam Road, Kakinada District, Andhra Pradesh, India',
+    website: 'https://campo.co.in',
+    companyWebsite: 'https://pydahsoft.in',
     youtube: 'https://www.youtube.com/@hellocampo',
     instagram: 'https://www.instagram.com/hello.campo/?hl=en',
     facebook: 'https://www.facebook.com/profile.php?id=61596434889530',
     linkedin: 'https://www.linkedin.com/in/hello-campo-77729a450/',
-    note: 'Official contact details from Pydahsoft Pvt Ltd.',
+    note: 'Official contact details from PydahSoft Pvt Ltd.',
   },
   social: [
     {
@@ -47,7 +63,7 @@ export const siteConfig = {
     },
   ],
   legal: {
-    copyrightHolder: 'Campo Institutional Platform',
+    copyrightHolder: 'PydahSoft',
+    platformName: 'Campo Institutional Platform',
   },
 };
-

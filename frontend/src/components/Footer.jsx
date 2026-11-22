@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail } from 'lucide-react';
+import { Phone, Mail, ExternalLink } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { footerColumns } from '../data/campoData';
 import { siteConfig } from '../config/siteConfig';
@@ -8,14 +8,23 @@ import { BrandCornerWave } from './MotionPrimitives';
 import { realisticSocialLogos } from './SocialLogos';
 import campoWatermark from '../assets/campo-footer-watermark.png';
 
-export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
+export function Footer({ onRequestDemo, onNavigate }) {
   const currentYear = new Date().getFullYear();
   const shouldReduceMotion = useReducedMotion();
 
-  const handleLinkClick = (e, label, href) => {
+  const handleLinkClick = (e, label, href, isExternal) => {
+    if (isExternal || href.startsWith('http')) {
+      return;
+    }
     if (label === 'Request a Demo') {
       e.preventDefault();
       onRequestDemo?.();
+      return;
+    }
+    if (href.startsWith('/#')) {
+      e.preventDefault();
+      const hash = href.replace('/', '');
+      onNavigate?.('/', hash);
       return;
     }
     if (href.startsWith('/')) {
@@ -60,7 +69,6 @@ export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
                 maskRepeat: 'no-repeat',
               }}
             >
-              {/* Elegant white light moving beam sweeping continuously from C across to O with no dead gap */}
               <motion.div
                 initial={{ left: '-12%' }}
                 animate={{ left: '104%' }}
@@ -105,7 +113,20 @@ export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
               {siteConfig.brand.description}
             </p>
 
-            {/* Direct Official Contact Channels (Single Line) */}
+            <p className="mt-2 text-xs text-slate-400">
+              Owned, developed and maintained by{' '}
+              <a
+                href={siteConfig.company.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-campo-teal hover:underline inline-flex items-center gap-1"
+              >
+                {siteConfig.company.fullName}
+                <ExternalLink className="h-3 w-3 inline" />
+              </a>
+            </p>
+
+            {/* Direct Official Contact Channels */}
             <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-200">
               <a
                 href={`tel:${siteConfig.contact.phone.replace(/\s+/g, '')}`}
@@ -140,7 +161,7 @@ export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
                     title={item.label}
                     onClick={(e) => {
                       if (!isExternal) {
-                        handleLinkClick(e, item.label, item.href);
+                        handleLinkClick(e, item.label, item.href, false);
                       }
                     }}
                     className="group relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full transition-all duration-300 hover:-translate-y-1 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-teal"
@@ -152,56 +173,65 @@ export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
             </div>
           </div>
 
-          {/* Link Columns */}
+          {/* Link Columns: Company, Legal, Support */}
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-8">
-            <div>
-              <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
-                Platform
-              </h3>
-              <ul className="mt-4 space-y-2.5">
-                {footerColumns.platform.map((item) => (
-                  <li key={item.label}>
-                    <a
-                      href={item.href}
-                      onClick={(e) => handleLinkClick(e, item.label, item.href)}
-                      className="text-sm text-slate-300 transition-colors hover:text-white"
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
-                Solutions
-              </h3>
-              <ul className="mt-4 space-y-2.5">
-                {footerColumns.solutions.map((item) => (
-                  <li key={item.label}>
-                    <a
-                      href={item.href}
-                      onClick={(e) => handleLinkClick(e, item.label, item.href)}
-                      className="text-sm text-slate-300 transition-colors hover:text-white"
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
+            {/* COMPANY */}
             <div>
               <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
                 Company
               </h3>
               <ul className="mt-4 space-y-2.5">
-                {footerColumns.company.map((item) => (
+                {footerColumns.company.map((item) => {
+                  const isExt = item.isExternal || item.href.startsWith('http');
+                  return (
+                    <li key={item.label}>
+                      <a
+                        href={item.href}
+                        target={isExt ? '_blank' : undefined}
+                        rel={isExt ? 'noopener noreferrer' : undefined}
+                        onClick={(e) => handleLinkClick(e, item.label, item.href, isExt)}
+                        className="inline-flex items-center gap-1 text-sm text-slate-300 transition-colors hover:text-white"
+                      >
+                        {item.label}
+                        {isExt && <ExternalLink className="h-3 w-3 text-slate-400" />}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {/* LEGAL */}
+            <div>
+              <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
+                Legal
+              </h3>
+              <ul className="mt-4 space-y-2.5">
+                {footerColumns.legal.map((item) => (
                   <li key={item.label}>
                     <a
                       href={item.href}
-                      onClick={(e) => handleLinkClick(e, item.label, item.href)}
+                      onClick={(e) => handleLinkClick(e, item.label, item.href, false)}
+                      className="text-sm text-slate-300 transition-colors hover:text-white"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* SUPPORT */}
+            <div>
+              <h3 className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-campo-teal">
+                Support
+              </h3>
+              <ul className="mt-4 space-y-2.5">
+                {footerColumns.support.map((item) => (
+                  <li key={item.label}>
+                    <a
+                      href={item.href}
+                      onClick={(e) => handleLinkClick(e, item.label, item.href, false)}
                       className="text-sm text-slate-300 transition-colors hover:text-white"
                     >
                       {item.label}
@@ -216,24 +246,50 @@ export function Footer({ onRequestDemo, onOpenLegal, onNavigate }) {
         {/* Bottom Legal Bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-slate-400 sm:flex-row">
           <p>
-            © {currentYear} {siteConfig.legal.copyrightHolder}. All rights reserved.
+            © {currentYear} {siteConfig.company.fullName}. All rights reserved. Campo is an institutional product of PydahSoft.
           </p>
 
-          <div className="flex items-center gap-6">
-            <button
-              type="button"
-              onClick={() => onOpenLegal?.('privacy')}
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <a
+              href="/privacy-policy"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate?.('/privacy-policy');
+              }}
               className="transition-colors hover:text-white"
             >
               Privacy Policy
-            </button>
-            <button
-              type="button"
-              onClick={() => onOpenLegal?.('terms')}
+            </a>
+            <a
+              href="/terms"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate?.('/terms');
+              }}
               className="transition-colors hover:text-white"
             >
               Terms &amp; Conditions
-            </button>
+            </a>
+            <a
+              href="/delete-account"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate?.('/delete-account');
+              }}
+              className="transition-colors hover:text-white"
+            >
+              Account Deletion
+            </a>
+            <a
+              href="/contact"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate?.('/contact');
+              }}
+              className="transition-colors hover:text-white"
+            >
+              Contact Us
+            </a>
           </div>
         </div>
       </div>

@@ -15,6 +15,10 @@ import { ApplicationDetailPage } from './pages/ApplicationDetailPage';
 import { AdminLoginPage } from './pages/AdminLoginPage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { CampusHealthPage } from './pages/CampusHealthPage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
+import { AccountDeletionPage } from './pages/AccountDeletionPage';
+import { ContactPage } from './pages/ContactPage';
+import { TermsPage } from './pages/TermsPage';
 import { SEO } from './components/SEO';
 
 export default function App() {
@@ -81,6 +85,11 @@ export default function App() {
     scrollToHashElement('#contact');
   };
 
+  const isPrivacyPolicy = currentPath === '/privacy-policy';
+  const isAccountDeletion = currentPath === '/delete-account';
+  const isContact = currentPath === '/contact';
+  const isTerms = currentPath === '/terms';
+
   const isAppDetail = currentPath.startsWith('/applications/');
   const currentAppId = isAppDetail ? currentPath.replace('/applications/', '').split('/')[0] : null;
   const isAdminLogin = currentPath === '/admin/login';
@@ -129,7 +138,15 @@ export default function App() {
         />
 
         <main id="main-content">
-          {currentPath === '/download' ? (
+          {isPrivacyPolicy ? (
+            <PrivacyPolicyPage onNavigate={navigate} />
+          ) : isAccountDeletion ? (
+            <AccountDeletionPage onNavigate={navigate} />
+          ) : isContact ? (
+            <ContactPage onNavigate={navigate} />
+          ) : isTerms ? (
+            <TermsPage onNavigate={navigate} />
+          ) : currentPath === '/download' ? (
             <DownloadAppPage
               onNavigateHome={() => navigate('/')}
               onRequestDemo={() => navigateToContact('Demo Request')}
@@ -196,7 +213,11 @@ export default function App() {
         <Footer
           onNavigate={navigate}
           onRequestDemo={() => navigateToContact('Demo Request')}
-          onOpenLegal={(type) => setLegalModalType(type)}
+          onOpenLegal={(type) => {
+            if (type === 'privacy') navigate('/privacy-policy');
+            else if (type === 'terms') navigate('/terms');
+            else setLegalModalType(type);
+          }}
         />
 
         <LegalModal
