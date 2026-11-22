@@ -6,44 +6,39 @@ const STATS = [
   {
     target: 500,
     suffix: 'K+',
-    label: 'messages delivered',
+    label: 'Real-Time Alerts Delivered',
     highlight: true,
-    sublabel: 'Institutional WhatsApp & SMS',
   },
   {
     target: 15,
     suffix: 'K+',
-    label: 'students & parents',
+    label: 'Active Students & Parents',
     highlight: false,
-    sublabel: 'Active connected community',
   },
   {
     target: 8,
     suffix: '%',
-    label: 'more admissions',
+    label: 'Higher Admission Conversion',
     highlight: false,
-    sublabel: 'Streamlined inquiry funnel',
   },
   {
     target: 12,
     suffix: '%',
-    label: 'mileage saving',
+    label: 'Transport Mileage Saved',
     highlight: false,
-    sublabel: 'Optimized bus transport routes',
   },
   {
     target: 15,
     suffix: '%',
-    label: 'food saving in hostels',
+    label: 'Hostel Food Waste Reduced',
     highlight: false,
-    sublabel: 'Biometric meal tallying',
   },
   {
+    prefix: 'Up to',
     target: 50,
     suffix: '%',
-    label: 'lower processing fee',
+    label: 'Lower Payment Gateway Fee',
     highlight: false,
-    sublabel: 'Direct integrated gateways',
   },
 ];
 
@@ -90,20 +85,13 @@ export function CampusStatsSection() {
           transition={{ duration: 0.6, ease: revealEase }}
           className="max-w-3xl"
         >
-          <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 px-3.5 py-1 text-xs font-bold tracking-[0.2em] uppercase text-blue-300 border border-blue-400/20 mb-3">
-            <span className="h-1.5 w-1.5 rounded-full bg-campo-teal animate-pulse" />
-            <span>PROVEN ON OUR OWN CAMPUS</span>
-          </div>
           <h2 className="font-outfit text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.12]">
             Real results, measured on campus.
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-            Every metric reflects tangible operational gains delivered across actual academic sessions and campus facilities.
-          </p>
         </motion.div>
 
         {/* 6 Stats Grid (3 Columns x 2 Rows) with Animated Odometer Counters */}
-        <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {STATS.map((stat, idx) => (
             <motion.div
               key={stat.label}
@@ -131,6 +119,15 @@ export function CampusStatsSection() {
               )}
 
               {/* Number with Animated Counter */}
+              {stat.prefix && (
+                <span
+                  className={`block text-xs sm:text-sm font-bold tracking-tight mb-0.5 ${
+                    stat.highlight ? 'text-[#071C46]' : 'text-campo-teal'
+                  }`}
+                >
+                  {stat.prefix}
+                </span>
+              )}
               <div
                 className={`font-outfit text-4xl sm:text-5xl font-black tracking-tight ${
                   stat.highlight ? 'text-[#071C46]' : 'text-campo-teal'
@@ -150,14 +147,6 @@ export function CampusStatsSection() {
                 }`}
               >
                 {stat.label}
-              </p>
-
-              <p
-                className={`mt-1 font-sans text-xs ${
-                  stat.highlight ? 'text-[#071C46]/80' : 'text-slate-400'
-                }`}
-              >
-                {stat.sublabel}
               </p>
             </motion.div>
           ))}

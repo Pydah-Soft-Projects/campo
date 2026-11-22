@@ -60,7 +60,7 @@ export async function sendWhatsAppTemplateMessage({
   const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
   const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
   const selectedTemplate =
-    (templateName || process.env.WHATSAPP_TEMPLATE_NAME || '').trim();
+    (templateName || process.env.WHATSAPP_TEMPLATE_NAME || 'api_soft').trim();
   const selectedLang =
     (languageCode || process.env.WHATSAPP_TEMPLATE_LANG || 'en').trim();
 
@@ -198,6 +198,8 @@ export async function sendWhatsAppTemplateMessage({
     }
 
     const messageId =
+      responseData?.message?.queue_id ||
+      responseData?.queue_id ||
       responseData?.messages?.[0]?.id ||
       responseData?.data?.messages?.[0]?.id ||
       responseData?.data?.id ||
@@ -304,6 +306,8 @@ export async function sendWhatsAppRawMessage({ to, rawPayload }) {
     }
 
     const messageId =
+      responseData?.message?.queue_id ||
+      responseData?.queue_id ||
       responseData?.messages?.[0]?.id ||
       responseData?.data?.messages?.[0]?.id ||
       responseData?.data?.id ||
@@ -398,6 +402,8 @@ export async function sendWhatsAppDirectTextMessage({ to, text }) {
     }
 
     const messageId =
+      responseData?.message?.queue_id ||
+      responseData?.queue_id ||
       responseData?.messages?.[0]?.id ||
       responseData?.data?.messages?.[0]?.id ||
       responseData?.data?.id ||
@@ -467,46 +473,84 @@ export async function sendCampusHealthReportWhatsApp(details) {
 
   const weakAreaLabel = weakAreaMap[weakest] || 'Campus Operations';
   const weakAreaInsight = weakAreaInsights[weakest] || weakAreaInsights.campus;
+  const institutionName = inst && inst.trim() ? inst.trim() : 'your campus';
 
-  // 9 Template Variables matching the official Campo Expo Template:
-  // {{1}} Recipient Name
-  // {{2}} Overall Campus Score (e.g. 78)
-  // {{3}} Academics Score (e.g. 22)
-  // {{4}} Administrative Score (e.g. 20)
-  // {{5}} Campus Score (e.g. 16)
-  // {{6}} Students Score (e.g. 20)
-  // {{7}} Biggest Gap Area Name (e.g. Campus Operations)
-  // {{8}} Gap Action Insight Sentence
-  // {{9}} Institution Name (e.g. St. Xavier's Engineering College)
-  const candidateVariables = [
-    name ? name.trim() : 'Campus Leader',
-    String(total != null ? total : 0),
-    String(scores?.acad != null ? scores.acad : 0),
-    String(scores?.admin != null ? scores.admin : 0),
-    String(scores?.campus != null ? scores.campus : 0),
-    String(scores?.students != null ? scores.students : 0),
-    weakAreaLabel,
-    weakAreaInsight,
-    inst ? inst.trim() : 'your institution',
+  // 9 Named Template Parameters matching the official "api_soft" Meta/WAPost template schema:
+  // 1. name -> {{1}} Contact Name
+  // 2. total_score -> {{2}} Total Campus Score (/100)
+  // 3. acadmics -> {{3}} Academics Score (/25)
+  // 4. administartive -> {{4}} Administrative Score (/25)
+  // 5. campus -> {{5}} Campus Score (/25)
+  // 6. studdent -> {{6}} Students Score (/25)
+  // 7. percentage -> {{7}} Biggest Gap Area Name
+  // 8. grade -> {{8}} Gap Action Insight Sentence
+  // 9. score_card -> {{9}} "*free 90-day Campo plan* is reserved for [Institution]. Book a live demo for your campus."
+  const namedParameters = [
+    {
+      type: 'text',
+      parameter_name: 'name',
+      text: name ? name.trim() : 'Campus Leader',
+    },
+    {
+      type: 'text',
+      parameter_name: 'total_score',
+      text: String(total != null ? total : 0),
+    },
+    {
+      type: 'text',
+      parameter_name: 'acadmics',
+      text: String(scores?.acad != null ? scores.acad : 0),
+    },
+    {
+      type: 'text',
+      parameter_name: 'administartive',
+      text: String(scores?.admin != null ? scores.admin : 0),
+    },
+    {
+      type: 'text',
+      parameter_name: 'campus',
+      text: String(scores?.campus != null ? scores.campus : 0),
+    },
+    {
+      type: 'text',
+      parameter_name: 'studdent',
+      text: String(scores?.students != null ? scores.students : 0),
+    },
+    {
+      type: 'text',
+      parameter_name: 'percentage',
+      text: weakAreaLabel,
+    },
+    {
+      type: 'text',
+      parameter_name: 'grade',
+      text: weakAreaInsight,
+    },
+    {
+      type: 'text',
+      parameter_name: 'score_card',
+      text: `*free 90-day Campo plan* is reserved for ${institutionName}. Book a live demo for your campus.`,
+    },
   ];
 
   // Dynamic variable count:
   // - If WHATSAPP_TEMPLATE_VAR_COUNT is set in .env (e.g. 0, 9), use that count.
-  // - If WHATSAPP_TEMPLATE_VAR_COUNT is not set, default to all 9 candidate variables.
+  // - If WHATSAPP_TEMPLATE_VAR_COUNT is not set, default to all 9 named parameters.
   const envVarCount = process.env.WHATSAPP_TEMPLATE_VAR_COUNT;
   const effectiveCount =
     varCount !== undefined
       ? parseInt(varCount, 10)
-      : (envVarCount !== undefined ? parseInt(envVarCount, 10) : candidateVariables.length);
+      : (envVarCount !== undefined ? parseInt(envVarCount, 10) : namedParameters.length);
 
   const finalVariables =
     !isNaN(effectiveCount) && effectiveCount >= 0
-      ? candidateVariables.slice(0, effectiveCount)
-      : candidateVariables;
+      ? namedParameters.slice(0, effectiveCount)
+      : namedParameters;
 
   return sendWhatsAppTemplateMessage({
     to: mobile,
-    templateName,
+    templateName: (templateName || process.env.WHATSAPP_TEMPLATE_NAME || 'api_soft').trim(),
     bodyVariables: finalVariables,
+    ignoreEnvHeader: true,
   });
 }

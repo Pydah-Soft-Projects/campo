@@ -65,10 +65,12 @@ export function AdminDashboardPage({ onNavigate }) {
   const [waTesting, setWaTesting] = useState(false);
   const [waTestTab, setWaTestTab] = useState('raw'); // 'raw' (Provider / Postman JSON) or 'form'
   const buildTemplateJson = (name = '', withVariables = false) => {
-    const templateName = (name || '').trim() || 'TEMPLATE_NAME';
+    const templateName = (name || '').trim() || 'api_soft';
     if (withVariables) {
       return JSON.stringify(
         {
+          to: '919392604899',
+          recipient_type: 'individual',
           type: 'template',
           template: {
             language: {
@@ -80,18 +82,51 @@ export function AdminDashboardPage({ onNavigate }) {
               {
                 type: 'body',
                 parameters: [
-                  { type: 'text', text: 'Dr. Rajesh Sharma' },
-                  { type: 'text', text: '78' },
-                  { type: 'text', text: '22' },
-                  { type: 'text', text: '20' },
-                  { type: 'text', text: '16' },
-                  { type: 'text', text: '20' },
-                  { type: 'text', text: 'Campus Operations' },
                   {
                     type: 'text',
+                    parameter_name: 'name',
+                    text: 'Dr. Rajesh Sharma',
+                  },
+                  {
+                    type: 'text',
+                    parameter_name: 'total_score',
+                    text: '78',
+                  },
+                  {
+                    type: 'text',
+                    parameter_name: 'acadmics',
+                    text: '22',
+                  },
+                  {
+                    type: 'text',
+                    parameter_name: 'administartive',
+                    text: '20',
+                  },
+                  {
+                    type: 'text',
+                    parameter_name: 'campus',
+                    text: '16',
+                  },
+                  {
+                    type: 'text',
+                    parameter_name: 'studdent',
+                    text: '20',
+                  },
+                  {
+                    type: 'text',
+                    parameter_name: 'percentage',
+                    text: 'Campus Operations',
+                  },
+                  {
+                    type: 'text',
+                    parameter_name: 'grade',
                     text: 'Campo automates bus fleet tracking, gate security, and hostel asset management to close this gap.',
                   },
-                  { type: 'text', text: "St. Xavier's Engineering College" },
+                  {
+                    type: 'text',
+                    parameter_name: 'score_card',
+                    text: "*free 90-day Campo plan* is reserved for St. Xavier's Engineering College. Book a live demo for your campus.",
+                  },
                 ],
               },
             ],
@@ -118,7 +153,7 @@ export function AdminDashboardPage({ onNavigate }) {
     );
   };
 
-  const [waRawJson, setWaRawJson] = useState(() => buildTemplateJson('', false));
+  const [waRawJson, setWaRawJson] = useState(() => buildTemplateJson('api_soft', true));
   const [waForm, setWaForm] = useState({
     to: '9392604899',
     templateName: '',
@@ -135,8 +170,8 @@ export function AdminDashboardPage({ onNavigate }) {
       setWaConfig(res);
       if (res?.templateName) {
         setWaRawJson((prev) => {
-          if (!prev || prev.includes('TEMPLATE_NAME')) {
-            return buildTemplateJson(res.templateName, false);
+          if (!prev || prev.includes('TEMPLATE_NAME') || prev.includes('"components": []')) {
+            return buildTemplateJson(res.templateName, true);
           }
           return prev;
         });
@@ -151,10 +186,16 @@ export function AdminDashboardPage({ onNavigate }) {
   const handleOpenWhatsAppModal = (prefill = null) => {
     setWaResult(null);
     if (prefill) {
+      const phone = prefill.phone || waForm.to;
+      const name = prefill.fullName || 'Campus Leader';
+      const inst = prefill.institutionName || "St. Xavier's Engineering College";
       setWaForm((prev) => ({
         ...prev,
-        to: prefill.phone || prev.to,
+        to: phone,
       }));
+      setWaRawJson(buildTemplateJson(waConfig?.templateName || 'api_soft', true));
+    } else {
+      setWaRawJson(buildTemplateJson(waConfig?.templateName || 'api_soft', true));
     }
     setShowWhatsAppModal(true);
     loadWhatsAppConfig();
@@ -940,17 +981,17 @@ export function AdminDashboardPage({ onNavigate }) {
                     <div className="flex items-center gap-1.5">
                       <button
                         type="button"
-                        onClick={() => setWaRawJson(buildTemplateJson(waConfig?.templateName, false))}
-                        className="text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"
+                        onClick={() => setWaRawJson(buildTemplateJson(waConfig?.templateName || 'api_soft', true))}
+                        className="text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200"
                       >
-                        Static Template (0 Vars)
+                        Load api_soft (9 Variables)
                       </button>
                       <button
                         type="button"
-                        onClick={() => setWaRawJson(buildTemplateJson(waConfig?.templateName, true))}
-                        className="text-[11px] font-semibold text-slate-600 hover:text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200"
+                        onClick={() => setWaRawJson(buildTemplateJson(waConfig?.templateName || 'api_soft', false))}
+                        className="text-[11px] font-semibold text-slate-600 hover:text-slate-800 bg-slate-100 px-2.5 py-1 rounded border border-slate-200"
                       >
-                        Expo Report Template (9 Vars)
+                        Empty / 0 Vars
                       </button>
                     </div>
                   </div>

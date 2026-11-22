@@ -595,12 +595,12 @@ export const pickPlugPlaySteps = [
 ];
 
 export const campusImpactMetrics = [
-  { value: '500K+', label: 'Messages delivered to parents & students' },
-  { value: '15K+', label: 'Students & parents actively using it' },
-  { value: '12%', label: 'Mileage saving on campus transport' },
-  { value: '15%', label: 'Food saving in campus hostels' },
-  { value: '50%', label: 'Lower processing fee than others' },
-  { value: '8%', label: 'Increase in admission enrolment' },
+  { value: '500K+', label: 'Real-Time Alerts Delivered' },
+  { value: '15K+', label: 'Active Students & Parents' },
+  { value: '8%', label: 'Higher Admission Conversion' },
+  { value: '12%', label: 'Transport Mileage Saved' },
+  { value: '15%', label: 'Hostel Food Waste Reduced' },
+  { value: 'Up to 50%', label: 'Lower Payment Gateway Fee' },
 ];
 
 
