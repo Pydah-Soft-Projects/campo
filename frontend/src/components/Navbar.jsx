@@ -284,20 +284,20 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
                         exit={{ opacity: 0, y: 8, scale: 0.98, x: '-50%' }}
                         transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
                         style={{ left: '50%' }}
-                        className="absolute top-full mt-3 w-[960px] max-w-[95vw] rounded-2xl border border-slate-200/90 bg-white p-6 sm:p-7 shadow-[0_24px_64px_rgba(7,28,70,0.14)] ring-1 ring-black/5 z-50 text-left"
+                        className="absolute top-full mt-3 w-[1020px] max-w-[96vw] rounded-2xl border border-slate-200/90 bg-white p-6 sm:p-7 shadow-[0_24px_64px_rgba(7,28,70,0.14)] ring-1 ring-black/5 z-50 text-left"
                       >
-                        {/* 4 Groups Grid - Professional clean styling, No section numberings, No subtext */}
-                        <div className="grid grid-cols-4 gap-5 sm:gap-6">
+                        {/* 4 Groups Grid - Professional clean styling, fully visible module names */}
+                        <div className="grid grid-cols-4 gap-5 sm:gap-7">
                           {FOUR_GROUPS.map((group) => (
                             <div key={group.title} className="flex flex-col">
                               {/* Group Header without numbers */}
-                              <div className="pb-3 mb-2 border-b border-slate-100">
+                              <div className="pb-3 mb-2.5 border-b border-slate-100">
                                 <h4 className="text-[13.5px] sm:text-[14px] font-bold text-campo-navy tracking-tight leading-snug">
                                   {group.title}
                                 </h4>
                               </div>
 
-                              {/* Modules List - Clean, comfortable sizing, no subtext */}
+                              {/* Modules List - Clean, comfortable sizing, no truncation */}
                               <div className="space-y-1">
                                 {group.modules.map((mod) => (
                                   <button
@@ -316,7 +316,7 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
                                     <div className="p-2 rounded-lg bg-slate-100/90 text-slate-600 group-hover:bg-campo-navy group-hover:text-white transition-colors shrink-0">
                                       <mod.icon className="h-4 w-4" />
                                     </div>
-                                    <span className="text-[13px] sm:text-[13.5px] font-medium text-slate-800 group-hover:text-campo-navy truncate">
+                                    <span className="text-[13px] sm:text-[13.5px] font-medium text-slate-800 group-hover:text-campo-navy whitespace-nowrap">
                                       {mod.name}
                                     </span>
                                   </button>
@@ -324,25 +324,6 @@ export function Navbar({ onRequestDemo, currentPath = '/', onNavigate }) {
                               </div>
                             </div>
                           ))}
-                        </div>
-
-                        {/* Footer Bar */}
-                        <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between bg-slate-50/80 -mx-6 sm:-mx-7 -mb-6 sm:-mb-7 px-6 sm:px-7 py-3 sm:py-3.5 rounded-b-2xl">
-                          <div className="flex items-center gap-2 text-xs sm:text-[13px] text-slate-600">
-                            <Sparkles className="h-4 w-4 text-campo-teal" />
-                            <span>Unified campus modules operating on one single core database</span>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setFeaturesOpen(false);
-                              onRequestDemo?.();
-                            }}
-                            className="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-bold text-campo-teal-dark hover:text-campo-navy transition-colors"
-                          >
-                            <span>Request Institutional Demo</span>
-                            <ArrowUpRight className="h-4 w-4" />
-                          </button>
                         </div>
                       </motion.div>
                     )}
