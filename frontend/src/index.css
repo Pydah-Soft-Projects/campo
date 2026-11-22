@@ -6,7 +6,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 84px;
-    font-family: Inter, system-ui, sans-serif;
+    font-family: 'Poppins', system-ui, sans-serif;
     color: #14213D;
     background-color: #ffffff;
   }
@@ -15,9 +15,10 @@
   h2,
   h3,
   h4,
-  .font-display {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    letter-spacing: -0.025em;
+  .font-display,
+  .font-outfit {
+    font-family: 'Poppins', system-ui, sans-serif;
+    letter-spacing: -0.02em;
   }
 
   @media (prefers-reduced-motion: reduce) {

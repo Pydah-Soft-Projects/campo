@@ -19,9 +19,11 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        outfit: ['Outfit', 'system-ui', 'sans-serif'],
+        poppins: ['Poppins', 'system-ui', 'sans-serif'],
+        montserrat: ['Montserrat', 'system-ui', 'sans-serif'],
+        display: ['Poppins', 'Montserrat', 'system-ui', 'sans-serif'],
+        sans: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
+        outfit: ['Poppins', 'Outfit', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         'card': '0 1px 2px rgba(7, 28, 70, 0.04), 0 8px 24px -10px rgba(7, 28, 70, 0.08)',

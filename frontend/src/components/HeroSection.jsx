@@ -113,7 +113,7 @@ export function HeroSection({ onRequestDemo }) {
               transition={{ duration: 0.65, delay: 0.1, ease: revealEase }}
               className="mt-3.5 sm:mt-4 font-outfit text-[32px] xs:text-4xl sm:text-5xl lg:text-[52px] xl:text-[56px] font-extrabold leading-[1.12] sm:leading-[1.08] tracking-tight text-slate-900"
             >
-              AI is watching your
+              AI is observing your
               <span className="block text-campo-teal">whole campus.</span>
             </motion.h1>
 
