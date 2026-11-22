@@ -49,6 +49,12 @@ const inquirySchema = new mongoose.Schema(
       enum: ['New', 'Contacted', 'Demo Scheduled', 'Closed'],
       default: 'New',
     },
+    responseId: {
+      type: String,
+      default: '',
+      trim: true,
+      index: true,
+    },
     notes: [
       {
         text: { type: String, required: true },

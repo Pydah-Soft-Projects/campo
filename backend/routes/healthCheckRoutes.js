@@ -85,27 +85,35 @@ router.post('/', async (req, res) => {
           `Tablet Source: ${tablet || 'Web / Kiosk'}`,
         ].join('\n');
 
+        const cleanDigits = recipientPhone.replace(/\D/g, '');
+        const emailAddress = contact.email && contact.email.trim()
+          ? contact.email.trim().toLowerCase()
+          : `${cleanDigits}@whatsapp.campo.co.in`;
+
         const inquiryPayload = {
-          fullName: contact.name || 'Campus Leader',
-          institutionName: contact.inst || 'Institution',
-          email: `${recipientPhone.replace(/\D/g, '')}@whatsapp.campo.co.in`,
+          fullName: (contact.name && contact.name.trim()) || 'Campus Leader',
+          institutionName: (contact.inst && contact.inst.trim()) || 'Institution',
+          email: emailAddress,
           phone: recipientPhone,
-          designation: contact.role || 'Campus Leader',
+          designation: (contact.role && contact.role.trim()) || 'Campus Leader',
+          studentCount: (contact.size && contact.size.trim()) || '',
           inquiryType: 'Campus Health Check',
           message: notesSummary,
+          responseId: id,
           status: 'New',
         };
 
-        const existingInquiry = await Inquiry.findOne({
-          phone: recipientPhone,
-          inquiryType: 'Campus Health Check',
-        });
+        // Match primarily by responseId so that re-submitting the exact same assessment session updates it.
+        // If no responseId match, create a brand-new distinct Inquiry record for the dashboard!
+        let existingInquiry = id ? await Inquiry.findOne({ responseId: id }) : null;
 
-        if (!existingInquiry) {
-          await Inquiry.create(inquiryPayload);
-        } else {
-          existingInquiry.message = notesSummary;
+        if (existingInquiry) {
+          Object.assign(existingInquiry, inquiryPayload);
           await existingInquiry.save();
+          console.log(`[HealthCheck] Updated existing Inquiry for responseId ${id}: ${existingInquiry.fullName} (${existingInquiry.institutionName})`);
+        } else {
+          const createdInq = await Inquiry.create(inquiryPayload);
+          console.log(`[HealthCheck] Created new Inquiry for responseId ${id}: ${createdInq.fullName} from ${createdInq.institutionName}`);
         }
       } catch (inquiryErr) {
         console.warn('[HealthCheck] Mirroring to Inquiry warning:', inquiryErr.message);
