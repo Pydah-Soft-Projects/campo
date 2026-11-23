@@ -1270,7 +1270,7 @@ export const applicationDetails = {
     category: 'Campus Operations',
     pillText: 'Residential Governance Hub',
     tagline: 'Room Allocation, Mess, Electricity Billing & OTP Student Leaves.',
-    headline: 'Centralized hostel infrastructure management, room allocation, mess billing, biometric night attendance, room electricity metering, and OTP-based student leaves.',
+    headline: 'Centralized hostel infrastructure management, room allocation, mess billing, manual night roll-call attendance, room electricity metering, and OTP-based student leaves.',
     bannerImage: hostelBanner,
     previewImage: hostelDashboardScreen,
     screens: [
@@ -1286,7 +1286,7 @@ export const applicationDetails = {
       },
       {
         src: hostelAttendanceScreen,
-        title: 'Resident Daily Biometric Attendance Tracking',
+        title: 'Resident Daily Night Attendance & Roll-Call',
         description: 'Night curfew attendance tracking, automated absentee alerts, and OTP-based leave passes.',
       },
       {
@@ -1303,12 +1303,12 @@ export const applicationDetails = {
     badgeColor: 'bg-rose-50 text-rose-800 border-rose-200',
     accentColor: 'text-rose-600',
     overview:
-      'Campo Hostel Management System (HMS) brings security, comfort, and operational control to student residential campus life. It manages multi-block boys and girls hostels: building-floor-room-bed hierarchies, room allocations, transfers, mess food management, and category-wise hostel fee configuration. Advanced safety features including biometric night-curfew attendance, OTP-based parent verified gate passes, and room-wise electricity bill tracking make campus hostels secure and self-sustaining.',
+      'Campo Hostel Management System (HMS) brings security, comfort, and operational control to student residential campus life. It manages multi-block boys and girls hostels: building-floor-room-bed hierarchies, room allocations, transfers, mess food management, and category-wise hostel fee configuration. Advanced safety features including manual night-curfew roll-call attendance, OTP-based parent verified gate passes, and room-wise electricity bill tracking make campus hostels secure and self-sustaining.',
     metrics: [
       { value: '100% Live', label: 'Occupancy Tracking', note: 'Real-time bed availability matrix' },
       { value: 'OTP-Verified', label: 'Student Outings', note: 'Parent mobile approval before gate exit' },
       { value: 'Room-Wise', label: 'Electricity Billing', note: 'Accurate consumption bill splitting' },
-      { value: 'Biometric', label: 'Night Curfew Sync', note: 'Daily 9:00 PM attendance audit' },
+      { value: 'Manual Roll-Call', label: 'Night Curfew Sync', note: 'Daily 9:00 PM attendance audit' },
     ],
     capabilities: [
       {
@@ -1348,10 +1348,10 @@ export const applicationDetails = {
       },
       {
         icon: Clock,
-        title: 'Biometric Night Attendance Tracking',
+        title: 'Manual Night Attendance & Roll-Call',
         description:
-          'Track evening hostel roll-call using biometric fingerprint/facial recognition terminals. Absent students are instantly flagged to hostel wardens.',
-        benefit: 'Strict residential safety and discipline enforcement',
+          'Conduct daily evening hostel roll-calls with manual register-style digital logging. Absent students are instantly flagged to hostel wardens and authorities.',
+        benefit: 'Strict residential safety, discipline, and immediate absentee tracking',
       },
       {
         icon: QrCode,
@@ -1382,7 +1382,7 @@ export const applicationDetails = {
       {
         step: '03',
         title: 'Daily Curfew & Outings',
-        description: 'Biometric night attendance and parent-verified OTP passes for campus outings.',
+        description: 'Daily manual night roll-call attendance and parent-verified OTP passes for campus outings.',
       },
       {
         step: '04',
@@ -1471,7 +1471,7 @@ export const applicationDetails = {
         icon: Package,
         title: 'Inventory & Stock Management',
         description:
-          'Maintain real-time item registries for exam answer booklets, student lab manuals, uniforms, apron kits, library stationery, and office paper stock across campus warehouses.',
+          'Maintain real-time item registries for booklets, student lab manuals, uniforms, apron kits, library stationery, and office paper stock across campus warehouses.',
         benefit: 'Complete visibility of institutional physical assets',
       },
       {
@@ -1506,7 +1506,7 @@ export const applicationDetails = {
         icon: AlertTriangle,
         title: 'Low-Stock Monitoring & Reorder Level Alerts',
         description:
-          'Configure safety buffer thresholds for essential supplies. Receive automated alerts when exam answer booklets or blue books dip below minimum levels.',
+          'Configure safety buffer thresholds for essential supplies. Receive automated alerts when booklets or blue books dip below minimum levels.',
         benefit: 'Never run out of critical exam and laboratory stationery',
       },
     ],
@@ -1720,7 +1720,7 @@ export const applicationDetails = {
       { value: '< 5 Seconds', label: 'Circulation Speed', note: 'Barcode & RFID card issue/return' },
       { value: '100% Digital', label: 'Online Book Reservation', note: 'Remote catalog search (OPAC)' },
       { value: 'Automated', label: 'Fine Calculation', note: 'Direct link to student payment ledger' },
-      { value: 'Accreditation', label: 'Library Analytics', note: 'Pre-formatted NAAC / NBA accession logs' },
+      { value: 'Comprehensive', label: 'Library Analytics', note: 'Circulation trends, gate footfall & accession logs' },
     ],
     capabilities: [
       {
@@ -1760,10 +1760,10 @@ export const applicationDetails = {
       },
       {
         icon: FileSpreadsheet,
-        title: 'Library Resources & Accreditation Analytics',
+        title: 'Library Analytics & Stock Reports',
         description:
-          'Generate gate footfall reports, circulation statistics, most-read book analytics, lost book records, and book acquisition data ready for NAAC SSR Criterion 4.',
-        benefit: 'Audit-ready library metrics for accreditation boards',
+          'Generate gate footfall reports, circulation statistics, most-read book analytics, lost book records, and comprehensive accession registers.',
+        benefit: 'Data-driven collection development and complete inventory visibility',
       },
     ],
     workflowSteps: [
@@ -1791,7 +1791,7 @@ export const applicationDetails = {
     stakeholders: [
       {
         role: 'Chief Librarian',
-        responsibility: 'Oversees book procurement, accession registers, journal subscriptions, and NAAC reporting.',
+        responsibility: 'Oversees book procurement, accession registers, journal subscriptions, and annual stock audits.',
       },
       {
         role: 'Circulation Desk Staff',

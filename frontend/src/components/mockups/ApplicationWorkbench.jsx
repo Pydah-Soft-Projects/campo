@@ -77,7 +77,7 @@ const workbenchApps = [
     image: fleetImg,
     imageCaption: 'University transport fleet with real-time GPS tracking across routes',
     description:
-      'Real-time GPS tracking for campus bus fleets, biometric hostel resident check-ins, automated stationery inventory, and campus maintenance complaints resolution.',
+      'Real-time GPS tracking for campus bus fleets, manual hostel roll-call check-ins, automated stationery inventory, and campus maintenance complaints resolution.',
     stats: [
       { label: 'Fleet Buses Tracked', value: '48 Routes' },
       { label: 'Hostel Residents', value: '2,840' },

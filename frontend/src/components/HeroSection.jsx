@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   motion,
   useReducedMotion,
@@ -42,6 +42,16 @@ const CATEGORIES = [
 export function HeroSection({ onRequestDemo }) {
   const sectionRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(typeof window !== 'undefined' && window.innerWidth >= 1024);
+    };
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop, { passive: true });
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -76,8 +86,8 @@ export function HeroSection({ onRequestDemo }) {
         className="pointer-events-none absolute inset-0 overflow-hidden"
       >
         <motion.div
-          style={prefersReducedMotion ? undefined : { scale: orbitScale }}
-          className="absolute right-0 top-1/4 h-[520px] w-[520px] rounded-full bg-blue-100/50 blur-[130px]"
+          style={!prefersReducedMotion && isDesktop ? { scale: orbitScale } : undefined}
+          className="absolute right-0 top-1/4 h-[520px] w-[520px] rounded-full bg-blue-100/50 blur-[130px] transform-gpu will-change-transform"
         />
         <div className="absolute -left-20 top-1/3 h-[450px] w-[450px] rounded-full bg-slate-200/60 blur-[140px]" />
       </div>
@@ -87,7 +97,7 @@ export function HeroSection({ onRequestDemo }) {
         <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8 xl:gap-14">
           {/* Left Column: AI Alerts Badge, Headline, 4 Category Cards, CTAs */}
           <motion.div
-            style={prefersReducedMotion ? undefined : { y: copyY, opacity: copyOpacity }}
+            style={!prefersReducedMotion && isDesktop ? { y: copyY, opacity: copyOpacity } : undefined}
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: revealEase }}
@@ -146,18 +156,27 @@ export function HeroSection({ onRequestDemo }) {
                       delay: 0.28 + idx * 0.06,
                       ease: revealEase,
                     }}
-                    whileHover={{ y: -4, scale: 1.02 }}
-                    className="group relative flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3.5 rounded-xl sm:rounded-2xl border border-slate-200/90 bg-white p-2.5 xs:p-3 sm:p-4 shadow-sm transition-all duration-200 hover:border-campo-navy/30 hover:shadow-md overflow-hidden"
+                    whileHover={isDesktop ? { y: -4, scale: 1.02 } : undefined}
+                    className="group relative flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3.5 rounded-xl sm:rounded-2xl border border-slate-200/90 bg-white p-2.5 xs:p-3 sm:p-4 shadow-sm transition-colors duration-200 hover:border-campo-navy/30 hover:shadow-md overflow-hidden"
                   >
                     {/* Hover accent sheen */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-                    {/* Dark Blue Icon Badge */}
-                    <div className="relative z-10 flex h-9 w-9 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-campo-navy text-white shadow-xs transition-transform duration-300 group-hover:scale-110">
-                      <IconComponent className="h-4 w-4 sm:h-6 sm:w-6" strokeWidth={2.2} />
+                    {/* Top Row on Mobile: Campo Icon + Green Number side-by-side; unwrapped on Desktop via sm:contents */}
+                    <div className="relative z-10 flex items-center gap-2 xs:gap-2.5 sm:contents">
+                      {/* Dark Blue Icon Badge */}
+                      <div className="flex h-9 w-9 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-campo-navy text-white shadow-xs transition-transform duration-300 group-hover:scale-110">
+                        <IconComponent className="h-4 w-4 sm:h-6 sm:w-6" strokeWidth={2.2} />
+                      </div>
+                      {/* Mobile Number: displayed side to the Campo icon in green */}
+                      <span className="font-outfit text-xs xs:text-sm font-bold text-emerald-600 sm:hidden">
+                        {cat.num}
+                      </span>
                     </div>
+
                     <div className="relative z-10 min-w-0 flex-1">
-                      <span className="font-outfit text-[10px] sm:text-xs font-bold text-slate-500 block">
+                      {/* Desktop Number: kept unchanged above title on desktop large screens */}
+                      <span className="hidden sm:block font-outfit text-[10px] sm:text-xs font-bold text-slate-500">
                         {cat.num}
                       </span>
                       <h3 className="font-outfit text-[11.5px] xs:text-xs sm:text-[15px] font-bold leading-tight text-slate-900 mt-0.5 sm:mt-0 line-clamp-2">
@@ -169,35 +188,35 @@ export function HeroSection({ onRequestDemo }) {
               })}
             </motion.div>
 
-            {/* Action Buttons Row (Side by side) */}
+            {/* Action Buttons Row (Side by side / Inline) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.45, ease: revealEase }}
-              className="mt-6 sm:mt-7 flex flex-row flex-wrap items-center gap-3 sm:gap-4"
+              className="mt-5 sm:mt-7 flex flex-row items-center gap-2.5 sm:gap-4 w-full"
             >
               <motion.button
                 type="button"
                 onClick={onRequestDemo}
-                whileHover={{ y: -2, scale: 1.02 }}
+                whileHover={isDesktop ? { y: -2, scale: 1.02 } : undefined}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                className="group inline-flex h-11 sm:h-12 items-center justify-center gap-2 rounded-xl bg-campo-navy px-5 sm:px-6 text-xs sm:text-sm font-bold text-white shadow-card transition-all duration-200 hover:bg-campo-secondary hover:shadow-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-navy font-outfit cursor-pointer whitespace-nowrap"
+                className="group flex-1 sm:flex-initial inline-flex h-10 xs:h-11 sm:h-12 items-center justify-center gap-1.5 xs:gap-2 rounded-xl bg-campo-navy px-3 xs:px-4 sm:px-6 text-[11.5px] xs:text-xs sm:text-sm font-bold text-white shadow-card transition-all duration-200 hover:bg-campo-secondary hover:shadow-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-navy font-outfit cursor-pointer whitespace-nowrap"
               >
                 <span>Request a Demo</span>
-                <ArrowRight className="h-4 w-4 shrink-0 text-blue-300 transition-transform duration-200 group-hover:translate-x-1" />
+                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-blue-300 transition-transform duration-200 group-hover:translate-x-1" />
               </motion.button>
 
               <motion.button
                 type="button"
                 onClick={handleExploreClick}
-                whileHover={{ y: -2, scale: 1.02 }}
+                whileHover={isDesktop ? { y: -2, scale: 1.02 } : undefined}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                className="group inline-flex h-11 sm:h-12 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 sm:px-6 text-xs sm:text-sm font-bold text-campo-navy shadow-xs transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-navy font-outfit cursor-pointer whitespace-nowrap"
+                className="group flex-1 sm:flex-initial inline-flex h-10 xs:h-11 sm:h-12 items-center justify-center gap-1.5 xs:gap-2 rounded-xl border border-slate-300 bg-white px-3 xs:px-4 sm:px-6 text-[11.5px] xs:text-xs sm:text-sm font-bold text-campo-navy shadow-xs transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-campo-navy font-outfit cursor-pointer whitespace-nowrap"
               >
                 <span>Explore Platform</span>
-                <ArrowRight className="h-4 w-4 shrink-0 text-campo-navy transition-transform duration-200 group-hover:translate-x-1" />
+                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-campo-navy transition-transform duration-200 group-hover:translate-x-1" />
               </motion.button>
             </motion.div>
           </motion.div>
@@ -223,117 +242,139 @@ export function HeroSection({ onRequestDemo }) {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
-                  className="absolute h-[320px] w-[320px] xs:h-[390px] xs:w-[390px] sm:h-[590px] sm:w-[590px] lg:h-[630px] lg:w-[630px] rounded-full border-2 border-dashed border-blue-200/90 shrink-0"
+                  className="absolute h-[320px] w-[320px] xs:h-[390px] xs:w-[390px] sm:h-[590px] sm:w-[590px] lg:h-[630px] lg:w-[630px] rounded-full border-2 border-dashed border-blue-200/90 shrink-0 transform-gpu will-change-transform"
                 />
 
                 {/* Secondary inner counter-rotating ring */}
                 <motion.div
                   animate={{ rotate: -360 }}
                   transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-                  className="absolute h-[240px] w-[240px] xs:h-[300px] xs:w-[300px] sm:h-[450px] sm:w-[450px] lg:h-[480px] lg:w-[480px] rounded-full border border-dotted border-blue-300/40 shrink-0"
+                  className="absolute h-[240px] w-[240px] xs:h-[300px] xs:w-[300px] sm:h-[450px] sm:w-[450px] lg:h-[480px] lg:w-[480px] rounded-full border border-dotted border-blue-300/40 shrink-0 transform-gpu will-change-transform"
                 />
               </div>
 
               {/* Floating Live Indicator Badge 1: Top-Left (Fee Reconciliation) */}
               <motion.div
-                style={prefersReducedMotion ? undefined : { y: pillTopY }}
-                animate={
-                  prefersReducedMotion
-                    ? undefined
-                    : {
-                        y: [-5, 5, -5],
-                      }
-                }
-                transition={{
-                  duration: 4.6,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="pointer-events-auto absolute -left-1 xs:-left-3 sm:-left-12 lg:-left-16 top-4 sm:top-14 z-20 flex items-center gap-2 sm:gap-2.5 rounded-xl sm:rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-md px-2.5 py-1.5 sm:px-4 sm:py-2.5 shadow-elevated scale-90 xs:scale-95 sm:scale-100 origin-top-left"
+                style={!prefersReducedMotion && isDesktop ? { y: pillTopY } : undefined}
+                className="pointer-events-auto absolute -left-1 xs:-left-3 sm:-left-12 lg:-left-16 top-4 sm:top-14 z-20 scale-90 xs:scale-95 sm:scale-100 origin-top-left"
               >
-                <div className="flex h-7 w-7 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-campo-navy text-campo-teal shadow-xs">
-                  <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                </div>
-                <div className="text-left">
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="font-outfit text-[10px] sm:text-xs font-bold text-slate-900">
-                      AI Fee Alert
-                    </span>
+                <motion.div
+                  animate={
+                    prefersReducedMotion
+                      ? undefined
+                      : {
+                          y: [-5, 5, -5],
+                        }
+                  }
+                  transition={{
+                    duration: 4.6,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                  className="flex items-center gap-2 sm:gap-2.5 rounded-xl sm:rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-md px-2.5 py-1.5 sm:px-4 sm:py-2.5 shadow-elevated transform-gpu will-change-transform backface-hidden"
+                >
+                  <div className="flex h-7 w-7 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-campo-navy text-campo-teal shadow-xs">
+                    <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </div>
-                  <p className="font-sans text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                    99.4% Automated Match
-                  </p>
-                </div>
+                  <div className="text-left">
+                    <div className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="font-outfit text-[10px] sm:text-xs font-bold text-slate-900">
+                        AI Fee Alert
+                      </span>
+                    </div>
+                    <p className="font-sans text-[9px] sm:text-[10px] text-slate-500 font-medium">
+                      99.4% Automated Match
+                    </p>
+                  </div>
+                </motion.div>
               </motion.div>
 
               {/* Floating Live Indicator Badge 2: Bottom-Right (Campus Fleet) */}
               <motion.div
-                style={prefersReducedMotion ? undefined : { y: pillBottomY }}
-                animate={
-                  prefersReducedMotion
-                    ? undefined
-                    : {
-                        y: [6, -6, 6],
-                      }
-                }
-                transition={{
-                  duration: 5.2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="pointer-events-auto absolute -right-1 xs:-right-3 sm:-right-8 lg:-right-12 bottom-4 sm:bottom-16 z-20 flex items-center gap-2 sm:gap-2.5 rounded-xl sm:rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-md px-2.5 py-1.5 sm:px-4 sm:py-2.5 shadow-elevated scale-90 xs:scale-95 sm:scale-100 origin-bottom-right"
+                style={!prefersReducedMotion && isDesktop ? { y: pillBottomY } : undefined}
+                className="pointer-events-auto absolute -right-1 xs:-right-3 sm:-right-8 lg:-right-12 bottom-4 sm:bottom-16 z-20 scale-90 xs:scale-95 sm:scale-100 origin-bottom-right"
               >
-                <div className="flex h-7 w-7 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-campo-teal text-campo-navy shadow-xs">
-                  <Bus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                </div>
-                <div className="text-left">
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="font-outfit text-[10px] sm:text-xs font-bold text-slate-900">
-                      Campus Fleet Live
-                    </span>
+                <motion.div
+                  animate={
+                    prefersReducedMotion
+                      ? undefined
+                      : {
+                          y: [6, -6, 6],
+                        }
+                  }
+                  transition={{
+                    duration: 5.2,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                  className="flex items-center gap-2 sm:gap-2.5 rounded-xl sm:rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-md px-2.5 py-1.5 sm:px-4 sm:py-2.5 shadow-elevated transform-gpu will-change-transform backface-hidden"
+                >
+                  <div className="flex h-7 w-7 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-campo-teal text-campo-navy shadow-xs">
+                    <Bus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </div>
-                  <p className="font-sans text-[9px] sm:text-[10px] text-slate-500 font-medium">
-                    18 Routes On Schedule
-                  </p>
-                </div>
+                  <div className="text-left">
+                    <div className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="font-outfit text-[10px] sm:text-xs font-bold text-slate-900">
+                        Campus Fleet Live
+                      </span>
+                    </div>
+                    <p className="font-sans text-[9px] sm:text-[10px] text-slate-500 font-medium">
+                      18 Routes On Schedule
+                    </p>
+                  </div>
+                </motion.div>
               </motion.div>
 
               {/* 3D Smartphone Device with Hardware Depth, Scroll Parallax & Levitation */}
               <motion.div
                 style={
-                  prefersReducedMotion
-                    ? undefined
-                    : {
+                  !prefersReducedMotion && isDesktop
+                    ? {
                         y: phoneY,
                         scale: phoneScale,
                         rotateZ: phoneRotateZ,
-                        transformStyle: 'preserve-3d',
-                        perspective: 1200,
                       }
+                    : undefined
                 }
-                animate={
-                  prefersReducedMotion
-                    ? undefined
-                    : {
-                        y: [-7, 7, -7],
-                        rotateY: [-2, 2, -2],
-                        rotateX: [1, -1, 1],
-                      }
-                }
-                transition={{
-                  duration: 5.5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="relative z-10 w-[250px] xs:w-[280px] sm:w-[325px]"
+                className="relative z-10 w-[250px] xs:w-[280px] sm:w-[325px] transform-gpu will-change-transform backface-hidden"
               >
-                <MobileAppMockup
-                  screen="alerts"
-                  colorTheme="navy"
-                  className="w-full"
-                />
+                <motion.div
+                  style={
+                    !prefersReducedMotion && isDesktop
+                      ? {
+                          transformStyle: 'preserve-3d',
+                          perspective: 1200,
+                        }
+                      : undefined
+                  }
+                  animate={
+                    prefersReducedMotion
+                      ? undefined
+                      : isDesktop
+                      ? {
+                          y: [-7, 7, -7],
+                          rotateY: [-2, 2, -2],
+                          rotateX: [1, -1, 1],
+                        }
+                      : {
+                          y: [-5, 5, -5],
+                        }
+                  }
+                  transition={{
+                    duration: 5.5,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                  className="w-full transform-gpu will-change-transform"
+                >
+                  <MobileAppMockup
+                    screen="alerts"
+                    colorTheme="navy"
+                    className="w-full"
+                  />
+                </motion.div>
               </motion.div>
             </div>
           </motion.div>

@@ -215,17 +215,17 @@ export function MobileAppMockup({
             {screen === 'alerts' ? (
               <div className="relative w-full flex-1 bg-[#071C46] px-3.5 pb-4 pt-1 text-white flex flex-col justify-between">
                 {/* Lock Screen Clock & Date */}
-                <div className="mt-1 mb-3.5 text-center">
+                <div className="mt-1 mb-2 sm:mb-3.5 text-center">
                   <p className="font-outfit text-xs font-medium text-slate-300">
                     Thursday, 19 November
                   </p>
-                  <p className="mt-1 font-outfit text-5xl font-bold tracking-tight text-white sm:text-6xl">
+                  <p className="mt-0.5 sm:mt-1 font-outfit text-4xl xs:text-5xl font-bold tracking-tight text-white sm:text-6xl">
                     9:41
                   </p>
                 </div>
 
                 {/* 4 Reference Alert Cards with Smooth Stagger Animation & Zero Green */}
-                <div className="space-y-2.5 sm:space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {[
                     {
                       category: 'ACADEMICS',
@@ -262,7 +262,7 @@ export function MobileAppMockup({
                         ease: [0.22, 1, 0.36, 1],
                       }}
                       whileHover={{ scale: 1.02 }}
-                      className="rounded-2xl border border-white/80 bg-white/95 p-3.5 shadow-md backdrop-blur-md transition-all duration-200"
+                      className="rounded-xl sm:rounded-2xl border border-white/80 bg-white/95 p-2.5 xs:p-3 sm:p-3.5 shadow-md backdrop-blur-md transition-all duration-200"
                     >
                       {/* Alert Header Row */}
                       <div className="flex items-center gap-1.5">
@@ -277,13 +277,13 @@ export function MobileAppMockup({
                         </span>
                       </div>
 
-                      {/* Alert Title */}
-                      <h4 className="mt-1 font-outfit text-xs font-bold text-slate-900 sm:text-[13px]">
+                      {/* Alert Title (Main Heading) */}
+                      <h4 className="mt-1 font-outfit text-xs font-bold text-slate-900 sm:text-[13px] leading-tight">
                         {item.title}
                       </h4>
 
-                      {/* Alert Message */}
-                      <p className="mt-0.5 font-sans text-[11px] leading-snug text-slate-600 sm:text-xs">
+                      {/* Alert Message: hidden on mobile to show all 4 main headings, visible on desktop */}
+                      <p className="hidden sm:block mt-0.5 font-sans text-[11px] leading-snug text-slate-600 sm:text-xs">
                         {item.desc}
                       </p>
                     </motion.div>
@@ -291,7 +291,7 @@ export function MobileAppMockup({
                 </div>
 
                 {/* Smartphone Home Indicator Bar */}
-                <div className="mx-auto mt-4 sm:mt-5 h-1 w-28 rounded-full bg-white/70 shrink-0" />
+                <div className="mx-auto mt-3 sm:mt-5 h-1 w-28 rounded-full bg-white/70 shrink-0" />
               </div>
             ) : isScreenSlideshow ? (
               <>
